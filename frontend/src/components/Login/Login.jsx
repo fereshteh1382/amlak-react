@@ -30,26 +30,26 @@ const Login = () => {
                         <div className="input-group">
                             <span
                                 className="input-group-addon"
-                                id="email-address"
+                                id="mobile"
                             >
                                 <i className="zmdi zmdi-email"></i>
                             </span>
                             <input
                                 type="text"
-                                name="email"
+                                name="mobile"
                                 className="form-control"
-                                placeholder="ایمیل"
-                                aria-describedby="email-address"
-                                value={email}
+                                placeholder="موبایل"
+                                aria-describedby="mobile"
+                                value={mobile}
                                 onChange={e => {
-                                    setEmail(e.target.value);
-                                    validator.current.showMessageFor("email");
+                                    setMobile(e.target.value);
+                                    validator.current.showMessageFor("mobile");
                                 }}
                             />
                             {validator.current.message(
-                                "email",
-                                email,
-                                "required|email"
+                                "mobile",
+                                mobile,
+                                "required|mobile"
                             )}
                         </div>
 

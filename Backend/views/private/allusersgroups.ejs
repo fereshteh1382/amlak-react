@@ -7,25 +7,50 @@
                     <th>#</th>
                     <th>نام و نام خانوادگی</th>
                     <th>ایمیل</th>
+                    <th>تاریخ</th>
+                    <th>وضعیت</th>
+                    <th colspan="2">عملیات</th>
                 </tr>
             </thead>
             <tbody>
                 <% for (let user of allusers) { %>
                     <tr>
                         <td>1</td>
-                        <td><a href="/usersgroup/edit-usersgroup/<%= user._id %>">
-                                <%= user.fullname %>
-                            </a></td>
+                        <td>
+                            <!-- <a href="/usersgroup/edit-usersgroup/<%= user._id %>"> -->
+                            <%= user.fullname %>
+                                <!-- </a> -->
+                        </td>
                         <td>
                             <%= user.email %>
                         </td>
                         <td>
-                            <a href="/usersgroup/edit-usersgroup/<%= user._id %>"
-                                class="btn btn-sm btn-primary">ویرایش</a>
                         </td>
                         <td>
-                            <a href="/usersgroup/delete-usersgroup/<%= user._id %>"
-                                class="btn btn-sm btn-danger">حذف</a>
+                            <span class="badge <%=user.status===" active" ? 'badge-success' : 'badge-warning' %>">
+                                <!-- <%= user.status==="active" ? "غیرفعال" : "فعال" %> -->
+                                <%= user.status %>
+                            </span>
+
+                        </td>
+                        <!--  <td>
+                            <a href="/usersgroup/edit-usersgroup/<%= user._id %>"
+                                class="btn btn-sm btn-primary">ویرایش</a>
+                        </td> -->
+                        <td>
+                            <% if (user.status==="active" ) { %>
+                                <a href="/users/disactive-user/<%= user._id %>" class="btn btn-sm btn-warning">مسدود
+                                </a>
+                                <% } else if (user.status==="noactive" ){ %>
+                                    <a href="/users/active-user/<%= user._id %>"
+                                        class="btn btn-sm btn-success">تایید</a>
+                                    <% } %>
+
+                        </td>
+                        <td>
+                            <% if (user.status!=="admin" ){ %>
+                                <a href="/users/delete-user/<%= user._id %>" class="btn btn-sm btn-danger">حذف</a>
+                                <% } %>
                         </td>
                     </tr>
                     <% } %>

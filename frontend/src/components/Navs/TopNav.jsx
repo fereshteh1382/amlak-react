@@ -1,6 +1,6 @@
 import React from "react";
 import { isEmpty } from "lodash";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const TopNav = () => {

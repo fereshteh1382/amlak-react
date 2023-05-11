@@ -10,10 +10,12 @@ const userSchema = new mongoose.Schema({
         trim: true,
     },
 
-    email: {
+    mobile: {
         type: String,
         required: true,
         unique: true,
+        minlength: 4,
+        maxlength: 11,
     },
     password: {
         type: String,
@@ -21,11 +23,10 @@ const userSchema = new mongoose.Schema({
         minlength: 4,
         maxlength: 255,
     },
-    level: {
+    status: {
         type: String,
-        required: false,
-        default: 'amlak',
-
+        default: "noactive",
+        enum: ["active", "noactive"],
     },
     createdAt: {
         type: Date,

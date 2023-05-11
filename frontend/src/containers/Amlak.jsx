@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 //import Course from "../components/Course/Course";
@@ -8,19 +8,19 @@ import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 //import Archive from "../components/Course/Archive";
 //import SingleCourse from "../components/Course/SingleCourse";
-//import UserProfile from "../components/Profile/UserProfile";
+import UserProfile from "../components/Profile/UserProfile";
 import { useSelector, useDispatch } from "react-redux";
 //import { paginate } from "../utils/paginate";
 //import { addUser, clearUser } from "../actions/user";
 //import { decodeToken } from "../utils/decodeToken";
 import Logout from "../components/Login/Logout";
 import { isEmpty } from "lodash";
-import NotFound from "../components/common/NotFound";
+//import NotFound from "../components/common/NotFound";
 
 const Toplearn = () => {
     //const courses = useSelector(state => state.courses);
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     // const indexCourses = paginate(courses, 1, 8);
 
@@ -70,9 +70,9 @@ const Toplearn = () => {
                         )
                     }
                 />
-                {/* <Route path="/archive" component={Archive} />
-                <Route path="/course/:id" component={SingleCourse} />
-                <Route path="/user-profile" component={UserProfile} /> */}
+                { /*<Route path="/archive" component={Archive} />
+                <Route path="/course/:id" component={SingleCourse} />*/
+                    <Route path="/user-profile" component={UserProfile} />}
                 {/*  <Route
                     path="/"
                     exact

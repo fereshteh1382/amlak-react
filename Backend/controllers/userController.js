@@ -16,41 +16,6 @@ exports.login = (req, res) => {
     });
 };
 
-exports.AdminhandleLogin = async (req, res, next) => {
-    /* if (!req.body["g-recaptcha-response"]) {
-         req.flash("error", "اعتبار سنجی captcha الزامی می باشد");
-         return res.redirect("/admin/login");
-     }
- 
-     const secretKey = process.env.CAPTCHA_SECRET;
-     const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body["g-recaptcha-response"]}
-      &remoteip=${req.connection.remoteAddress}`;
- 
-     const response = await fetch(verifyUrl, {
-         method: "POST",
-         headers: {
-             Accept: "application/json",
-             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-         },
-     });
- 
-     const json = await response.json();
- 
-     if (json.success) {
-         passport.authenticate("local", {
-             failureRedirect: "/admin/login",
-             failureFlash: true,
-         })(req, res, next);
-     } else {
-         req.flash("error", "مشکلی در اعتبارسنجی captcha هست");
-         res.redirect("/admin/login");
-     }*/
-    passport.authenticate("local", {
-        failureRedirect: "/admin/login",
-        failureFlash: true,
-    })(req, res, next);
-
-};
 
 exports.rememberMe = (req, res) => {
     if (req.body.remember) {
@@ -86,9 +51,9 @@ exports.handleRegister = async (req, res, next) => {
             throw error;
         }
 
-        const { email, fullname, password } = req.body;
+        const { mobile, fullname, password } = req.body;
         const hashedPw = await bcrypt.hash(password, 12);
-        const userCount = await User.findOne({ email });
+        const userCount = await User.findOne({ mobile });
         //const userCount = await User.find().countDocuments();
 
         let user; let messagetxt = "";
@@ -101,7 +66,7 @@ exports.handleRegister = async (req, res, next) => {
 
         } else {
             user = new User({
-                email,
+                mobile,
                 fullname,
                 password: hashedPw,
                 // isAdmin: false
@@ -125,7 +90,7 @@ exports.handleRegister = async (req, res, next) => {
     }
 };
 
-exports.createUser = async (req, res) => {
+/*exports.createUser = async (req, res) => {
     const errors = [];
     try {
         await User.userValidation(req.body);
@@ -144,12 +109,12 @@ exports.createUser = async (req, res) => {
         await User.create({ fullname, email, password });
 
         //? Send Welcome Email
-        sendEmail(
-            email,
-            fullname,
-            "خوش آمدی به وبلاگ ما",
-            "خیلی خوشحالیم که به جمع ما وبلاگرهای خفن ملحق شدی"
-        );
+         sendEmail(
+             email,
+             fullname,
+             "خوش آمدی به وبلاگ ما",
+             "خیلی خوشحالیم که به جمع ما وبلاگرهای خفن ملحق شدی"
+         );
 
         req.flash("success_msg", "ثبت نام موفقیت آمیز بود.");
         res.redirect("/admin/login");
@@ -168,7 +133,7 @@ exports.createUser = async (req, res) => {
             errors,
         });
     }
-};
+};*/
 
 exports.forgetPasswrod = async (req, res) => {
     res.render("forgetPass", {
@@ -270,7 +235,11 @@ exports.handleLogin = async (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-
+        if (user.status === "noactive") {
+            const error = new Error("This user not verify by admin.");
+            error.statusCode = 401;
+            throw error;
+        }
         const token = await jwt.sign(
             {
                 user: {
@@ -293,6 +262,67 @@ exports.handleLogin = async (req, res, next) => {
         }
         next(err);
     }
+};
+/************************************** */
+exports.AdminhandleLogin = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        //  const errors = validationResult(req);
+        /* (!errors.isEmpty()) {
+            const error = new Error("Validation Error.");
+            error.statusCode = 422;
+            error.data = errors.array();
+            throw error;
+        }*/
+        const user = await User.findOne({ email });
+        if (!user) {
+            req.flash("error", "This User Not Exist!");
+            res.redirect("/admin/login");
+        }
+
+        const isEqual = await bcrypt.compare(password, user.password);
+
+        if (!isEqual) {
+            req.flash("error", "User Or Passs Is Wrong");
+            res.redirect("/admin/login");
+        }
+        if (user.status !== "admin") {
+            req.flash("error", "This User not Admin");
+            res.redirect("/admin/login");
+        }
+        const token = await jwt.sign(
+            {
+                user: {
+                    userId: user._id.toString(),
+                    email: user.email,
+                    fullname: user.fullname,
+                    isAdmin: user.isAdmin
+                }
+            },
+            "secret",
+            {
+                expiresIn: "1h"
+            }
+        );
+        req.flash("success_msg", "ورود موفقیت آمیز بود.");
+        //res.redirect("/users/allusers");
+    } catch (err) {
+        // console.log(err);
+        err.inner.forEach((e) => {
+            errors.push({
+                name: e.path,
+                message: e.message,
+            });
+        });
+
+        /*return res.render("register", {
+            pageTitle: "ثبت نام کاربر",
+            path: "/admin/dashboard",
+            errors,
+        });*/
+    }
+
 };
 /************************************** */
 exports.handleResetPassword = async (req, res) => {
@@ -354,4 +384,87 @@ exports.getAllusers = async (req, res) => {
         get500(req, res);
     }
 };
+exports.deleteUser = async (req, res) => {
+    try {
+        const result = await User.findByIdAndRemove(req.params.id);
+        // console.log(result);
+        res.redirect("/users/allusers");
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
+    }
+};
+exports.activeUser = async (req, res) => {
+    try {
+        //const result = await User.findById(req.params.id);
+        const result = await User.findByIdAndUpdate(req.params.id, { status: 'active' });
 
+        // console.log(result);
+        res.redirect("/users/allusers");
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
+    }
+};
+exports.disactiveUser = async (req, res) => {
+    try {
+        const result = await User.findByIdAndUpdate(req.params.id, { status: 'noactive' });
+
+        // console.log(result);
+        res.redirect("/users/allusers");
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
+    }
+};
+exports.AdminhandleLogin1 = async (req, res, next) => {
+    /* if (!req.body["g-recaptcha-response"]) {
+         req.flash("error", "اعتبار سنجی captcha الزامی می باشد");
+         return res.redirect("/admin/login");
+     }
+ 
+     const secretKey = process.env.CAPTCHA_SECRET;
+     const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body["g-recaptcha-response"]}
+       &remoteip=${req.connection.remoteAddress}`;
+ 
+     const response = await fetch(verifyUrl, {
+         method: "POST",
+         headers: {
+             Accept: "application/json",
+             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+         },
+     });
+ 
+     const json = await response.json();
+ 
+     if (json.success) {
+         passport.authenticate("local", {
+             failureRedirect: "/admin/login",
+             failureFlash: true,
+         })(req, res, next);
+     } else {
+         req.flash("error", "مشکلی در اعتبارسنجی captcha هست");
+         res.redirect("/admin/login");
+     }*/
+    passport.authenticate("local", {
+        failureRedirect: "/admin/login",
+        failureFlash: true,
+    })(req, res, next);
+
+};
+
+/*exports.activeUser = (event, personId) => {
+    return async (dispatch, getState) => {
+        const allPersons = [...getState().persons];
+
+        const personIndex = allPersons.findIndex(p => p.id === personId);
+        const person = allPersons[personIndex];
+        person.fullname = event.target.value;
+
+        const persons = [...allPersons];
+
+        persons[personIndex] = person;
+        await dispatch({ type: "UPDATE_PERSON", payload: persons });
+    };
+};
+*/

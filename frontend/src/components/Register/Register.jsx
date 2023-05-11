@@ -8,10 +8,12 @@ const Register = () => {
     const {
         fullname,
         setFullname,
-        email,
-        setEmail,
+        mobile,
+        setMobile,
         password,
         setPassword,
+        confirmPassword,
+        setConfirmPassword,
         // policy,
         //  setPolicy,
         handleRegister,
@@ -51,33 +53,33 @@ const Register = () => {
                             {validator.current.message(
                                 "fullname",
                                 fullname,
-                                "required|min:5"
+                                "required|alpha|min:5"
                             )}
                         </div>
 
                         <div className="input-group">
                             <span
                                 className="input-group-addon"
-                                id="email-address"
+                                id="mobile"
                             >
                                 <i className="zmdi zmdi-email"></i>
                             </span>
                             <input
                                 type="text"
-                                name="email"
+                                name="mobile"
                                 className="form-control"
-                                placeholder="ایمیل"
-                                aria-describedby="email-address"
-                                value={email}
+                                placeholder="موبایل"
+                                aria-describedby="mobile"
+                                value={mobile}
                                 onChange={e => {
-                                    setEmail(e.target.value);
-                                    validator.current.showMessageFor("email");
+                                    setMobile(e.target.value);
+                                    validator.current.showMessageFor("mobile");
                                 }}
                             />
                             {validator.current.message(
-                                "email",
-                                email,
-                                "required|email"
+                                "mobile",
+                                mobile,
+                                "required|phone"
                             )}
                         </div>
 
@@ -105,7 +107,30 @@ const Register = () => {
                                 "required|min:5"
                             )}
                         </div>
-
+                        <div className="input-group">
+                            <span className="input-group-addon" id="confirmPassword">
+                                <i className="zmdi zmdi-lock"></i>
+                            </span>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                className="form-control"
+                                placeholder="رمز عبور تکرار"
+                                aria-describedby="confirmPassword"
+                                value={confirmPassword}
+                                onChange={e => {
+                                    setConfirmPassword(e.target.value);
+                                    validator.current.showMessageFor(
+                                        "confirmPassword"
+                                    );
+                                }}
+                            />
+                            {validator.current.message(
+                                "confirmPassword",
+                                confirmPassword,
+                                "required|min:5"
+                            )}
+                        </div>
                         {/* <div className="accept-rules">
                             <label>
                                 <input

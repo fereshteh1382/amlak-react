@@ -74,7 +74,6 @@ app.use("/admin", require("./routes/users"));
 app.use("/users", require("./routes/users"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/posts", require("./routes/dashboard"));
-app.use("/usersgroup", require("./routes/usersgroup"));
 app.use("/category", require("./routes/category"));
 //* 404 Page
 app.use(require("./controllers/errorController").get404);

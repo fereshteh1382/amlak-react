@@ -13,7 +13,8 @@ router.get("/login", userController.login);
 
 //  @desc   Login Handle
 //  @route  POST /users/login
-router.post("/login", userController.AdminhandleLogin, userController.rememberMe);
+//router.post("/login", userController.AdminhandleLogin1);
+router.post("/login", userController.AdminhandleLogin1, userController.rememberMe);
 router.post("/handleLogin", userController.handleLogin);
 
 //  @desc   Logout Handle
@@ -24,6 +25,8 @@ router.get("/logout", authenticated, userController.logout);
 //  @route  GET /users/register
 router.get("/register", userController.register);
 router.post("/handleRegister", userController.handleRegister);
+//router.post("/register", userController.createUser);
+router.post("/register", userController.handleRegister);
 
 //  @desc   Forget Password Page
 //  @route  GET /users/forget-password
@@ -43,7 +46,12 @@ router.post("/reset-password/:id", userController.handleResetPassword);
 
 //  @desc   Register Handle
 //  @route  POST /users/register
-router.post("/register", userController.createUser);
 router.get("/allusers", userController.getAllusers);
+router.get("/delete-user/:id", userController.deleteUser);
+router.get("/active-user/:id", userController.activeUser);
+router.get("/disactive-user/:id", userController.disactiveUser);
+
+
+
 
 module.exports = router;

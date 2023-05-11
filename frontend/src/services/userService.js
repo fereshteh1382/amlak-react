@@ -15,7 +15,4 @@ export const registerUser = user => {
 export const loginUser = user => {
     return http.post(`${config.localapi}/users/handleLogin`, JSON.stringify(user));
 };
-export const getadminUrl = () => {
-    return http.get(`${config.localapi}/users/login`);
-};
 

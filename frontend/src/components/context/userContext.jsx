@@ -3,7 +3,7 @@ import SimpleReactValidator from "simple-react-validator";
 import { useDispatch } from "react-redux";
 import { context } from "./context";
 import { successMessage, errorMessage } from "./../../utils/message";
-import { loginUser, registerUser, getadminUrl } from "../../services/userService";
+import { loginUser, registerUser } from "../../services/userService";
 import { decodeToken } from "./../../utils/decodeToken";
 import { withRouter } from "react-router";
 import { addUser } from "./../../actions/user";
@@ -12,7 +12,7 @@ import { showLoading, hideLoading } from "react-redux-loading-bar";
 
 const UserContext = ({ children, history }) => {
     const [fullname, setFullname] = useState("");
-    const [email, setEmail] = useState("");
+    const [mobile, setMobile] = useState("");
     const [password, setPassword] = useState("");
     const [policy, setPolicy] = useState();
 
@@ -25,7 +25,10 @@ const UserContext = ({ children, history }) => {
             messages: {
                 required: "پر کردن این فیلد الزامی میباشد",
                 min: "کمتر از 5 کاراکتر نباید باشد",
-                email: "ایمیل نوشته شده صحیح نمی باشد"
+                email: "ایمیل نوشته شده صحیح نمی باشد",
+                mobile: "شماره موبایل صحیحی نیست ",
+                // minmobile: "کمتر از 11 کاراکتر نباید باشد",
+
             },
             element: message => <div style={{ color: "red" }}>{message}</div>
         })
@@ -33,14 +36,14 @@ const UserContext = ({ children, history }) => {
 
     const resetStates = () => {
         setFullname("");
-        setEmail("");
+        setMobile("");
         setPassword("");
         setPolicy();
     };
 
     const handleLogin = async event => {
         event.preventDefault();
-        const user = { email, password };
+        const user = { mobile, password };
 
         try {
             if (validator.current.allValid()) {
@@ -52,11 +55,7 @@ const UserContext = ({ children, history }) => {
                     localStorage.setItem("token", data.token);
                     dispatch(addUser(decodeToken(data.token).payload.user));
                     dispatch(hideLoading());
-                    // const { adminurl } = await getadminUrl();
-                    //console.log(adminurl);
                     history.replace('/');
-                    //history.replace(`http://localhost:4000/users/login`);
-
                     resetStates();
                 }
             } else {
@@ -67,15 +66,15 @@ const UserContext = ({ children, history }) => {
         } catch (ex) {
             console.log(ex);
             dispatch(hideLoading());
-            errorMessage("مشکلی پیش آمده.");
+            errorMessage("ورود موفقیت آمیز نبود.");
         }
     };
-
+    /************************************************* */
     const handleRegister = async event => {
         event.preventDefault();
         const user = {
             fullname,
-            email,
+            mobile,
             password
         };
 
@@ -89,7 +88,7 @@ const UserContext = ({ children, history }) => {
                     dispatch(hideLoading());
                     history.push("/login");
                 } else if (status === 202) {
-                    errorMessage("شناسه ای با این ایمیل قبلا ثبت شده است.");
+                    errorMessage("شناسه ای با این شماره موبایل قبلا ثبت شده است.");
                     dispatch(hideLoading());
                     history.push("/resister");
                 }
@@ -109,8 +108,8 @@ const UserContext = ({ children, history }) => {
             value={{
                 fullname,
                 setFullname,
-                email,
-                setEmail,
+                mobile,
+                setMobile,
                 password,
                 setPassword,
                 policy,
