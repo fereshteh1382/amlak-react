@@ -5,12 +5,18 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
 passport.use(
-    new Strategy({ usernameField: "email" }, async (email, password, done) => {
+    new Strategy({ usernameField: "mobile" }, async (mobile, password, done) => {
         try {
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ mobile });
             if (!user) {
                 return done(null, false, {
-                    message: "کاربری با این ایمیل ثبت نشده",
+                    message: "کاربری با این موبایل ثبت نشده",
+                });
+            }
+            const statususer = await User.findOne({ status });
+            if (statususer !== 'admin') {
+                return done(null, false, {
+                    message: "شما مجوز دسترسی به ادمین را ندارید",
                 });
             }
 

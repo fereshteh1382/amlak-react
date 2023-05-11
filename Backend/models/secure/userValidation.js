@@ -13,12 +13,12 @@ exports.schema = Yup.object().shape({
         .required("ایمیل الزامی می باشد"),*/
     mobile: Yup.string()
         .required("شماره موبایل الزامی می باشد")
-        .min(11, "شماره موبایل  نباید کمتر از 11 کاراکتر باشد"),
+        .min(100, "شماره موبایل  نباید کمتر از 11 کاراکتر باشد"),
     password: Yup.string()
         .min(4, "کلمه عبور نباید کمتر از 4 کاراکتر باشد")
         .max(255, "کلمه عبور نباید بیشتر از 255 کاراکتر باشد")
         .required("کلمه عبور الزامی می باشد"),
-    confirmPassword: Yup.string()
+    /* confirmPassword: Yup.string()
         .required("تکرار کلمه عبور الزامی می باشد")
-        .oneOf([Yup.ref("password"), null], "کلمه های عبور یکسان نیستند"),
+        .oneOf([Yup.ref("password"), null], "کلمه های عبور یکسان نیستند"), */
 });

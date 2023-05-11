@@ -7,8 +7,8 @@ const Login = () => {
     const loginContext = useContext(context);
 
     const {
-        email,
-        setEmail,
+        mobile,
+        setMobile,
         password,
         setPassword,
         handleLogin,

@@ -118,18 +118,18 @@ const Register = () => {
                                 placeholder="رمز عبور تکرار"
                                 aria-describedby="confirmPassword"
                                 value={confirmPassword}
-                                onChange={e => {
-                                    setConfirmPassword(e.target.value);
-                                    validator.current.showMessageFor(
-                                        "confirmPassword"
-                                    );
-                                }}
+                            /* onChange={e => {
+                                setConfirmPassword(e.target.value);
+                                validator.current.showMessageFor(
+                                    "confirmPassword"
+                                );
+                            }} */
                             />
-                            {validator.current.message(
+                            {/* {validator.current.message(
                                 "confirmPassword",
                                 confirmPassword,
                                 "required|min:5"
-                            )}
+                            )} */}
                         </div>
                         {/* <div className="accept-rules">
                             <label>

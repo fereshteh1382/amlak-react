@@ -52,7 +52,7 @@ exports.handleRegister = async (req, res, next) => {
         }
 
         const { mobile, fullname, password } = req.body;
-        const hashedPw = await bcrypt.hash(password, 12);
+        //  const hashedPw = await bcrypt.hash(password, 12);
         const userCount = await User.findOne({ mobile });
         //const userCount = await User.find().countDocuments();
 
@@ -66,12 +66,15 @@ exports.handleRegister = async (req, res, next) => {
 
         } else {
             user = new User({
-                mobile,
+
                 fullname,
-                password: hashedPw,
+                mobile,
+                password: password,
                 // isAdmin: false
             });
             await user.save();
+            //   await User.create({ fullname, mobile, hashedPw });
+
             messagetxt = "User created.";
             res.status(201).json({ message: messagetxt });
         }
@@ -210,7 +213,7 @@ exports.resetPassword = async (req, res) => {
 };
 /*********************Handle************** */
 exports.handleLogin = async (req, res, next) => {
-    const { email, password } = req.body;
+    const { mobile, password } = req.body;
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -219,10 +222,10 @@ exports.handleLogin = async (req, res, next) => {
             error.data = errors.array();
             throw error;
         }
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ mobile });
         if (!user) {
             const error = new Error(
-                "A user with this email could not be found"
+                "A user with this mobile could not be found"
             );
             error.statusCode = 401;
             throw error;
@@ -244,9 +247,9 @@ exports.handleLogin = async (req, res, next) => {
             {
                 user: {
                     userId: user._id.toString(),
-                    email: user.email,
+                    mobile: user.mobile,
                     fullname: user.fullname,
-                    isAdmin: user.isAdmin
+                    // isAdmin: user.isAdmin
                 }
             },
             "secret",
@@ -381,7 +384,7 @@ exports.getAllusers = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        get500(req, res);
+        // get500(req, res);
     }
 };
 exports.deleteUser = async (req, res) => {

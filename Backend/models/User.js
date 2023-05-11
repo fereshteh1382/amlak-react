@@ -14,8 +14,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        trim: true,
         minlength: 4,
-        maxlength: 11,
+        maxlength: 100,
     },
     password: {
         type: String,
@@ -26,7 +27,7 @@ const userSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "noactive",
-        enum: ["active", "noactive"],
+        enum: ["active", "noactive", "admin"],
     },
     createdAt: {
         type: Date,
@@ -43,7 +44,7 @@ userSchema.pre("save", function (next) {
 
     if (!user.isModified("password")) return next();
 
-    bcrypt.hash(user.password, 10, (err, hash) => {
+    bcrypt.hash(user.password, 12, (err, hash) => {
         if (err) return next(err);
 
         user.password = hash;
