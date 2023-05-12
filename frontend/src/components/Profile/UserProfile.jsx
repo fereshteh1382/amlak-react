@@ -22,7 +22,9 @@ const UserProfile = () => {
                             </div>
                             <div className="detail">
                                 <span>{user.fullname}</span>
-                                <span> عضویت : 01/01/1395 </span>
+                                <span>{user.mobile}</span>
+
+                                <span> تاریخ عضویت :  {user.createdAt} </span>
                             </div>
                         </div>
 
@@ -30,6 +32,36 @@ const UserProfile = () => {
                             <header>
                                 <h3> میز کار </h3>
                             </header>
+                            <div className="inner">
+                                <ul>
+                                    <li>
+                                        <Link to="/customers">
+                                            {" "}
+                                            مشتریان{" "}
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="inner">
+                                <ul>
+                                    <li>
+                                        <Link to="/logout">
+                                            {" "}
+                                            ملک ها  {" "}
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="inner">
+                                <ul>
+                                    <li>
+                                        <Link to="/logout">
+                                            {" "}
+                                            قراردادها {" "}
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
                             <div className="inner">
                                 <ul>
                                     <li>

@@ -238,6 +238,11 @@ exports.handleLogin = async (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
+        // if (user.status === "admin") {
+        //  return res.redirect(`${config.localapi}/users/allusers`);
+        //return http.get(`${config.localapi}/users/allusers`);
+        // }
+
         if (user.status === "noactive") {
             const error = new Error("This user not verify by admin.");
             error.statusCode = 401;

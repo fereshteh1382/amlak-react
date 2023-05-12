@@ -35,9 +35,7 @@ const MainNav = () => {
                         <li>
                             <a href="">  پشتیبانی  </a>
                             <ul>
-                                <li>
-                                    <a href=""> چت انلاین  </a>
-                                </li>
+
                                 <li>
                                     <a href=""> سیستم تیکت زنی</a>
                                 </li>

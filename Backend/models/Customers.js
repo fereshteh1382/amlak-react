@@ -19,7 +19,7 @@ const customersSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 100,
     },
-    adress: {
+    address: {
         type: String,
         required: false,
         trim: true,
@@ -27,6 +27,14 @@ const customersSchema = new mongoose.Schema({
         maxlength: 100,
     },
     desc: { type: String },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
     /* parent: {
           type: mongoose.Schema.Types.ObjectId,
          type: String,
@@ -40,14 +48,7 @@ const customersSchema = new mongoose.Schema({
          type: String,
           required: true,
      },*/
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+
 
 });
 

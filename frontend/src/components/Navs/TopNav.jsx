@@ -15,7 +15,7 @@ const TopNav = () => {
                             <NavLink
                                 to="/"
                                 exact
-                                activeStyle={{ color: "lime" }}
+                                activeStyle={{ color: "#e4690d" }}
                             >
                                 {" "}
                                 صفحه اصلی{" "}
@@ -31,7 +31,8 @@ const TopNav = () => {
                             <div className="loggein ">
                                 <i className="zmdi zmdi-account"></i>
                                 <NavLink to="/user-profile">
-                                    {user.fullname}
+                                    {/* {user.fullname} */}
+                                    پنل کاربری
                                 </NavLink>{" "}
                                 / <NavLink to="/logout">خروج</NavLink>
                             </div>
@@ -40,7 +41,7 @@ const TopNav = () => {
                                 <i className="zmdi zmdi-account"></i>
                                 <NavLink
                                     to="/login"
-                                    activeStyle={{ color: "lime" }}
+                                    activeStyle={{ color: "#e4690d" }}
                                 >
                                     {" "}
                                     ورود{" "}
@@ -48,7 +49,7 @@ const TopNav = () => {
                                 /
                                 <NavLink
                                     to="/register"
-                                    activeStyle={{ color: "lime" }}
+                                    activeStyle={{ color: "#e4690d" }}
                                 >
                                     {" "}
                                     عضویت{" "}

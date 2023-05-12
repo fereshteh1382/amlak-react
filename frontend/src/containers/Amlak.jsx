@@ -4,10 +4,11 @@ import { Switch, Route, Redirect } from "react-router-dom";
 //import Course from "../components/Course/Course";
 import MainLayout from "../components/Layouts/MainLayout";
 import UserContext from "../components/context/userContext";
+import CustomerContext from "../components/context/customerContext";
 import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 //import Archive from "../components/Course/Archive";
-//import SingleCourse from "../components/Course/SingleCourse";
+import Customers from "../components/Customers/CustomersForm";
 import UserProfile from "../components/Profile/UserProfile";
 import { useSelector, useDispatch } from "react-redux";
 //import { paginate } from "../utils/paginate";
@@ -70,9 +71,23 @@ const Toplearn = () => {
                         )
                     }
                 />
-                { /*<Route path="/archive" component={Archive} />
-                <Route path="/course/:id" component={SingleCourse} />*/
-                    <Route path="/user-profile" component={UserProfile} />}
+                <Route
+                    path="/customers"
+                    render={() =>
+                        !isEmpty(user) ? (
+                            <CustomerContext>
+                                <Customers />
+                            </CustomerContext>
+                        ) : (
+                            <Redirect to="/" />
+                        )
+                    }
+                />
+                { /*<Route path="/archive" component={Archive} />*/
+                /*<Route path="/course/:id" component={SingleCourse} />*/}
+                <Route path="/user-profile" component={UserProfile} />
+                {/* <Route path="/customers" component={Customers} /> */}
+
                 {/*  <Route
                     path="/"
                     exact

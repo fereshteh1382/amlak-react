@@ -49,7 +49,7 @@ const UserContext = ({ children, history }) => {
             if (validator.current.allValid()) {
                 dispatch(showLoading());
                 const { status, data } = await loginUser(user);
-                console.log(status);
+                // console.log(status);
                 if (status === 200) {
                     successMessage("ورود موفقیت آمیز بود.");
                     localStorage.setItem("token", data.token);
@@ -102,6 +102,7 @@ const UserContext = ({ children, history }) => {
             console.log(ex);
         }
     };
+    /************************************************* */
 
     return (
         <context.Provider

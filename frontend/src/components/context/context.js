@@ -13,5 +13,6 @@ export const context = createContext({
     // setPolicy: () => {},
     validator: null,
     handleLogin: () => { },
-    handleRegister: () => { }
+    handleRegister: () => { },
+    handleRegisterCustomers: () => { }
 });
