@@ -117,7 +117,10 @@ const Customers = () => {
                                         <label for="comment">Comment:</label>
                                         <textarea class="form-control" rows="5" id="desc"></textarea>
                                     </div>
-
+                                    {/*  <div class="form-group">
+                                        <label for="use">user :</label>
+                                        <input type="text" class="form-control" placeholder="Enter fullname" id="user" value={user.id} />
+                                    </div> */}
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>

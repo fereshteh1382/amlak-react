@@ -7,45 +7,40 @@ const { truncate } = require("../utils/helpers");
 exports.handleRegisterCustomers = async (req, res, next) => {
 
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const error = new Error("Validation is failed.");
-            error.statusCode = 422;
-            error.data = errors.array();
-            throw error;
-        }
+        /* const errors = validationResult(req);
+         if (!errors.isEmpty()) {
+             const error = new Error("Validation is failed.");
+             error.statusCode = 422;
+             error.data = errors.array();
+             throw error;
+         }*/
 
         const { fullname, tel, address, desc } = req.body;
-        const userCount = await Customers.findOne({ fullname });
-
+        // const userCount = await Customers.findOne({ fullname });
         let customers; let messagetxt = "";
-        if (userCount) {
+        /*if (userCount) {
+        
+                    messagetxt = "Exit Customer!";
+                    res.status(202).json({ message: messagetxt });
+        
+                } else {*/
+        customers = new Customers({
 
-            messagetxt = "Exit Customer!";
-            res.status(202).json({ message: messagetxt });
+            fullname,
+            tel,
+            address,
+            desc,
+            //  user
+            user: req.user.id
 
-        } else {
-            customers = new Customers({
+        });
+        await customers.save();
 
-                fullname,
-                tel,
-                address,
-                desc,
-                user: req.user.id
+        messagetxt = "User created.";
+        res.status(201).json({ message: messagetxt });
+        // }
 
-            });
-            await customers.save();
 
-            messagetxt = "User created.";
-            res.status(201).json({ message: messagetxt });
-        }
-
-        // sendEmail(
-        //     user.email,
-        //     user.fullname,
-        //     'Signup was seccessfull.',
-        //     'We glad to have you on board.'
-        // )
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -53,6 +48,81 @@ exports.handleRegisterCustomers = async (req, res, next) => {
         next(err);
     }
 };
+/************************** */
+exports.editCustomer = async (req, res, next) => {
+
+    try {
+        /* const errors = validationResult(req);
+         if (!errors.isEmpty()) {
+             const error = new Error("Validation is failed.");
+             error.statusCode = 422;
+             error.data = errors.array();
+             throw error;
+         }*/
+        const customer = await Customers.findOne({ _id: req.params.id });
+
+
+        // const userCount = await Customers.findOne({ fullname });
+        // let customers; 
+        if (customer.user.toString() != req.user._id) {
+            res.status(202).json({ message: "Not Exit Customer!" });
+
+        } else {
+            const { fullname, tel, address, desc } = req.body;
+            customer.fullname = fullname;
+            customer.tel = tel;
+            customer.address = address;
+            customer.desc = desc;
+
+            await customer.save();
+            res.status(201).json({ message: "User created." });
+        }
+
+
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+/************************* */
+exports.getAllCustomers = async (req, res, next) => {
+    // const currentPage = Number.parseInt(req.query.page) || 1;
+    // const perPage = Number.parseInt(req.query.perpage) || 4;
+    try {
+
+        const numberOfCustomers = await Customers.find({
+            user: req.user._id,
+        }).countDocuments();
+        const allcustomers = await Customers.find({ user: req.user.id })
+            .sort({
+                createdAt: "desc",
+            })
+        // .skip((currentPage - 1) * perPage)
+        // .limit(perPage);
+
+        res.status(201).json({ allcustomers, numberOfCustomers });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+/************************* */
+exports.deleteCustomer = async (req, res) => {
+    try {
+        const result = await Customers.findByIdAndRemove(req.params.id);
+        console.log(result);
+        //res.redirect("/dashboard/allposts");
+        res.status(201).json({ message: "Deleted Customer ." });
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
+    }
+};
+/********************************* */
 /*exports.getIndex = async (req, res) => {
     const page = +req.query.page || 1;
     const postPerPage = 5;
@@ -106,67 +176,6 @@ exports.getSinglePost = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.render("errors/500");
-    }
-};
-
-exports.getContactPage = (req, res) => {
-    res.render("contact", {
-        pageTitle: "تماس با ما",
-        path: "/contact",
-        message: req.flash("success_msg"),
-        error: req.flash("error"),
-        errors: [],
-    });
-};
-
-exports.handleContactPage = async (req, res) => {
-    const errorArr = [];
-
-    const { fullname, email, message, captcha } = req.body;
-
-    const schema = Yup.object().shape({
-        fullname: Yup.string().required("نام و نام خانوادگی الزامی می باشد"),
-        email: Yup.string()
-            .email("آدرس ایمیل صحیح نیست")
-            .required("آدرس ایمیل الزامی می باشد"),
-        message: Yup.string().required("پیام اصلی الزامی می باشد"),
-    });
-
-    try {
-        await schema.validate(req.body, { abortEarly: false });
-
-        //TODO Captcha Validation
-
-        sendEmail(
-            email,
-            fullname,
-            "پیام از طرف وبلاگ",
-            `${message} <br/> ایمیل کاربر : ${email}`
-        );
-
-        req.flash("success_msg", "پیام شما با موفقیت ارسال شد");
-
-        res.render("contact", {
-            pageTitle: "تماس با ما",
-            path: "/contact",
-            message: req.flash("success_msg"),
-            error: req.flash("error"),
-            errors: errorArr,
-        });
-    } catch (err) {
-        err.inner.forEach((e) => {
-            errorArr.push({
-                name: e.path,
-                message: e.message,
-            });
-        });
-        res.render("contact", {
-            pageTitle: "تماس با ما",
-            path: "/contact",
-            message: req.flash("success_msg"),
-            error: req.flash("error"),
-            errors: errorArr,
-        });
     }
 };
 */

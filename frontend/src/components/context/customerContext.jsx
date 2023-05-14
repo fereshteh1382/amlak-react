@@ -45,11 +45,11 @@ const CustomerContext = ({ children, history }) => {
             if (status === 201) {
                 successMessage("کاربر با موفقیت ساخته شد.");
                 dispatch(hideLoading());
-                history.push("/login");
+                // history.push("/login");
             } else if (status === 202) {
-                errorMessage("شناسه ای با این شماره موبایل قبلا ثبت شده است.");
+                //errorMessage("شناسه ای با این شماره موبایل قبلا ثبت شده است.");
                 dispatch(hideLoading());
-                history.push("/resister");
+                //history.push("/resister");
             }
             /* } else {
                  validator.current.showMessages();
