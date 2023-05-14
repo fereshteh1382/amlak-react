@@ -1,1 +1,5 @@
-node_modules/
+$ cat .gitignore
+    # exclude everything except directory foo/bar
+    /*
+    !/node_modules
+    /node_modules/*
