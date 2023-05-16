@@ -1382,6 +1382,10 @@ main#home-page {
     margin-bottom: 15px;
 }
 
+/** custom */
 .error-message-input{
     color:red
+}
+.background-blur{
+    filter: blur(2px);
 }
