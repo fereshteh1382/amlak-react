@@ -1,10 +1,11 @@
 import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import {Navigate } from 'react-router-dom';
+import { getUserInfoByToken } from '../../utils/TokenManagement';
   
 const ProtectedRoute = ({ children }) => {
-    const user = useSelector(state => state.agencyUser);
-    console.log(user);
+    
+    const user = getUserInfoByToken();
     const existUser = user && user.mobile && !isEmpty(user.mobile);
 
     if (!existUser) {
