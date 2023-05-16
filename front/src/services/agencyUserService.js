@@ -1,11 +1,8 @@
 import http from "./httpService";
-
 import config from "./config.json";
 
-/*export const getCourses = () => {
-    return http.get(`${config.localapi}/posts/allposts_json`);
-};*/
-export const registerUser = user => {
+
+export const registerUserApi = user => {
     return http.post(
         `${config.localapi}/users/handleRegister`,
         JSON.stringify(user)
