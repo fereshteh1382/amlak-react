@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faRightToBracket, faMobileRetro, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
+import { registerUserApi } from "../../services/agencyUserService";
 
 
 const Register = () => {
@@ -15,17 +16,18 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const ClassName = {
         form: `my-4 mx-auto ${loading ? "background-blur disabled":""}`,
-        registerBtn:`button-form-submit ${loading ? "disabled": ""}`,
+        registerBtn:`btn btn-warning ${loading ? "disabled": ""}`,
     };
 
     const condition = {
-        FullName: { required: true, minLength: 5, maxLength: 50 },
+        fullname: { required: true, minLength: 5, maxLength: 50 },
         mobile: { required: true },
         password: { required: true, minLength: 6, maxLength: 30 },
         confirmPassword: { required: true, minLength: 6, maxLength: 30/*, onBlur: () => handleConfirmPassword()*/ }
     }
 
     const HandleRegister = async (userInfo) => {
+        
         console.log(userInfo);
         if(userInfo.confirmPassword !== userInfo.password){
             setError("confirmPassword", { type: "ConfirmPassword" }, { shouldFocus: true });
@@ -33,10 +35,10 @@ const Register = () => {
         }
         setLoading(true);
         try {
-            // const { status } = await RegisterApi(userInfo);
-            // if (status === 201) {
-            //     setSuccessMessage(true);
-            // }
+            const { status } = await registerUserApi(userInfo);
+            if (status === 201) {
+                setSuccessMessage(true);
+            }
             setLoading(false);
         } catch (exp) {
             errorMessage(exp.message);
@@ -46,92 +48,105 @@ const Register = () => {
 
 
     return (
-        <main className="agency-content">
-            <div className="agency-container">
-                <header className="text-light">
-                    <h2> عضویت در سایت </h2>
-                </header>
-                <Helmet> <title>مدیریت املاک | عضویت مشاو املاک </title> </Helmet>
+       
 
-                <div className="form-layer">
-                    {/* <form onSubmit={e => handleRegister(e)}> */}
-                    <form className={ClassName.form} onSubmit={handleSubmit(HandleRegister)}>
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="fullname">
-                                    <FontAwesomeIcon icon={faUser} className="pl-1" />
-                                </span>
-                            </div> 
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="نام و نام خانوادگی"
-                                aria-describedby="fullname"
-                                {...register('fullname', condition.FullName)}
-                            />
-                        </div>
-                        {errors.FullName && checkError(errors.FullName.type, "نام و نام خانوادگی", condition.FullName)}
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="mobile">
-                                <FontAwesomeIcon icon={faMobileRetro} className="pl-1" />
-                                </span>
+        <main className="agency-content" style={{minHeight: "70vh"}}>
+            {
+             successMessage ? 
+                <div className="alert alert-success mx-auto col-md-10  text-center" >ثبت نام شما با موفقیت انجام گردید و اکانت شما پس از بررسی توسط مدیر در 24 ساعت آینده فعال خواهد شد
+                    <br/>
+                    <br/>
+                    <Link to="/agency/login" className=" mx-auto">
+                        <FontAwesomeIcon icon={faRightToBracket} className="pl-1" /> ورود به سایت
+                    </Link>
+                </div> :
+                <div className="agency-container">
+                    <header className="text-light">
+                        <h2> عضویت در سایت </h2>
+                    </header>
+                    <Helmet> <title>مدیریت املاک | عضویت مشاو املاک </title> </Helmet>
+
+                    <div className="form-layer">
+                        {/* <form onSubmit={e => handleRegister(e)}> */}
+                        <form className={ClassName.form} onSubmit={handleSubmit(HandleRegister)}>
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="fullname">
+                                        <FontAwesomeIcon icon={faUser} className="pl-1" />
+                                    </span>
+                                </div> 
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="نام و نام خانوادگی"
+                                    aria-describedby="fullname"
+                                    {...register('fullname', condition.fullname)}
+                                />
                             </div>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="موبایل"
-                                aria-describedby="mobile"
-                                {...register('mobile', condition.mobile)}
-                            />
-                        </div>
-                        {errors.mobile && checkError(errors.mobile.type, "موبایل", condition.mobile)}
-                        
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="password">
-                                    <FontAwesomeIcon icon={faLock} className="pl-1" />
-                                </span>
+                            {errors.fullname && checkError(errors.fullname.type, "نام و نام خانوادگی", condition.fullname)}
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="mobile">
+                                    <FontAwesomeIcon icon={faMobileRetro} className="pl-1" />
+                                    </span>
+                                </div>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="موبایل"
+                                    aria-describedby="mobile"
+                                    {...register('mobile', condition.mobile)}
+                                />
+                            </div>
+                            {errors.mobile && checkError(errors.mobile.type, "موبایل", condition.mobile)}
+                            
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="password">
+                                        <FontAwesomeIcon icon={faLock} className="pl-1" />
+                                    </span>
+                                </div>    
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    placeholder="رمز عبور "
+                                    aria-describedby="password"
+                                    {...register('password', condition.password)}
+                                />
                             </div>    
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="رمز عبور "
-                                aria-describedby="password"
-                                {...register('password', condition.password)}
-                            />
-                         </div>    
-                        {errors.password && checkError(errors.password.type, "رمزعبور", condition.password)}
+                            {errors.password && checkError(errors.password.type, "رمزعبور", condition.password)}
 
-                       
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="confirmPassword">
-                                    <FontAwesomeIcon icon={faLock} className="pl-1" />
-                                </span>
-                            </div>  
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="رمز عبور تکرار"
-                                aria-describedby="confirmPassword"
-                                {...register('confirmPassword', condition.confirmPassword)}
-                            />
-                        </div>
-                        {errors.confirmPassword && checkError(errors.confirmPassword.type, "تکرار رمزعبور", condition.confirmPassword)}
+                        
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="confirmPassword">
+                                        <FontAwesomeIcon icon={faLock} className="pl-1" />
+                                    </span>
+                                </div>  
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    placeholder="رمز عبور تکرار"
+                                    aria-describedby="confirmPassword"
+                                    {...register('confirmPassword', condition.confirmPassword)}
+                                />
+                            </div>
+                            {errors.confirmPassword && checkError(errors.confirmPassword.type, "تکرار رمزعبور", condition.confirmPassword)}
 
-                        <div className="link">
-                            <Link to="/agency/login">
-                                <FontAwesomeIcon icon={faRightToBracket} className="pl-1" /> ورود به سایت
-                            </Link>
-                        </div>
-                        <div className="text-center">
-                            <button className="btn btn-warning"> عضویت در سایت</button>
-                        </div>    
-                    </form>
+                            <div className="link">
+                                <Link to="/agency/login">
+                                    <FontAwesomeIcon icon={faRightToBracket} className="pl-1" /> ورود به سایت
+                                </Link>
+                            </div>
+                            <div className="text-center">
+                                <button className={ClassName.registerBtn}> عضویت در سایت</button>
+                            </div>    
+                        </form>
+                    </div>
                 </div>
-            </div>
+            }    
         </main>
+        
     );
 };
 
