@@ -62,7 +62,7 @@ exports.handleRegister = async (req, res, next) => {
             /* user = new User({ email, fullname, password: hashedPw });
              await user.save();*/
             messagetxt = "Exit User!";
-            res.status(202).json({ message: messagetxt });
+            res.status(402).json({ message: messagetxt });
 
         } else {
             user = new User({
@@ -234,7 +234,7 @@ exports.handleLogin = async (req, res, next) => {
         const isEqual = await bcrypt.compare(password, user.password);
 
         if (!isEqual) {
-            const error = new Error("Wrong password.");
+            const error = new Error("پسورد نادرست است");
             error.statusCode = 401;
             throw error;
         }
@@ -268,7 +268,7 @@ exports.handleLogin = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
-        next(err);
+        return res.status(err.statusCode).send(err.message);
     }
 };
 /************************************** */
