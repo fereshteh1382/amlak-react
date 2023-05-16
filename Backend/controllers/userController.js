@@ -62,7 +62,7 @@ exports.handleRegister = async (req, res, next) => {
             /* user = new User({ email, fullname, password: hashedPw });
              await user.save();*/
             messagetxt = "Exit User!";
-            res.status(402).json({ message: messagetxt });
+            res.status(409).json({ message: messagetxt });
 
         } else {
             user = new User({
