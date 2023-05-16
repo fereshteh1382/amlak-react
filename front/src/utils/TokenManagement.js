@@ -29,13 +29,15 @@ export const SetUserInfoByToken = (data) => {
 export const getUserInfoByToken = () => {
     let userInfo = {};
     const token = localStorage.getItem("UserToken");
-    const tokenInfo = decodeToken(token);
-    const dateNow = Date.now() / 1000;
-    if (tokenInfo.exp < dateNow) {
-        localStorage.removeItem("UserToken");
-    }
-    else{
-        userInfo = { Name: tokenInfo.user.fullname, mobile: tokenInfo.user.mobile }
+    if(token){
+        const tokenInfo = decodeToken(token);
+        const dateNow = Date.now() / 1000;
+        if (tokenInfo.exp < dateNow) {
+            localStorage.removeItem("UserToken");
+        }
+        else{
+            userInfo = { Name: tokenInfo.user.fullname, mobile: tokenInfo.user.mobile }
+        }
     }
     return userInfo;
 };
