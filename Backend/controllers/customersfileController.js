@@ -7,15 +7,15 @@ const Customersfile = require("../models/CustomersFile");
 exports.handleRegisterCustomersfile = async (req, res, next) => {
 
     try {
-        const errors = validationResult(req);
+        /*const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const error = new Error("Validation is failed.");
             error.statusCode = 422;
             error.data = errors.array();
             throw error;
-        }
+        }*/
 
-        const { fullname, meterage, address, desc, customer, fileName } = req.body;
+        const { category, city, range, title, meterage, images, price, rooms, yearconstruction, floor, elevator, parking, warehouse, address, desc, user, customer } = req.body;
         ///   const userCount = await Customersfile.findOne({ fullname });
 
         let customersfile;
@@ -28,13 +28,26 @@ exports.handleRegisterCustomersfile = async (req, res, next) => {
          } else {*/
         customersfile = new Customersfile({
 
-            fullname,
+            category,
+            city,
+            range,
+            title,
             meterage,
+            images,
+            price,
+            rooms,
+            yearconstruction,
+            floor,
+            elevator,
+            parking,
+            warehouse,
             address,
             desc,
-            user: req.user.id,
-            customer: customer,
-            image: fileName,
+            user,
+            customer,
+            /* user: req.user.id,
+             customer: customer,
+             image: fileName,*/
 
         });
         await customersfile.save();

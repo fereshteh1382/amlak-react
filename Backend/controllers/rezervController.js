@@ -1,10 +1,10 @@
 const Yup = require("yup");
-const Customers = require("../models/Customers");
+const Rezerv = require("../models/Rezerv");
 const { formatDate } = require("../utils/jalali");
 const { truncate } = require("../utils/helpers");
 //const { sendEmail } = require("../utils/mailer");
 
-exports.handleRegisterCustomers = async (req, res, next) => {
+exports.handleRezervCustomers = async (req, res, next) => {
     // console.log(req);
     try {
         /* const errors = validationResult(req);
@@ -15,29 +15,26 @@ exports.handleRegisterCustomers = async (req, res, next) => {
              throw error;
          }*/
         // const user = req.user._id;
-        const { fullname, tel, address, desc, user } = req.body;
+        const { customerid, user, rezervdate, rezervtime } = req.body;
         // const userCount = await Customers.findOne({ fullname });
-        let customers; let messagetxt = "";
+        let rezerv; let messagetxt = "";
         /*if (userCount) {
         
                     messagetxt = "Exit Customer!";
                     res.status(202).json({ message: messagetxt });
         
                 } else {*/
-        customers = new Customers({
-            fullname,
-            tel,
-            address,
-            desc,
-            user
+        rezerv = new Rezerv({
+            customerid,
+            user,
+            rezervdate,
+            rezervtime,
+
             //user: req.user.id,
         });
-        await customers.save();
-        /* await customers.create({
-             ...req.body,
-             user: req.user.id,
-         });*/
-        messagetxt = "User created.";
+        await rezerv.save();
+
+        messagetxt = "Rezerv Added.";
         res.status(201).json({ message: messagetxt });
         // }
 

@@ -1,5 +1,5 @@
-const AgencySidebar = () =>{
-    return(
+const AgencySidebar = () => {
+    return (
         <aside>
             <div className="avatar-layer">
                 <div className="img-layer">
@@ -18,7 +18,7 @@ const AgencySidebar = () =>{
                 </header>
                 <div className="inner">
                     <ul>
-                        <li><a href="/customers"> مشتریان </a></li>
+                        <li><a href="/customers"> باشگاه مشتریان </a></li>
                     </ul>
                 </div>
                 <div className="inner">

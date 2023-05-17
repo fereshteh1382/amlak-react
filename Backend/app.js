@@ -79,6 +79,30 @@ app.use("/customersfile", require("./routes/customersfile"));
 //* 404 Page
 app.use(require("./controllers/errorController").get404);
 
+/*const Nexmo = require('nexmo');
+const nexmo = new Nexmo({
+    apiKey: YOUR_API_KEY,
+    apiSecret: YOUR_API_SECRET
+});
+app.post('/send', (req, res) => {
+    // Send SMS
+    nexmo.message.sendSms(
+        config.number, req.body.toNumber, req.body.message, { type: 'unicode' },
+        (err, responseData) => { if (responseData) { console.log(responseData) } }
+    );
+});*/
+const TrezSmsClient = require("trez-sms-client");
+const client = new TrezSmsClient("fereshteh1382", "123456");
+app.post('/send', (req, res) => {
+    client.sendMessage(sender, numbers, message, groupId)
+        .then((receipt) => {
+            console.log("Receipt: " + receipt);
+        })
+        .catch((error) => {
+            // If there is an error, we'll catch that
+            console.log(error.isHttpException, error.code, error.message);
+        });
+});
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () =>

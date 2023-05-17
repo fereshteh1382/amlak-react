@@ -20,8 +20,8 @@ export const RegisterCustomers = customer => {
     );
 };
 
-export const getAllCustomers = () => {
-    return http.get(`${config.localapi}/customers/all-customers`);
+export const getAllCustomers = user => {
+    return http.get(`${config.localapi}/customers/all-customers/${user}`);
 };
 
 export const DeleteCustomers = customerId => {
@@ -30,6 +30,13 @@ export const DeleteCustomers = customerId => {
 
 export const EditCustomers = customerId => {
     return http.get(`${config.localapi}/customers/edit-customers/${customerId}`);
+};
+
+export const RezervCustomers = customer => {
+    return http.post(
+        `${config.localapi}/customers/add-rezerv`,
+        JSON.stringify(customer)
+    );
 };
 
 export const RegisterCustomersFile = customerfile => {

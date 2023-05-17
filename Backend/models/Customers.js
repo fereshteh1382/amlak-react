@@ -27,10 +27,11 @@ const customersSchema = new mongoose.Schema({
         maxlength: 100,
     },
     desc: { type: String },
-    user: {
+    user: { type: String },
+    /*user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-    },
+    },*/
     createdAt: {
         type: Date,
         default: Date.now,
