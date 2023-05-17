@@ -1,14 +1,17 @@
 {
-    "name": "weblog-project",
+    "name": "amlak-react",
     "version": "1.0.0",
-    "description": "Simple weblog",
+    "description": "amlak-react",
     "main": "app.js",
+    "engines": {
+        "node": "16.x"
+    },
     "scripts": {
         "start": "nodemon app.js",
-        "dev": "cross-env NODE_ENV=development DEBUG=weblog-project nodemon app"
+        "dev": "cross-env NODE_ENV=development DEBUG=amlak-react nodemon app"
     },
     "keywords": [],
-    "author": "Younes Ghorbany",
+    "author": "Fereshteh Hosseini",
     "license": "MIT",
     "dependencies": {
         "app-root-path": "^3.0.0",
