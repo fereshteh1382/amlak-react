@@ -1,6 +1,6 @@
 const AgencyDashboard = () =>{
     return(
-        <section className="user-account-content">
+        <section className="agency-body-content">
             <header><h1> داشبورد </h1></header>
             <div className="inner">
                 <div className="account-information">

@@ -30,6 +30,7 @@ export const getUserInfoByToken = () => {
     let userInfo = {};
     const token = localStorage.getItem("UserToken");
     if(token){
+        
         const tokenInfo = decodeToken(token);
         const dateNow = Date.now() / 1000;
         if (tokenInfo.exp < dateNow) {
@@ -41,3 +42,24 @@ export const getUserInfoByToken = () => {
     }
     return userInfo;
 };
+
+export const getUserForAxios = () => {
+    let userInfo = {};
+    const token = localStorage.getItem("UserToken");
+    if(token){
+        const tokenInfo = decodeToken(token);
+        const dateNow = Date.now() / 1000;
+        if (tokenInfo.exp < dateNow) {
+            localStorage.removeItem("UserToken");
+        }
+        else{
+            userInfo = {userId:tokenInfo.user.userId, Name: tokenInfo.user.fullname, mobile: tokenInfo.user.mobile}
+        }
+    }
+    return userInfo;
+};
+
+
+export const ClearUserTokens = () => {
+    localStorage.removeItem("UserToken");
+}

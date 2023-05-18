@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faRightToBracket, faMobileRetro, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
-import { registerUserApi } from "../../services/agencyUserService";
+import { registerUserApi } from "../../services/agencyUserAPIs";
 
 
 const Register = () => {
@@ -27,8 +27,7 @@ const Register = () => {
     }
 
     const HandleRegister = async (userInfo) => {
-        
-        console.log(userInfo);
+
         if(userInfo.confirmPassword !== userInfo.password){
             setError("confirmPassword", { type: "ConfirmPassword" }, { shouldFocus: true });
             return;

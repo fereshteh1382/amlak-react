@@ -7,7 +7,7 @@ const Body = () => {
     return (
         <main id="home-page">
                 <div className="container">
-                    <div className="user-account">
+                    <div className="agency-body">
                         <div className="row">
                             {
                                 (pathName === '/agency/login' || pathName === '/agency/register') ? 

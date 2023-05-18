@@ -70,7 +70,7 @@ form button {
     transition: all 0.2s linear 0s;
 }
 
-.user-account .avatar-layer ul:after,
+.agency-body .avatar-layer ul:after,
 .term-content aside .statistics ul:after,
 .term-content aside .share-layer:after,
 .term-content .term-description ul li:after,
@@ -88,6 +88,7 @@ form button {
     width: 100%;
     background: url("../images/slide.jpg") no-repeat center center / cover;
     position: relative;
+    height: 100px;
 }
 
 .landing-layer nav {
@@ -101,7 +102,7 @@ form button {
 .landing-layer nav ul li a {
     line-height: 25px;
     color: #fff;
-    font-size: 14px;
+    font-size: 20px;
     padding: 0 0 0 15px;
 }
 
@@ -124,7 +125,7 @@ form button {
 
 .landing-layer nav ul li a:hover,
 .landing-layer nav .clientarea a:hover {
-    color: #20991d;
+    color: rgb(243, 82, 24);
 }
 
 .landing-layer header {
@@ -238,7 +239,7 @@ form button {
 .main-menu nav>ul>li>a {
     color: #fff;
     padding: 0 15px;
-    border-left: 1px solid #20991d;
+    border-left: 1px solid rgb(243, 82, 24);
     font-size: 16px;
 }
 
@@ -525,14 +526,14 @@ main#home-page {
     color: #26292c;
 }
 
-.user-account aside>section,
-.user-account .avatar-layer {
+.agency-body aside>section,
+.agency-body .avatar-layer {
     border: 1px solid #ecf1f8;
     margin-bottom: 25px;
     background-color: #fff;
 }
 
-.user-account .avatar-layer .img-layer {
+.agency-body .avatar-layer .img-layer {
     margin: 25px auto 0;
     position: relative;
     z-index: 1;
@@ -553,7 +554,7 @@ main#home-page {
     justify-content: center;
 }
 
-.user-account .avatar-layer .img-layer img {
+.agency-body .avatar-layer .img-layer img {
     width: 130px;
     height: 130px;
     border: 3px solid #ecf1f8;
@@ -561,7 +562,7 @@ main#home-page {
     position: relative;
 }
 
-.user-account .avatar-layer .img-layer .change-image {
+.agency-body .avatar-layer .img-layer .change-image {
     width: 100px;
     height: 100px;
     line-height: 100px;
@@ -574,17 +575,17 @@ main#home-page {
     opacity: 0;
 }
 
-.user-account .avatar-layer .img-layer:hover .change-image {
+.agency-body .avatar-layer .img-layer:hover .change-image {
     opacity: 1;
 }
 
-.user-account .avatar-layer .detail {
+.agency-body .avatar-layer .detail {
     width: 100%;
     padding: 10px 0 15px;
     text-align: center;
 }
 
-.user-account .avatar-layer .detail h3 {
+.agency-body .avatar-layer .detail h3 {
     font-size: 14px;
     font-weight: bold;
     word-spacing: -1px;
@@ -593,7 +594,7 @@ main#home-page {
     color: #4b5b74;
 }
 
-.user-account .avatar-layer .detail span {
+.agency-body .avatar-layer .detail span {
     font-size: 14px;
     word-spacing: -1px;
     line-height: 25px;
@@ -601,21 +602,21 @@ main#home-page {
     display: block;
 }
 
-.user-account aside>section header {
+.agency-body aside>section header {
     padding: 5px 15px;
     border-bottom: 1px solid #ecf1f8;
 }
 
-.user-account aside>section header h3 {
+.agency-body aside>section header h3 {
     font-size: 15px;
     line-height: 35px;
 }
 
-.user-account aside>section .inner {
+.agency-body aside>section .inner {
     padding: 10px 15px;
 }
 
-.user-account aside>section .inner ul li a {
+.agency-body aside>section .inner ul li a {
     display: block;
     font-size: 14px;
     line-height: 25px;
@@ -623,37 +624,37 @@ main#home-page {
     color: #222;
 }
 
-.user-account aside>section .inner ul li a:hover {
+.agency-body aside>section .inner ul li a:hover {
     color: #e4690d;
 }
 
-.user-account .user-account-content {
-    border: 1px solid #ecf1f8;
+.agency-body .agency-body-content {
+    border: 1px solid aliceblue;
     margin-bottom: 25px;
     background-color: #fff;
 }
 
-.user-account .user-account-content>header {
+.agency-body .agency-body-content>header {
     padding: 5px 15px;
     border-bottom: 1px solid #ecf1f8;
 }
 
-.user-account .user-account-content>header h1 {
+.agency-body .agency-body-content>header h1 {
     font-size: 15px;
     line-height: 35px;
 }
 
-.user-account .user-account-content .inner {
+.agency-body .agency-body-content .inner {
     padding: 20px;
 }
 
-.user-account .user-account-content .inner .account-information h3 {
+.agency-body .agency-body-content .inner .account-information h3 {
     font-size: 17px;
     margin-bottom: 10px;
     color: #e4690d;
 }
 
-.user-account .user-account-content .inner .account-information ul li {
+.agency-body .agency-body-content .inner .account-information ul li {
     display: block;
     font-size: 14px;
     line-height: 25px;
@@ -661,7 +662,7 @@ main#home-page {
     color: #222;
 }
 
-.user-account .user-account-content .inner .account-information ul li i {
+.agency-body .agency-body-content .inner .account-information ul li i {
     margin-left: 5px;
     position: relative;
     top: 3px;
@@ -669,44 +670,44 @@ main#home-page {
     color: #ccc;
 }
 
-.user-account .form-layer {
+.agency-body .form-layer {
     padding: 0 20px;
 }
 
-.user-account .form-layer .link {
+.agency-body .form-layer .link {
     padding: 15px 0;
 }
 
-.user-account .form-layer .link a {
+.agency-body .form-layer .link a {
     display: block;
     line-height: 30px;
     font-size: 14px;
 }
 
-.user-account .form-layer .link a:hover {
+.agency-body .form-layer .link a:hover {
     color: #2c373b;
 }
 
-.user-account .form-layer .link a i {
+.agency-body .form-layer .link a i {
     font-size: 17px;
     margin-left: 5px;
     position: relative;
     top: 2px;
 }
 
-.user-account .form-layer .checkbox-layer {
+.agency-body .form-layer .checkbox-layer {
     margin-top: 10px;
 }
 
-.user-account .form-layer .checkbox-layer input[type="checkbox"],
-.user-account .form-layer .radio-layer input[type="radio"] {
+.agency-body .form-layer .checkbox-layer input[type="checkbox"],
+.agency-body .form-layer .radio-layer input[type="radio"] {
     position: relative;
     top: 2px;
     margin-left: 5px;
 }
 
-.user-account .form-layer .checkbox-layer label,
-.user-account .form-layer .radio-layer label {
+.agency-body .form-layer .checkbox-layer label,
+.agency-body .form-layer .radio-layer label {
     margin-left: 25px;
 }
 
@@ -1376,7 +1377,7 @@ main#home-page {
     }
 }
 
-.user-account header {
+.agency-body header {
     background: rgb(243, 82, 24);
     padding: 15px;
     margin-bottom: 15px;
@@ -1388,4 +1389,10 @@ main#home-page {
 }
 .background-blur{
     filter: blur(2px);
+}
+.agency-body aside > section .inner ul li a.active{
+    color: red!important;
+}
+.Toastify__toast{
+    font-family: "BYekan"!important;
 }

@@ -4,11 +4,11 @@ import Helmet from "react-helmet";
 import {useForm} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faKey, faLock, faMobileRetro} from "@fortawesome/free-solid-svg-icons";
-import { loginUserApi } from "../../services/agencyUserService";
 import { addAgencyUser } from "../../redux-actions/agencyUser";
 import { SetUserInfoByToken } from "../../utils/TokenManagement";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
+import { loginUserApi } from "../../services/agencyUserAPIs";
 
 
 const AgencyLogin = () => {

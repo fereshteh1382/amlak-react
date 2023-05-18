@@ -6,6 +6,8 @@ import AgencyDashboard from "../components/agency/Dashboard";
 import AgencyLogin from "../components/agency/Login";
 import Register from "../components/agency/Register";
 import ProtectedRoute from "../components/agency/ProtectedRoute";
+import CustomerLayout from "../components/agency/customer/CustomerLayout";
+import AgencyLogout from "../components/agency/Logout";
 
 const Amlak = () => {
 
@@ -13,25 +15,18 @@ const Amlak = () => {
         <>
             <Routes>
                 <Route path="/" element={<Home />}>
-                    {/* <Route index element={<Home />} />
-                    <Route path="blogs" element={<Blogs />} />
-                    <Route path="contact" element={<Contact />} />
-                    <Route path="*" element={<NoPage />} /> */}
                 </Route>
                 <Route path="/admin" element={<AdminPanel />}>
-                    {/* <Route index element={<Home />} />
-                    <Route path="blogs" element={<Blogs />} />
-                    <Route path="contact" element={<Contact />} />
-                    <Route path="*" element={<NoPage />} /> */}
                 </Route>
                 <Route path="/agency" element={<AgencyPanel />}>
-                    <Route index element={<ProtectedRoute><AgencyDashboard /></ProtectedRoute>} />
+                    <Route index  element={<ProtectedRoute><AgencyDashboard /></ProtectedRoute>} />
                     <Route path="login"  element={<AgencyLogin />}/>
+                    <Route path="logout"  element={<AgencyLogout />}/>
                     <Route path="register" element={<Register />} />
-                    <Route path="customer"  element={<ProtectedRoute><AgencyLogin /></ProtectedRoute>}/>
-                    {/* <Route path="blogs" element={<Blogs />} />
-                    <Route path="contact" element={<Contact />} />
-                    <Route path="*" element={<NoPage />} /> */}
+
+                    <Route path="customers"  element={<ProtectedRoute><CustomerLayout mode="show" /></ProtectedRoute>}/>
+                    <Route path="customers/new"  element={<ProtectedRoute><CustomerLayout mode="new" /></ProtectedRoute>}/>
+                    <Route path="customers/:customerid"  element={<ProtectedRoute><CustomerLayout mode="edit" /></ProtectedRoute>}/>
                 </Route>
             </Routes>
         </>

@@ -21,10 +21,12 @@ const AgencySidebar = () => {
                 </header>
                 <div className="inner">
                     <ul>
-
-                        <li><a href="/customers">  مشتریان </a></li>
-
-                        <li><NavLink to="/agency/customers" className={({ isActive }) => isActive ? "active" : ""}> مشتریان </NavLink></li>
+                        <li><NavLink to="/agency" end > پروفایل </NavLink></li>
+                    </ul>
+                </div>
+                <div className="inner">
+                    <ul>
+                        <li><NavLink to="/agency/customers" > مشتریان </NavLink></li>
                     </ul>
                 </div>
                 <div className="inner">
