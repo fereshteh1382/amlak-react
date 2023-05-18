@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
         default: "noactive",
         enum: ["active", "noactive", "admin"],
     },
+    smscount: {
+        type: Number,
+        default: 100,
+
+    },
     createdAt: {
         type: Date,
         default: Date.now,

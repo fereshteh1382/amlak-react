@@ -40,6 +40,14 @@ export const RezervCustomers = customer => {
     );
 };
 
+/*export const SendSmsCustomers = customernubmers => {
+    return http.post(
+        `${config.localapi}/customers/sms-customers/${customernubmers}`,
+        JSON.stringify(customer)
+    );
+};
+*/
+
 export const RegisterCustomersFile = customerfile => {
     return http.post(
         `${config.localapi}/customersfile/add-customersfile`,

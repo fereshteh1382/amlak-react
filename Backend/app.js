@@ -91,18 +91,25 @@ app.post('/send', (req, res) => {
         (err, responseData) => { if (responseData) { console.log(responseData) } }
     );
 });*/
-const TrezSmsClient = require("trez-sms-client");
-const client = new TrezSmsClient("fereshteh1382", "123456");
-app.post('/send', (req, res) => {
-    client.sendMessage(sender, numbers, message, groupId)
-        .then((receipt) => {
-            console.log("Receipt: " + receipt);
-        })
-        .catch((error) => {
-            // If there is an error, we'll catch that
-            console.log(error.isHttpException, error.code, error.message);
-        });
+/*const TrezSmsClient = require("trez-sms-client");
+const client = new TrezSmsClient("fereshteh1382", "123456");*/
+
+/*var Kavenegar = require('kavenegar');
+var api = Kavenegar.KavenegarApi({
+    apikey: '"{7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D}'
 });
+api.Send({
+    message: "وب سرویس تخصصی کاوه نگار",
+    sender: "10004346",
+    receptor: "09156195942"
+},
+    function (response, status) {
+        console.log(response);
+        console.log(status);
+    });
+*/
+
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () =>

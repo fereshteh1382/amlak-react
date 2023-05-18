@@ -125,6 +125,35 @@ exports.deleteCustomer = async (req, res) => {
         res.render("errors/500");
     }
 };
+/******************************* */
+exports.smsCustomer = async (req, res) => {
+    var Kavenegar = require('kavenegar');
+    var api = Kavenegar.KavenegarApi({
+        apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
+    });
+
+    customernubmers = req.params.customernubmers;
+    //user = req.params.user;
+    const User = require("../models/User");
+    const smscount = await User.findOne({ smscount });
+    if (smscount > customernubmers) {
+        // const result = await User.findByIdAndUpdate(user, { smscount: smscount-customernubmers });
+        api.Send({
+            message: "وب سرویس تخصصی کاوه نگار",
+            sender: "10008663",
+            receptor: "09156195942"
+
+        },
+            function (response, status) {
+                console.log(response);
+                console.log(status);
+            });
+        res.status(201).json({ message: "Send Sms To Customers ." });
+    } else {
+        res.status(202).json({ message: "You Don't Have Account For Send Sms." });
+    }
+};
+
 /********************************* */
 /*exports.getIndex = async (req, res) => {
     const page = +req.query.page || 1;
