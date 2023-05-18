@@ -14,8 +14,10 @@ exports.handleRegisterCustomers = async (req, res, next) => {
              error.data = errors.array();
              throw error;
          }*/
+
+        const { fullname, tel, address, desc, userId } = req.body;
         // const user = req.user._id;
-        const { fullname, tel, address, desc, user } = req.body;
+
         // const userCount = await Customers.findOne({ fullname });
         let customers; let messagetxt = "";
         /*if (userCount) {
@@ -29,8 +31,7 @@ exports.handleRegisterCustomers = async (req, res, next) => {
             tel,
             address,
             desc,
-            user
-            //user: req.user.id,
+            user: userId
         });
         await customers.save();
         /* await customers.create({
@@ -62,21 +63,21 @@ exports.editCustomer = async (req, res, next) => {
          }*/
         const customer = await Customers.findOne({ _id: req.params.id });
 
-
+        const { fullname, tel, address, desc, userId } = req.body;
         // const userCount = await Customers.findOne({ fullname });
         // let customers; 
-        if (customer.user.toString() != req.user._id) {
-            res.status(202).json({ message: "Not Exit Customer!" });
+        if (customer.user.toString() != userId) {
+            res.status(403).json({ message: "عدم دسترسی مجاز"});
 
         } else {
-            const { fullname, tel, address, desc } = req.body;
+            
             customer.fullname = fullname;
             customer.tel = tel;
             customer.address = address;
             customer.desc = desc;
 
             await customer.save();
-            res.status(201).json({ message: "User created." });
+            res.status(200).json({ message: "اطلاعات کاربر با موفقیت ویرایش گردید." });
         }
 
 
@@ -94,8 +95,7 @@ exports.getAllCustomers = async (req, res, next) => {
     try {
 
         const numberOfCustomers = await Customers.find({
-            // user: req.user._id,
-            user: req.params.user
+            user: req.params.userid,
         }).countDocuments();
 
         const allcustomers = await Customers.find({ user: req.params.user })
@@ -104,8 +104,7 @@ exports.getAllCustomers = async (req, res, next) => {
             });
         // .skip((currentPage - 1) * perPage)
         // .limit(perPage);
-        //console.log(allcustomers);
-        res.status(201).json({ allcustomers, numberOfCustomers });
+        res.status(200).json({ allcustomers, numberOfCustomers });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -119,7 +118,7 @@ exports.deleteCustomer = async (req, res) => {
         const result = await Customers.findByIdAndRemove(req.params.id);
         console.log(result);
         //res.redirect("/dashboard/allposts");
-        res.status(201).json({ message: "Deleted Customer ." });
+        res.status(200).json({ message: "Deleted Customer ." });
     } catch (err) {
         console.log(err);
         res.render("errors/500");
