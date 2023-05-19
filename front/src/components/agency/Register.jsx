@@ -1,19 +1,24 @@
 import { useState } from "react";
 import Helmet from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faRightToBracket, faMobileRetro, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
 import { registerUserApi } from "../../services/agencyUserAPIs";
+import { existUser } from '../../utils/TokenManagement';
 
 
 const Register = () => {
-
     const { register, handleSubmit, formState: { errors }, setError} = useForm();
     const [successMessage, setSuccessMessage] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    if(existUser()){
+        return <Navigate to="/agency" replace="true" />;
+    }
+    
     const ClassName = {
         form: `my-4 mx-auto ${loading ? "background-blur disabled":""}`,
         registerBtn:`btn btn-warning ${loading ? "disabled": ""}`,
