@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Helmet from "react-helmet";
 import {useForm} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faKey, faLock, faMobileRetro} from "@fortawesome/free-solid-svg-icons";
 import { addAgencyUser } from "../../redux-actions/agencyUser";
-import { SetUserInfoByToken } from "../../utils/TokenManagement";
+import { SetUserInfoByToken, existUser } from "../../utils/TokenManagement";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
 import { loginUserApi } from "../../services/agencyUserAPIs";
@@ -13,9 +13,10 @@ import { loginUserApi } from "../../services/agencyUserAPIs";
 
 const AgencyLogin = () => {
     const { register, handleSubmit, formState:{errors} } = useForm();
-    const navigate = useNavigate(); 
     const dispatch = useDispatch();
-
+    if(existUser()){
+        return <Navigate to="/agency" replace="true" />;
+    }
 
     const condition = {
         mobile:{
@@ -34,7 +35,7 @@ const AgencyLogin = () => {
             if (status === 200) {
                 const UserInfo = SetUserInfoByToken(data); 
                 dispatch(addAgencyUser(UserInfo));
-                navigate('/agency', { replace: true });
+                return <Navigate to="/agency" replace="true" />;
             }
             // setLoading(false);
         } catch (exception) {
