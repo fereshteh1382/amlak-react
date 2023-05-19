@@ -11,7 +11,7 @@ import { CustomerStateContext } from "./CustomerStateContext";
 const CustomerContext = ({ children }) => {
     const [newCustomers, setNewCustomers] = useState([]);
     const [customerInfo, setCustomerInfo] = useState({});
-    const [loadingFields, setLoadingFields] = useState({loading: false, blur:false});
+    const [loadingFields, setLoadingFields] = useState({ loading: false, blur: false });
     const userInfo = getUserForAxios();
 
     useEffect(() => {
@@ -25,8 +25,8 @@ const CustomerContext = ({ children }) => {
         fetchInfo();
     }, []);
 
-    const defaultVal = {_id: 0, fullname:"", tel:"", address:"", desc:""};
-    
+    const defaultVal = { _id: 0, fullname: "", tel: "", address: "", desc: "" };
+
 
     const condition = {
         fullname: { required: true, minLength: 5, },
@@ -36,12 +36,12 @@ const CustomerContext = ({ children }) => {
     }
 
     /************************************************* */
-    const getNewCustomer = async () =>{
+    const getNewCustomer = async () => {
         const customerInfo = await getNewCustomersApi(userInfo.userId);
         if (customerInfo.data && customerInfo.data.allcustomers) {
             setNewCustomers(customerInfo.data.allcustomers);
         }
-        else{
+        else {
             setNewCustomers([]);
         }
 
@@ -52,18 +52,19 @@ const CustomerContext = ({ children }) => {
      * @param object customer 
      */
     const handleCustomerRegister = async customer => {
-        setLoadingFields({loading: false, blur:true});
+        setLoadingFields({ loading: false, blur: true });
         try {
             customer.userId = userInfo.userId;
-            if(customer.id!==0 && !isEmpty(customer.id)){
-                const {status} = await EditCustomerApi(customer);
+            if (customer.id !== 0 && !isEmpty(customer.id)) {
+                const { status } = await EditCustomerApi(customer);
+                console.log(status);
                 if (status === 200) {
                     successMessage("اطلاعات مشتری با موفقیت ویرایش شد.");
                 }
             }
-            else{
+            else {
                 const data = await customerRegisterApi(customer);
-                const {status} = data;
+                const { status } = data;
                 if (status === 201) {
                     //باید id ارسال شود
                     // setCustomerInfo("234234");
@@ -71,28 +72,28 @@ const CustomerContext = ({ children }) => {
                 }
             }
             getNewCustomer();
-            setLoadingFields({loading: false, blur:false});
+            setLoadingFields({ loading: false, blur: false });
         } catch (ex) {
-            errorMessage(ex.message ? ex.message: "مشکلی در ثبت اطلاعات رخ داده است.");
-            setLoadingFields({loading: false, blur:false});
+            errorMessage(ex.message ? ex.message : "مشکلی در ثبت اطلاعات رخ داده است.");
+            setLoadingFields({ loading: false, blur: false });
         }
     };
 
 
-    const handleDeleteCustomer = async customer =>{
-        setLoadingFields({loading: true, blur:true});
+    const handleDeleteCustomer = async customer => {
+        setLoadingFields({ loading: true, blur: true });
         try {
 
             const data = await DeleteCustomerApi(customer._id);
-            const {status} = data;
+            const { status } = data;
             if (status === 200) {
                 getNewCustomer();
                 successMessage(`اطلاعات  ${customer.fullname} با موفقیت حذف گردید.`);
             }
-            setLoadingFields({loading: false, blur:false});
+            setLoadingFields({ loading: false, blur: false });
         } catch (ex) {
-            errorMessage(ex.message ? ex.message: "مشکلی در حذف اطلاعات رخ داده است.");
-            setLoadingFields({loading: false, blur:false});
+            errorMessage(ex.message ? ex.message : "مشکلی در حذف اطلاعات رخ داده است.");
+            setLoadingFields({ loading: false, blur: false });
         }
     }
 

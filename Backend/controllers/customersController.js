@@ -38,7 +38,10 @@ exports.handleRegisterCustomers = async (req, res, next) => {
              ...req.body,
              user: req.user.id,
          });*/
-        messagetxt = "User created.";
+        // console.log(res.insertId);
+        //messagetxt = "User created.";records[0]._id
+        // messagetxt = cust.insertedId;
+        messagetxt = res.insertedId;
         res.status(201).json({ message: messagetxt });
         // }
 
@@ -66,19 +69,19 @@ exports.editCustomer = async (req, res, next) => {
         const { fullname, tel, address, desc, userId } = req.body;
         // const userCount = await Customers.findOne({ fullname });
         // let customers; 
-        if (customer.user.toString() != userId) {
-            res.status(403).json({ message: "عدم دسترسی مجاز"});
+        /*if (customer.user.toString() != userId) {
+            res.status(403).json({ message: "عدم دسترسی مجاز" });
 
-        } else {
-            
-            customer.fullname = fullname;
-            customer.tel = tel;
-            customer.address = address;
-            customer.desc = desc;
+        } else {*/
 
-            await customer.save();
-            res.status(200).json({ message: "اطلاعات کاربر با موفقیت ویرایش گردید." });
-        }
+        customer.fullname = fullname;
+        customer.tel = tel;
+        customer.address = address;
+        customer.desc = desc;
+
+        await customer.save();
+        res.status(200).json({ message: "اطلاعات کاربر با موفقیت ویرایش گردید." });
+        //  }
 
 
     } catch (err) {
