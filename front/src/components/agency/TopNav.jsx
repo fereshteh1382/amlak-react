@@ -22,7 +22,7 @@ const AgencyTopNav = () =>{
                             <div className="col-sm-6 col-xs-12">
                                 <div className="clientarea">
                                     <div className="loggein ">
-                                        <Link href="agency/logout"><FontAwesomeIcon icon={faSignOut} className="pl-1" />خروج</Link>
+                                        <Link to="/agency/logout"><FontAwesomeIcon icon={faSignOut} className="pl-1" />خروج</Link>
                                     </div>
                                 </div>
                             </div>

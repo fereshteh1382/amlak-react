@@ -1,4 +1,5 @@
 import jwt_decode from 'jwt-decode';
+import { isEmpty } from 'lodash';
 
 export const decodeToken = (token) => {
     return jwt_decode(token, { complete: true });
@@ -59,6 +60,10 @@ export const getUserForAxios = () => {
     return userInfo;
 };
 
+export const existUser = () =>{
+    const user = getUserInfoByToken();
+    return user && user.mobile && !isEmpty(user.mobile);
+}
 
 export const ClearUserTokens = () => {
     localStorage.removeItem("UserToken");

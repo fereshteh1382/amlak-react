@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faUserPlus } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +10,13 @@ import { Alert } from "react-bootstrap";
 
 const CustomersWrapper = ({mode}) =>{
     const csContext = useContext(CustomerStateContext);
-    const {newCustomers } = csContext;
+    const {newCustomers, customerInfo, handleDeleteCustomer } = csContext;
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const handleAccept = () =>{handleDeleteCustomer(customerInfo); handleClose()};
+
     return(
         <>
             <Link to="/agency/customers/new" className="btn btn-success">
@@ -21,7 +27,8 @@ const CustomersWrapper = ({mode}) =>{
             {newCustomers.length>0 ? 
             <>
                 <Search />
-                <Customers customers={newCustomers} />
+                <Customers customers={newCustomers} showModal={show} handleAccept={handleAccept} 
+                    handleClose={handleClose} handleShow={handleShow} />
             </> : 
             <Alert variant="info" >تاکنون اطلاعاتی از مشتریان شما ثبت نشده است</Alert>
             }

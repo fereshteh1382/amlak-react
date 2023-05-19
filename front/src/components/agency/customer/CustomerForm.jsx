@@ -8,22 +8,25 @@ import { isEmpty } from "lodash";
 const CustomerForm = () =>{
     const urlParams = useParams();
     const csContext = useContext(CustomerStateContext);
-    const { customerInfo, customerId,setCustomerId, condition,loadingFields,handleCustomerRegister } = csContext;
+    const { defaultVal, customerInfo, setCustomerInfo, condition,loadingFields,handleCustomerRegister } = csContext;
     const { register, handleSubmit, formState:{errors}, setValue } = useForm();
     
-    useEffect(() => {
-        if(urlParams.customerid && !isEmpty(urlParams.customerid)){
-            setCustomerId(urlParams.customerid);
+    useEffect(()=>{
+        let customer = customerInfo;
+        if(!urlParams.customerid || isEmpty(urlParams.customerid)){
+            setCustomerInfo({});
+            customer = defaultVal;
         }
-        if(customerInfo.id){
-            setValue("id",customerInfo.id);
-            setValue("fullname",customerInfo.fullname);
-            setValue("tel",customerInfo.tel);
-            setValue("address",customerInfo.address);
-            setValue("desc",customerInfo.desc);
-        }else
-            setValue("id",customerId);
-    }, [customerId, customerInfo]);
+        setValue("id",customer._id);
+        setValue("fullname",customer.fullname);
+        setValue("tel",customer.tel);
+        setValue("address",customer.address);
+        setValue("desc",customer.desc);
+        
+    }, []);
+    useEffect(()=>{
+        setValue("id",customerInfo._id);
+    }, [customerInfo._id]);
 
     const ClassName = {
         form: `my-4 mx-auto ${loadingFields.loading ? "background-blur disabled":""}`,
@@ -38,7 +41,7 @@ const CustomerForm = () =>{
                 <div className="account-information">
                     <form className={ClassName.form} onSubmit={handleSubmit(handleCustomerRegister)}>
                         <input type="hidden"
-                            {...register("id", { value: customerId })} />
+                            {...register("id")} />
                         <div className="form-group row">
                             <label htmlFor="fullname" className="col-md-2">نام و نام خاانوادگی</label>
                             <div className="col-md-10">
@@ -46,7 +49,7 @@ const CustomerForm = () =>{
                                     type="text" 
                                     className="form-control" 
                                     placeholder="نام و نام خانوادگی"
-                                    {...register('fullname',{...condition.fullname, value: customerInfo.fullname})} />
+                                    {...register('fullname',{...condition.fullname})} />
                                 {errors.fullname && checkError(errors.fullname.type,"نام و نام خانوادگی",condition.fullname)}
                             </div>
                         </div>
@@ -57,7 +60,7 @@ const CustomerForm = () =>{
                                 <input 
                                     type="text" 
                                     className="form-control"
-                                    {...register('tel', {...condition.tel, value: customerInfo.tel})} />
+                                    {...register('tel', {...condition.tel})} />
                                 {errors.tel && checkError(errors.tel.type,"تلفن",condition.tel)}
                             </div>    
                         </div>
@@ -69,7 +72,7 @@ const CustomerForm = () =>{
                                 <textarea 
                                     className="form-control" 
                                     rows="2" 
-                                    {...register('address',{...condition.address, value: customerInfo.address})} ></textarea>
+                                    {...register('address',{...condition.address})} ></textarea>
                                 {errors.address && checkError(errors.address.type,"آدرس",condition.address)}
                             </div>    
                         </div>
