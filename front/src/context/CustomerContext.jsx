@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { withRouter } from "../components/main/withRouter ";
 // import { withRouter } from "react-router";
-import { customerRegisterApi, EditCustomerApi, getNewCustomersApi } from "../services/agencyCustomerAPIs";
+import { customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi } from "../services/agencyCustomerAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { CustomerStateContext } from "./CustomerStateContext";
@@ -10,16 +10,11 @@ import { CustomerStateContext } from "./CustomerStateContext";
 
 const CustomerContext = ({ children }) => {
     const [newCustomers, setNewCustomers] = useState([]);
-    const [customerId, setCustomerId] = useState(0);
     const [customerInfo, setCustomerInfo] = useState({});
     const [loadingFields, setLoadingFields] = useState({loading: false, blur:false});
     const userInfo = getUserForAxios();
 
     useEffect(() => {
-        if(customerId!==0 && !isEmpty(customerId)){
-            //api برای اطلاعات یک مشتری
-            setCustomerInfo({id: customerId, fullname:"test", tel:"4728374", address:"qqq", desc:"oooo"});
-        }
         const fetchInfo = async () => {
             try {
                 getNewCustomer();
@@ -28,7 +23,10 @@ const CustomerContext = ({ children }) => {
             }
         };
         fetchInfo();
-    }, [customerId]);
+    }, []);
+
+    const defaultVal = {_id: 0, fullname:"", tel:"", address:"", desc:""};
+    
 
     const condition = {
         fullname: { required: true, minLength: 5, },
@@ -49,7 +47,10 @@ const CustomerContext = ({ children }) => {
 
     }
 
-
+    /**
+     * insert or update Customer
+     * @param object customer 
+     */
     const handleCustomerRegister = async customer => {
         setLoadingFields({loading: false, blur:true});
         try {
@@ -65,7 +66,7 @@ const CustomerContext = ({ children }) => {
                 const {status} = data;
                 if (status === 201) {
                     //باید id ارسال شود
-                    setCustomerId("234234");
+                    // setCustomerInfo("234234");
                     successMessage("اطلاعات مشتری با موفقیت ثبت شد.");
                 }
             }
@@ -78,16 +79,34 @@ const CustomerContext = ({ children }) => {
     };
 
 
+    const handleDeleteCustomer = async customer =>{
+        setLoadingFields({loading: true, blur:true});
+        try {
+
+            const data = await DeleteCustomerApi(customer._id);
+            const {status} = data;
+            if (status === 200) {
+                getNewCustomer();
+                successMessage(`اطلاعات  ${customer.fullname} با موفقیت حذف گردید.`);
+            }
+            setLoadingFields({loading: false, blur:false});
+        } catch (ex) {
+            errorMessage(ex.message ? ex.message: "مشکلی در حذف اطلاعات رخ داده است.");
+            setLoadingFields({loading: false, blur:false});
+        }
+    }
+
     return (
         <CustomerStateContext.Provider
             value={{
+                defaultVal,
                 newCustomers,
-                customerId,
                 customerInfo,
                 condition,
                 loadingFields,
                 handleCustomerRegister,
-                setCustomerId,
+                handleDeleteCustomer,
+                setCustomerInfo,
             }}
         >
             {children}
