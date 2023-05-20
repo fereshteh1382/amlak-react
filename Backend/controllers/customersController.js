@@ -101,7 +101,7 @@ exports.getAllCustomers = async (req, res, next) => {
             user: req.params.userid,
         }).countDocuments();
 
-        const allcustomers = await Customers.find({ user: req.params.user })
+        const allcustomers = await Customers.find({ user: req.params.userid })
             .sort({
                 createdAt: "desc",
             });
