@@ -134,7 +134,6 @@ const CustomerContext = ({ children }) => {
 
     const handleSendSms  = async messageBody =>{
         try {
-             console.log(customerInfo, "asdsad")
             const data = await SendSmsToCustomerApi({customernubmers: customerInfo.tel, message: messageBody});
             const {status} = data;
             if (status === 201) {
