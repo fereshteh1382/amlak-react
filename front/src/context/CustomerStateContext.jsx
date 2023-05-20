@@ -6,9 +6,27 @@ export const CustomerStateContext = createContext({
     customerInfo:{},
     condition: {},
     loadingFields: {},
+
     handleCustomerRegister: ()=>{},
     handleDeleteCustomer: ()=>{},
     setCustomerId: () =>{},
     setCustomerInfo: () =>{},
-    
+
+    DeleteModalShow: false,
+    handleDeleteAccept: ()=>{},
+    handleDeleteClose: ()=>{}, 
+    handleDeleteShow: ()=>{},
+
+    reserveModalShow: false,
+    reserveContent: "list",
+    handleReserveShow: ()=>{},
+    handleReserveClose: ()=>{},
+    setReserveContent: ()=>{},
+    handleRezervDateForCustomers: ()=>{},
+
+    SmsModalShow: false,
+    handleSmsClose: ()=>{},
+    handleSmsShow: ()=>{},
+    handleSendSms: ()=>{},
+
 });

@@ -24,3 +24,10 @@ export const EditCustomerApi = customerInfo => {
     return http.post(`${config.localapi}/customers/edit-customers/${customerInfo.id}`, JSON.stringify(customerInfo));
 };
 
+export const RezervDateForCustomerApi = customer => {
+    return http.post(
+        `${config.localapi}/customers/add-rezerv`,
+        JSON.stringify(customer)
+    );
+};
+

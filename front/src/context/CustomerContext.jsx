@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { withRouter } from "../components/main/withRouter ";
 // import { withRouter } from "react-router";
-import { customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi } from "../services/agencyCustomerAPIs";
+import { customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi } from "../services/agencyCustomerAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { CustomerStateContext } from "./CustomerStateContext";
@@ -11,8 +11,27 @@ import { CustomerStateContext } from "./CustomerStateContext";
 const CustomerContext = ({ children }) => {
     const [newCustomers, setNewCustomers] = useState([]);
     const [customerInfo, setCustomerInfo] = useState({});
-    const [loadingFields, setLoadingFields] = useState({ loading: false, blur: false });
+    const [loadingFields, setLoadingFields] = useState({loading: false, blur:false});
     const userInfo = getUserForAxios();
+
+
+    /** delete modal */
+    const [DeleteModalShow, setDeleteModalShow] = useState(false);
+    const handleDeleteClose = () => setDeleteModalShow(false);
+    const handleDeleteShow = () => setDeleteModalShow(true);
+    const handleDeleteAccept = () =>{handleDeleteCustomer(customerInfo); handleDeleteClose()};
+
+    /** delete modal */
+    const [SmsModalShow, setSmsModalShow] = useState(false);
+    const handleSmsClose = () => setSmsModalShow(false);
+    const handleSmsShow = () => setSmsModalShow(true);
+
+    /** delete reserve */
+    const [reserveContent, setReserveContent] = useState("list");
+    const [reserveModalShow, setReserveModalShow] = useState(false);
+    const handleReserveClose = () => setReserveModalShow(false);
+    const handleReserveShow = () => setReserveModalShow(true);
+
 
     useEffect(() => {
         const fetchInfo = async () => {
@@ -25,8 +44,8 @@ const CustomerContext = ({ children }) => {
         fetchInfo();
     }, []);
 
-    const defaultVal = { _id: 0, fullname: "", tel: "", address: "", desc: "" };
-
+    const defaultVal = {_id: 0, fullname:"", tel:"", address:"", desc:""};
+    
 
     const condition = {
         fullname: { required: true, minLength: 5, },
@@ -36,12 +55,12 @@ const CustomerContext = ({ children }) => {
     }
 
     /************************************************* */
-    const getNewCustomer = async () => {
+    const getNewCustomer = async () =>{
         const customerInfo = await getNewCustomersApi(userInfo.userId);
         if (customerInfo.data && customerInfo.data.allcustomers) {
             setNewCustomers(customerInfo.data.allcustomers);
         }
-        else {
+        else{
             setNewCustomers([]);
         }
 
@@ -52,19 +71,18 @@ const CustomerContext = ({ children }) => {
      * @param object customer 
      */
     const handleCustomerRegister = async customer => {
-        setLoadingFields({ loading: false, blur: true });
+        setLoadingFields({loading: false, blur:true});
         try {
             customer.userId = userInfo.userId;
-            if (customer.id !== 0 && !isEmpty(customer.id)) {
-                const { status } = await EditCustomerApi(customer);
-                console.log(status);
+            if(customer.id!==0 && !isEmpty(customer.id)){
+                const {status} = await EditCustomerApi(customer);
                 if (status === 200) {
                     successMessage("اطلاعات مشتری با موفقیت ویرایش شد.");
                 }
             }
-            else {
+            else{
                 const data = await customerRegisterApi(customer);
-                const { status } = data;
+                const {status} = data;
                 if (status === 201) {
                     //باید id ارسال شود
                     // setCustomerInfo("234234");
@@ -72,30 +90,62 @@ const CustomerContext = ({ children }) => {
                 }
             }
             getNewCustomer();
-            setLoadingFields({ loading: false, blur: false });
+            setLoadingFields({loading: false, blur:false});
         } catch (ex) {
-            errorMessage(ex.message ? ex.message : "مشکلی در ثبت اطلاعات رخ داده است.");
-            setLoadingFields({ loading: false, blur: false });
+            errorMessage(ex.message ? ex.message: "مشکلی در ثبت اطلاعات رخ داده است.");
+            setLoadingFields({loading: false, blur:false});
         }
     };
 
 
-    const handleDeleteCustomer = async customer => {
-        setLoadingFields({ loading: true, blur: true });
+    const handleDeleteCustomer = async customer =>{
+        setLoadingFields({loading: true, blur:true});
         try {
 
             const data = await DeleteCustomerApi(customer._id);
-            const { status } = data;
+            const {status} = data;
             if (status === 200) {
                 getNewCustomer();
                 successMessage(`اطلاعات  ${customer.fullname} با موفقیت حذف گردید.`);
             }
-            setLoadingFields({ loading: false, blur: false });
+            setLoadingFields({loading: false, blur:false});
         } catch (ex) {
-            errorMessage(ex.message ? ex.message : "مشکلی در حذف اطلاعات رخ داده است.");
-            setLoadingFields({ loading: false, blur: false });
+            errorMessage(ex.message ? ex.message: "مشکلی در حذف اطلاعات رخ داده است.");
+            setLoadingFields({loading: false, blur:false});
         }
     }
+
+    const handleRezervDateForCustomers  = async customerReservation =>{
+        setLoadingFields({loading: true, blur:true});
+        try {
+             
+            const data = await RezervDateForCustomerApi({...customerReservation, user: userInfo.userId, customerid:customerInfo._id});
+            const {status} = data;
+            if (status === 201) {
+                successMessage(`اطلاعات رزرو با موفقیت ثبت گردید.`);
+                handleReserveClose();
+            }
+            setLoadingFields({loading: false, blur:false});
+        } catch (ex) {
+            errorMessage(ex.message ? ex.message: "مشکلی در ثبت اطلاعات رخ داده است.");
+            setLoadingFields({loading: false, blur:false});
+        }
+    }
+
+    const handleSendSms  = async customerReservation =>{
+        try {
+             
+            // const data = await RezervDateForCustomerApi({...customerReservation, user: userInfo.userId, customerid:customerInfo._id});
+            // const {status} = data;
+            // if (status === 201) {
+            //     successMessage(`پیامک با موفقیت ارسال گردید.`);
+            //     handleReserveClose();
+            // }
+        } catch (ex) {
+            errorMessage(ex.message ? ex.message: "مشکلی در ثبت ارسال پیامک رخ داده است.");
+        }
+    }
+
 
     return (
         <CustomerStateContext.Provider
@@ -105,9 +155,27 @@ const CustomerContext = ({ children }) => {
                 customerInfo,
                 condition,
                 loadingFields,
+
+                DeleteModalShow,
+                reserveModalShow,
+                reserveContent,
+
                 handleCustomerRegister,
                 handleDeleteCustomer,
                 setCustomerInfo,
+
+                handleDeleteAccept, 
+                handleDeleteClose, 
+                handleDeleteShow,
+                handleReserveShow,
+                handleReserveClose,
+                setReserveContent, 
+                handleRezervDateForCustomers,
+
+                SmsModalShow,
+                handleSmsClose,
+                handleSmsShow,
+                handleSendSms
             }}
         >
             {children}

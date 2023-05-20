@@ -10,13 +10,8 @@ import { Alert } from "react-bootstrap";
 
 const CustomersWrapper = ({mode}) =>{
     const csContext = useContext(CustomerStateContext);
-    const {newCustomers, customerInfo, handleDeleteCustomer } = csContext;
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const handleAccept = () =>{handleDeleteCustomer(customerInfo); handleClose()};
-
+    const {newCustomers} = csContext;
+   
     return(
         <>
             <Link to="/agency/customers/new" className="btn btn-success">
@@ -27,8 +22,7 @@ const CustomersWrapper = ({mode}) =>{
             {newCustomers.length>0 ? 
             <>
                 <Search />
-                <Customers customers={newCustomers} showModal={show} handleAccept={handleAccept} 
-                    handleClose={handleClose} handleShow={handleShow} />
+                <Customers customers={newCustomers}  />
             </> : 
             <Alert variant="info" >تاکنون اطلاعاتی از مشتریان شما ثبت نشده است</Alert>
             }

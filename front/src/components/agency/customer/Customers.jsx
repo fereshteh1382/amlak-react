@@ -1,9 +1,20 @@
 import Customer from "./Customer";
 import {Button, Table} from 'react-bootstrap'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DeleteModal from "../../main/DeleteModal";
-const Customers = ({customers, showModal, handleAccept, handleClose, handleShow}) =>{
+import ReserveModal from "./ReserveModal";
+import { CustomerStateContext } from "../../../context/CustomerStateContext";
+import SmsBoxModal from "../../main/SmsBoxModal";
+const Customers = ({customers}) =>{
     
+    const csContext = useContext(CustomerStateContext);
+    const {
+        DeleteModalShow, handleDeleteAccept, handleDeleteClose, 
+        reserveModalShow, reserveContent,  handleReserveClose,
+        SmsModalShow, handleSmsClose, handleSendSms
+    
+    
+    } = csContext;
 
     return(
         <>
@@ -14,18 +25,21 @@ const Customers = ({customers, showModal, handleAccept, handleClose, handleShow}
                         <th>تلفن</th>
                         <th>آدرس</th>
                         <th>توضیحات</th>
+                        <th>رزرو وقت</th>
                         <th>عملیات</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         customers.map((item, index) => (
-                            <Customer key={index} cutomerInfo={item} setModal={handleShow} />
+                            <Customer key={index} cutomerInfo={item}  />
                         ))
                     }
                 </tbody>
             </Table>
-            <DeleteModal show={showModal} handleAccept={handleAccept} handleClose={handleClose} />
+            <DeleteModal show={DeleteModalShow} handleAccept={handleDeleteAccept} handleClose={handleDeleteClose} />
+            <ReserveModal show={reserveModalShow} list={reserveContent} handleClose={handleReserveClose} />
+            <SmsBoxModal show={SmsModalShow} handleSendSms={handleSendSms} handleClose={handleSmsClose} />
         </>
     )
 }
