@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { withRouter } from "../components/main/withRouter ";
 // import { withRouter } from "react-router";
-import { customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi } from "../services/agencyCustomerAPIs";
+import { customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi, SendSmsToCustomerApi } from "../services/agencyCustomerAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { CustomerStateContext } from "./CustomerStateContext";
@@ -132,15 +132,15 @@ const CustomerContext = ({ children }) => {
         }
     }
 
-    const handleSendSms  = async customerReservation =>{
+    const handleSendSms  = async messageBody =>{
         try {
-             
-            // const data = await RezervDateForCustomerApi({...customerReservation, user: userInfo.userId, customerid:customerInfo._id});
-            // const {status} = data;
-            // if (status === 201) {
-            //     successMessage(`پیامک با موفقیت ارسال گردید.`);
-            //     handleReserveClose();
-            // }
+             console.log(customerInfo, "asdsad")
+            const data = await SendSmsToCustomerApi({customernubmers: customerInfo.tel, message: messageBody});
+            const {status} = data;
+            if (status === 201) {
+                successMessage(`پیامک با موفقیت ارسال گردید.`);
+                handleReserveClose();
+            }
         } catch (ex) {
             errorMessage(ex.message ? ex.message: "مشکلی در ثبت ارسال پیامک رخ داده است.");
         }
