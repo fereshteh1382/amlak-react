@@ -1,8 +1,6 @@
 const { Router } = require("express");
 
 const customersController = require("../controllers/customersController");
-const rezervController = require("../controllers/rezervController");
-
 const router = new Router();
 
 
@@ -10,7 +8,8 @@ router.post("/add-customers", customersController.handleRegisterCustomers);
 router.get("/all-customers/:userid", customersController.getAllCustomers);
 router.get("/delete-customers/:id", customersController.deleteCustomer);
 router.post("/edit-customers/:id", customersController.editCustomer);
-router.post("/sms-customers/:customernubmers", customersController.smsCustomer);
-router.post("/add-rezerv", rezervController.handleRezervCustomers);
+router.get("/single-customer/:id", customersController.getSingleCustomer);
+router.post("/sms-customers/:userid/:customernumbers/:message", customersController.smsCustomer);
+router.post("/sms-allcustomers/:userid/:message", customersController.smstoAllCustomers);
 
 module.exports = router;

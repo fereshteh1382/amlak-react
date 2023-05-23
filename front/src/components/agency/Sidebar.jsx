@@ -34,11 +34,11 @@ const AgencySidebar = () => {
                         <li><NavLink to="/agency/estate" className={({ isActive }) => isActive ? "active" : ""}>  ملک ها   </NavLink></li>
                     </ul>
                 </div>
-                <div className="inner">
+                {/*  <div className="inner">
                     <ul>
                         <li><NavLink to="/agency/contract" className={({ isActive }) => isActive ? "active" : ""}> قراردادها  </NavLink></li>
                     </ul>
-                </div>
+                </div> */}
                 <div className="inner">
                     <ul><li><NavLink to="/agency/logout"> خروج از حساب کاربری </NavLink></li></ul>
                 </div>

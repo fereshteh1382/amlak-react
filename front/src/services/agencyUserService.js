@@ -40,24 +40,27 @@ export const RezervCustomers = customer => {
     );
 };
 
-/*export const SendSmsCustomers = customernubmers => {
-    return http.post(
-        `${config.localapi}/customers/sms-customers/${customernubmers}`,
-        JSON.stringify(customer)
-    );
-};
-*/
+/*********************** */
 
-export const RegisterCustomersFile = customerfile => {
+export const AddRealty = realty => {
     return http.post(
-        `${config.localapi}/customersfile/add-customersfile`,
-        JSON.stringify(customerfile)
+        `${config.localapi}/realty/add-realty`,
+        JSON.stringify(realty)
     );
 };
 
-export const RegisterImage = img => {
+export const getAllPublicRealty = realty => {
+    return http.get(`${config.localapi}/realty/all-publicrealty`);
+};
+
+export const getAllUserRealty = realty => {
+    return http.get(`${config.localapi}/realty/all-userrealty/${user}`);
+};
+
+/******************************** */
+/*export const RegisterImage = img => {
     return http.post(
         `${config.localapi}/customersfile/image-upload`,
         JSON.stringify(img)
     );
-};
+};*/

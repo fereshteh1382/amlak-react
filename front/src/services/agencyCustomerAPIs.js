@@ -31,9 +31,24 @@ export const RezervDateForCustomerApi = customer => {
     );
 };
 
-export const SendSmsToCustomerApi = smsInfo => {
+/*export const SendSmsToCustomerApi = smsInfo => {
     return http.post(
         `${config.localapi}/customers/sms-customers/${smsInfo.customernubmers}`,
         JSON.stringify(smsInfo.message)
     );
+};*/
+export const SendSmsToCustomerApi = smsInfo => {
+    return http.post(
+        `${config.localapi}/customers/sms-customers/${smsInfo.userId}/${smsInfo.customernumbers}`,
+        JSON.stringify(smsInfo.message)
+    );
+};
+export const SendSmsToAllCustomerApi = smsInfo => {
+    return http.post(
+        `${config.localapi}/customers/sms-allcustomers/${smsInfo.userId}`,
+        JSON.stringify(smsInfo.message)
+    );
+};
+export const SingleCustomerApi = customerId => {
+    return http.get(`${config.localapi}/customers/single-customer/${customerId}`);
 };

@@ -73,42 +73,11 @@ app.use("/", require("./routes/users"));
 app.use("/admin", require("./routes/users"));
 app.use("/users", require("./routes/users"));
 app.use("/dashboard", require("./routes/dashboard"));
-app.use("/posts", require("./routes/dashboard"));
+//app.use("/posts", require("./routes/dashboard"));
 app.use("/customers", require("./routes/customers"));
-app.use("/customersfile", require("./routes/customersfile"));
+app.use("/realty", require("./routes/realty"));
 //* 404 Page
 app.use(require("./controllers/errorController").get404);
-
-/*const Nexmo = require('nexmo');
-const nexmo = new Nexmo({
-    apiKey: YOUR_API_KEY,
-    apiSecret: YOUR_API_SECRET
-});
-app.post('/send', (req, res) => {
-    // Send SMS
-    nexmo.message.sendSms(
-        config.number, req.body.toNumber, req.body.message, { type: 'unicode' },
-        (err, responseData) => { if (responseData) { console.log(responseData) } }
-    );
-});*/
-/*const TrezSmsClient = require("trez-sms-client");
-const client = new TrezSmsClient("fereshteh1382", "123456");*/
-
-/*var Kavenegar = require('kavenegar');
-var api = Kavenegar.KavenegarApi({
-    apikey: '"{7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D}'
-});
-api.Send({
-    message: "وب سرویس تخصصی کاوه نگار",
-    sender: "10004346",
-    receptor: "09156195942"
-},
-    function (response, status) {
-        console.log(response);
-        console.log(status);
-    });
-*/
-
 
 const PORT = process.env.PORT || 4000;
 

@@ -11,7 +11,7 @@ import { CustomerStateContext } from "./CustomerStateContext";
 const CustomerContext = ({ children }) => {
     const [newCustomers, setNewCustomers] = useState([]);
     const [customerInfo, setCustomerInfo] = useState({});
-    const [loadingFields, setLoadingFields] = useState({loading: false, blur:false});
+    const [loadingFields, setLoadingFields] = useState({ loading: false, blur: false });
     const userInfo = getUserForAxios();
 
 
@@ -19,7 +19,7 @@ const CustomerContext = ({ children }) => {
     const [DeleteModalShow, setDeleteModalShow] = useState(false);
     const handleDeleteClose = () => setDeleteModalShow(false);
     const handleDeleteShow = () => setDeleteModalShow(true);
-    const handleDeleteAccept = () =>{handleDeleteCustomer(customerInfo); handleDeleteClose()};
+    const handleDeleteAccept = () => { handleDeleteCustomer(customerInfo); handleDeleteClose() };
 
     /** delete modal */
     const [SmsModalShow, setSmsModalShow] = useState(false);
@@ -44,8 +44,8 @@ const CustomerContext = ({ children }) => {
         fetchInfo();
     }, []);
 
-    const defaultVal = {_id: 0, fullname:"", tel:"", address:"", desc:""};
-    
+    const defaultVal = { _id: 0, fullname: "", tel: "", address: "", desc: "" };
+
 
     const condition = {
         fullname: { required: true, minLength: 5, },
@@ -55,12 +55,12 @@ const CustomerContext = ({ children }) => {
     }
 
     /************************************************* */
-    const getNewCustomer = async () =>{
+    const getNewCustomer = async () => {
         const customerInfo = await getNewCustomersApi(userInfo.userId);
         if (customerInfo.data && customerInfo.data.allcustomers) {
             setNewCustomers(customerInfo.data.allcustomers);
         }
-        else{
+        else {
             setNewCustomers([]);
         }
 
@@ -71,18 +71,18 @@ const CustomerContext = ({ children }) => {
      * @param object customer 
      */
     const handleCustomerRegister = async customer => {
-        setLoadingFields({loading: false, blur:true});
+        setLoadingFields({ loading: false, blur: true });
         try {
             customer.userId = userInfo.userId;
-            if(customer.id!==0 && !isEmpty(customer.id)){
-                const {status} = await EditCustomerApi(customer);
+            if (customer.id !== 0 && !isEmpty(customer.id)) {
+                const { status } = await EditCustomerApi(customer);
                 if (status === 200) {
                     successMessage("اطلاعات مشتری با موفقیت ویرایش شد.");
                 }
             }
-            else{
+            else {
                 const data = await customerRegisterApi(customer);
-                const {status} = data;
+                const { status } = data;
                 if (status === 201) {
                     //باید id ارسال شود
                     // setCustomerInfo("234234");
@@ -90,59 +90,60 @@ const CustomerContext = ({ children }) => {
                 }
             }
             getNewCustomer();
-            setLoadingFields({loading: false, blur:false});
+            setLoadingFields({ loading: false, blur: false });
         } catch (ex) {
-            errorMessage(ex.message ? ex.message: "مشکلی در ثبت اطلاعات رخ داده است.");
-            setLoadingFields({loading: false, blur:false});
+            errorMessage(ex.message ? ex.message : "مشکلی در ثبت اطلاعات رخ داده است.");
+            setLoadingFields({ loading: false, blur: false });
         }
     };
 
 
-    const handleDeleteCustomer = async customer =>{
-        setLoadingFields({loading: true, blur:true});
+    const handleDeleteCustomer = async customer => {
+        setLoadingFields({ loading: true, blur: true });
         try {
 
             const data = await DeleteCustomerApi(customer._id);
-            const {status} = data;
+            const { status } = data;
             if (status === 200) {
                 getNewCustomer();
                 successMessage(`اطلاعات  ${customer.fullname} با موفقیت حذف گردید.`);
             }
-            setLoadingFields({loading: false, blur:false});
+            setLoadingFields({ loading: false, blur: false });
         } catch (ex) {
-            errorMessage(ex.message ? ex.message: "مشکلی در حذف اطلاعات رخ داده است.");
-            setLoadingFields({loading: false, blur:false});
+            errorMessage(ex.message ? ex.message : "مشکلی در حذف اطلاعات رخ داده است.");
+            setLoadingFields({ loading: false, blur: false });
         }
     }
 
-    const handleRezervDateForCustomers  = async customerReservation =>{
-        setLoadingFields({loading: true, blur:true});
+    const handleRezervDateForCustomers = async customerReservation => {
+        setLoadingFields({ loading: true, blur: true });
         try {
-             
-            const data = await RezervDateForCustomerApi({...customerReservation, user: userInfo.userId, customerid:customerInfo._id});
-            const {status} = data;
+
+            const data = await RezervDateForCustomerApi({ ...customerReservation, user: userInfo.userId, customerid: customerInfo._id });
+            const { status } = data;
             if (status === 201) {
                 successMessage(`اطلاعات رزرو با موفقیت ثبت گردید.`);
                 handleReserveClose();
             }
-            setLoadingFields({loading: false, blur:false});
+            setLoadingFields({ loading: false, blur: false });
         } catch (ex) {
-            errorMessage(ex.message ? ex.message: "مشکلی در ثبت اطلاعات رخ داده است.");
-            setLoadingFields({loading: false, blur:false});
+            errorMessage(ex.message ? ex.message : "مشکلی در ثبت اطلاعات رخ داده است.");
+            setLoadingFields({ loading: false, blur: false });
         }
     }
 
-    const handleSendSms  = async messageBody =>{
+    const handleSendSms = async messageBody => {
         try {
-             console.log(customerInfo, "asdsad")
-            const data = await SendSmsToCustomerApi({customernubmers: customerInfo.tel, message: messageBody});
-            const {status} = data;
+            //console.log(customerInfo, "asdsad")
+            const data = await SendSmsToCustomerApi({ customernumbers: customerInfo.tel, userId: userInfo.userId, message: messageBody });
+            const { status } = data;
+            console.log(data);
             if (status === 201) {
                 successMessage(`پیامک با موفقیت ارسال گردید.`);
                 handleReserveClose();
             }
         } catch (ex) {
-            errorMessage(ex.message ? ex.message: "مشکلی در ثبت ارسال پیامک رخ داده است.");
+            errorMessage(ex.message ? ex.message : "مشکلی در ثبت ارسال پیامک رخ داده است.");
         }
     }
 
@@ -164,12 +165,12 @@ const CustomerContext = ({ children }) => {
                 handleDeleteCustomer,
                 setCustomerInfo,
 
-                handleDeleteAccept, 
-                handleDeleteClose, 
+                handleDeleteAccept,
+                handleDeleteClose,
                 handleDeleteShow,
                 handleReserveShow,
                 handleReserveClose,
-                setReserveContent, 
+                setReserveContent,
                 handleRezervDateForCustomers,
 
                 SmsModalShow,

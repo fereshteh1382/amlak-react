@@ -3,28 +3,26 @@ const mongoose = require("mongoose");
 
 //const { schema } = require("./secure/customersfileValidation");
 
-const customersfileSchema = new mongoose.Schema({
+const realtySchema = new mongoose.Schema({
 
     category: {
         type: String,
         required: true,
         trim: true,
-        minlength: 5,
-        maxlength: 100,
+        /* minlength: 5,
+         maxlength: 100,*/
     },
     city: {
         type: String,
         required: true,
         trim: true,
-        minlength: 5,
-        maxlength: 100,
+
     },
     range: {
         type: String,
         required: true,
         trim: true,
-        minlength: 5,
-        maxlength: 100,
+
     },
     title: {
         type: String,
@@ -37,20 +35,19 @@ const customersfileSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 5,
-        maxlength: 100,
+
     },
     images: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
+        /*type: mongoose.Schema.Types.ObjectId,
         ref: 'Multimedia',
-        required: true
+        required: true*/
     },
     price: {
         type: String,
         required: true,
         trim: true,
-        minlength: 5,
-        maxlength: 100,
+
     },
     rooms: {
         type: String,
@@ -99,9 +96,9 @@ const customersfileSchema = new mongoose.Schema({
     },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
-        type: String,
+
         ref: 'Customers',
-        required: true
+
     },
 
     createdAt: {
@@ -130,4 +127,4 @@ const customersfileSchema = new mongoose.Schema({
     return schema.validate(body, { abortEarly: false });
 };*/
 
-module.exports = mongoose.model("Customersfile", customersfileSchema);
+module.exports = mongoose.model("Realty", realtySchema);

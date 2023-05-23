@@ -1,8 +1,9 @@
-const Yup = require("yup");
+//const Yup = require("yup");
 const Customers = require("../models/Customers");
-const { formatDate } = require("../utils/jalali");
-const { truncate } = require("../utils/helpers");
+//const { formatDate } = require("../utils/jalali");
+//const { truncate } = require("../utils/helpers");
 //const { sendEmail } = require("../utils/mailer");
+const User = require("../models/User");
 
 exports.handleRegisterCustomers = async (req, res, next) => {
     // console.log(req);
@@ -92,7 +93,9 @@ exports.editCustomer = async (req, res, next) => {
     }
 };
 /************************* */
-exports.getAllCustomers = async (req, res, next) => {
+
+/************************************ */
+exports.getAllCustomers = async (req, res) => {
     // const currentPage = Number.parseInt(req.query.page) || 1;
     // const perPage = Number.parseInt(req.query.perpage) || 4;
     try {
@@ -105,10 +108,16 @@ exports.getAllCustomers = async (req, res, next) => {
             .sort({
                 createdAt: "desc",
             });
+        // const user = req.params.userid;// req.user._id; 
+
+        //const allcustomers = await Customers.find({ user: "645d5e3d53e8461554ae6be4" });
         // .skip((currentPage - 1) * perPage)
         // .limit(perPage);
         res.status(200).json({ allcustomers, numberOfCustomers });
+        //console.log(allcustomers);
+
     } catch (err) {
+
         if (!err.statusCode) {
             err.statusCode = 500;
         }
@@ -129,119 +138,115 @@ exports.deleteCustomer = async (req, res) => {
 };
 /******************************* */
 exports.smsCustomer = async (req, res) => {
+
     var Kavenegar = require('kavenegar');
     var api = Kavenegar.KavenegarApi({
         apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
     });
+    try {
 
-    customernubmers = req.params.customernubmers;
-    //user = req.params.user;
-    const User = require("../models/User");
-    const smscount = await User.findOne({ smscount });
-    if (smscount > customernubmers) {
-        // const result = await User.findByIdAndUpdate(user, { smscount: smscount-customernubmers });
-        api.Send({
-            message: "وب سرویس تخصصی کاوه نگار",
-            sender: "10008663",
-            receptor: "09156195942"
+        user = req.params.userid;
+        num = req.params.customernumbers;
+        msg = req.params.message;
+        const userfind = await User.findOne({ _id: user });
+        if (userfind.smscount > 0) {
+            /** */
+            api.Send({
+                message: msg, //"وب سرویس تخصصی کاوه نگار",
+                sender: "10008663",
+                receptor: num //"09156195942"
 
-        },
-            function (response, status) {
-                console.log(response);
-                console.log(status);
-            });
-        res.status(201).json({ message: "Send Sms To Customers ." });
-    } else {
-        res.status(202).json({ message: "You Don't Have Account For Send Sms." });
+            },
+                function (response, status) {
+                    console.log(response);
+                    console.log(status);
+                });
+
+            /** */
+            userfind.smscount = userfind.smscount - 1;
+            await userfind.save();
+            res.status(201).json({ message: "Send Sms To Customer .", number: num });
+
+        } else {
+            res.status(202).json({ message: "You Don't Have Account For Send Sms." });
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
     }
+
 };
 /******************************* */
-exports.smstoAllCustomer = async (req, res) => {
+exports.smstoAllCustomers = async (req, res) => {
     var Kavenegar = require('kavenegar');
     var api = Kavenegar.KavenegarApi({
         apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
     });
-    /*  const allcustomers = await Customers.find({ user: req.params.user })
-      .sort({
-          createdAt: "desc",
-      });*/
-    customernubmers = req.params.customernubmers;
-    //user = req.params.user;
-    const User = require("../models/User");
-    const smscount = await User.findOne({ smscount });
-    if (smscount > customernubmers) {
-        // const result = await User.findByIdAndUpdate(user, { smscount: smscount-customernubmers });
-        api.Send({
-            message: "وب سرویس تخصصی کاوه نگار",
-            sender: "10008663",
-            receptor: "09156195942"
+    try {
 
-        },
-            function (response, status) {
-                console.log(response);
-                console.log(status);
-            });
-        res.status(201).json({ message: "Send Sms To Customers ." });
-    } else {
-        res.status(202).json({ message: "You Don't Have Account For Send Sms." });
+        user = req.params.userid;
+        msg = req.params.message;
+        let userfind = await User.findOne({ _id: user });
+        let smscount = userfind.smscount;
+        let allcustomers = await Customers.find({ user: user });
+        let count = 0;
+        for (let customer of allcustomers) {
+            if (smscount > 0) {
+                /** */
+                api.Send({
+                    message: msg, //"وب سرویس تخصصی کاوه نگار",
+                    sender: "10008663",
+                    receptor: customer.tel //"09156195942"
+
+                },
+                    function (response, status) {
+                        console.log(response);
+                        console.log(status);
+                    });
+
+                /** */
+                smscount = smscount - 1;
+                count = count + 1;
+            } else {
+                res.status(202).json({ message: "You Don't Have Account For Send Sms." });
+            }
+        }//for
+        res.status(201).json({ message: "Send Sms To Customer .", count: count });
+
+        userfind.smscount = smscount;
+        await userfind.save();
+
+
+
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
     }
 };
 
 /**************************************/
-/********************************* */
-/*exports.getIndex = async (req, res) => {
-    const page = +req.query.page || 1;
-    const postPerPage = 5;
-
+exports.getSingleCustomer = async (req, res) => {
     try {
-        const numberOfPosts = await Customers.find({
-            status: "public",
-        }).countDocuments();
+        const singlecustomer = await Customers.findOne({ _id: req.params.id });
 
-        const posts = await Customers.find({ status: "public" })
-            .sort({
-                createdAt: "desc",
-            })
-            .skip((page - 1) * postPerPage)
-            .limit(postPerPage);
+        /* const post = await Blog.findOne({ _id: req.params.id }).populate(
+             "user"
+         );*/
 
-        res.render("index", {
-            pageTitle: "مشتریان",
-            path: "/",
-            posts,
-            formatDate,
-            truncate,
-            currentPage: page,
-            nextPage: page + 1,
-            previousPage: page - 1,
-            hasNextPage: postPerPage * page < numberOfPosts,
-            hasPreviousPage: page > 1,
-            lastPage: Math.ceil(numberOfPosts / postPerPage),
-        });
-        //? Smooth Scrolling
+        if (singlecustomer) {
+            res.status(200).json({ singlecustomer });
+        } else {
+            res.status(201).json({ message: "Not Exist Customer with this id ." });
+        }
+
+
     } catch (err) {
-        console.log(err);
-        res.render("errors/500");
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+
     }
 };
 
-exports.getSinglePost = async (req, res) => {
-    try {
-        const post = await Blog.findOne({ _id: req.params.id }).populate(
-            "user"
-        );
-
-        if (!post) return res.redirect("errors/404");
-
-        res.render("post", {
-            pageTitle: post.title,
-            path: "/post",
-            post,
-            formatDate,
-        });
-    } catch (err) {
-        console.log(err);
-        res.render("errors/500");
-    }
-};
-*/

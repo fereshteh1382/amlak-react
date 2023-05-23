@@ -6,8 +6,16 @@ const mongoose = require("mongoose");
 const rezervSchema = new mongoose.Schema({
 
 
-    customerid: { type: String },
-    userid: { type: String },
+    // customerid: { type: String },
+    //  userid: { type: String },
+    customerid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Customer",
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
     rezervdate: {
         type: Date,
     },
