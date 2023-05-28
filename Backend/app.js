@@ -14,7 +14,7 @@ const MongoStore = require("connect-mongo")(session);
 
 const connectDB = require("./config/db");
 const winston = require("./config/winston");
-//const { setHeaders } = require("./middlewares/headers");
+const { setHeaders } = require("./middlewares/headers");
 
 //* Load Config
 dotEnv.config({ path: "./config/config.env" });
