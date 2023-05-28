@@ -16,6 +16,25 @@ const connectDB = require("./config/db");
 const winston = require("./config/winston");
 const { setHeaders } = require("./middlewares/headers");
 
+
+module.exports = (request, response) => {
+    let who = 'anonymous';
+
+    if (request.body && request.body.who) {
+        who = request.body.who;
+    } else if (request.query.who) {
+        who = request.query.who;
+    } else if (request.cookies.who) {
+        who = request.cookies.who;
+    }
+
+    response.status(200).send(`Hello ${who}!`);
+};
+try {
+    request.body;
+} catch (error) {
+    return response.status(400).json({ error: 'My custom 400 error' });
+}
 //* Load Config
 dotEnv.config({ path: "./config/config.env" });
 
