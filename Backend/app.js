@@ -17,7 +17,7 @@ const winston = require("./config/winston");
 const { setHeaders } = require("./middlewares/headers");
 
 
-module.exports = (request, response) => {
+/*module.exports = (request, response) => {
     let who = 'anonymous';
 
     if (request.body && request.body.who) {
@@ -34,7 +34,7 @@ try {
     request.body;
 } catch (error) {
     return response.status(400).json({ error: 'My custom 400 error' });
-}
+}*/
 //* Load Config
 dotEnv.config({ path: "./config/config.env" });
 
