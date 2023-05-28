@@ -12,7 +12,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 
-const connectDB = require("./config/db");
+//const connectDB = require("./config/db");
 const winston = require("./config/winston");
 const { setHeaders } = require("./middlewares/headers");
 
@@ -20,8 +20,8 @@ const { setHeaders } = require("./middlewares/headers");
 dotEnv.config({ path: "./config/config.env" });
 
 //* Database connection
-connectDB();
-debug("Connected To Database");
+//connectDB();
+//debug("Connected To Database");
 
 //* Passport Configuration
 require("./config/passport");
