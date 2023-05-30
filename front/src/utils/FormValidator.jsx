@@ -61,6 +61,12 @@ export const checkError = (conditionName, ShowName, conditions) => {
         case "ConfirmPassword":
             ErrorMsg = "پسورد و تکرار آن یکسان نمی باشد";
             break;
+        case "min":
+                ErrorMsg = `${ShowName} باید بزرگتر از ${conditionValue} باشد`;
+                break;   
+        case "max":
+            ErrorMsg = `${ShowName} باید کوچکتر از ${conditionValue} باشد`;
+            break;            
         default:
             ErrorMsg = '';       
     }

@@ -134,10 +134,8 @@ const CustomerContext = ({ children }) => {
 
     const handleSendSms = async messageBody => {
         try {
-            //console.log(customerInfo, "asdsad")
             const data = await SendSmsToCustomerApi({ customernumbers: customerInfo.tel, userId: userInfo.userId, message: messageBody });
             const { status } = data;
-            console.log(data);
             if (status === 201) {
                 successMessage(`پیامک با موفقیت ارسال گردید.`);
                 handleReserveClose();

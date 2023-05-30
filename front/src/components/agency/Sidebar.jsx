@@ -31,7 +31,7 @@ const AgencySidebar = () => {
                 </div>
                 <div className="inner">
                     <ul>
-                        <li><NavLink to="/agency/estate" className={({ isActive }) => isActive ? "active" : ""}>  ملک ها   </NavLink></li>
+                        <li><NavLink to="/agency/estates" className={({ isActive }) => isActive ? "active" : ""}>  ملک ها   </NavLink></li>
                     </ul>
                 </div>
                 {/*  <div className="inner">

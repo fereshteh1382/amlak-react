@@ -1396,3 +1396,10 @@ main#home-page {
 .Toastify__toast{
     font-family: "BYekan"!important;
 }
+.card-image-container{
+    width: 100px;
+    height: 100px;
+}
+.font-12{
+    font-size: 12px;
+}

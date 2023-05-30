@@ -9,6 +9,8 @@ import ProtectedRoute from "../components/agency/ProtectedRoute";
 import CustomerLayout from "../components/agency/customer/CustomerLayout";
 import AgencyLogout from "../components/agency/Logout";
 
+import EstateLayout from "../components/agency/estate/EsatetLayout";
+
 const Amlak = () => {
 
     return (
@@ -27,6 +29,13 @@ const Amlak = () => {
                     <Route path="customers"  element={<ProtectedRoute><CustomerLayout mode="show" /></ProtectedRoute>}/>
                     <Route path="customers/new"  element={<ProtectedRoute><CustomerLayout mode="new" /></ProtectedRoute>}/>
                     <Route path="customers/:customerid"  element={<ProtectedRoute><CustomerLayout mode="edit" /></ProtectedRoute>}/>
+                    
+                    <Route path="estates"  element={<ProtectedRoute><EstateLayout mode="show" /></ProtectedRoute>}/>
+                    <Route path="estates/new"  element={<ProtectedRoute><EstateLayout mode="new" /></ProtectedRoute>} />
+                    <Route path="estates/:estateid"  element={<ProtectedRoute><EstateLayout mode="edit" /></ProtectedRoute>}/>
+                    {/* 
+                    <Route path="customers/:customerid"  element={<ProtectedRoute><CustomerLayout mode="edit" /></ProtectedRoute>}/> */}
+                    
                 </Route>
             </Routes>
         </>

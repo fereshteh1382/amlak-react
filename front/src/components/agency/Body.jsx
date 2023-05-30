@@ -1,3 +1,4 @@
+import { Container } from "react-bootstrap";
 import { Outlet, useLocation } from "react-router-dom"
 import AgencySidebar from "./Sidebar";
 
@@ -5,8 +6,8 @@ const Body = () => {
     const location = useLocation();
     const pathName = location.pathname;
     return (
-        <main id="home-page">
-                <div className="container">
+        <main id="home-page" className="p-5">
+                <Container fluid="xxl m-auto">
                     <div className="agency-body">
                         <div className="row">
                             {
@@ -25,7 +26,7 @@ const Body = () => {
                             }
                         </div>
                     </div> 
-                </div>
+                </Container>
             </main>
     )
 }
