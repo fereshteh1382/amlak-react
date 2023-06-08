@@ -8,6 +8,7 @@
                     <th>نام و نام خانوادگی</th>
                     <th>موبایل</th>
                     <th>تاریخ</th>
+                    <th>sms</th>
                     <th>وضعیت</th>
                     <th colspan="2">عملیات</th>
                 </tr>
@@ -25,6 +26,10 @@
                             <%= user.mobile %>
                         </td>
                         <td>
+                            <%= //user.createdAt %>
+                        </td>
+                        <td>
+                            <%=user.smscount %>
                         </td>
                         <td>
                             <span class="badge <%=user.status===" active" ? 'badge-success' : 'badge-warning' %>">
@@ -50,6 +55,10 @@
                         <td>
                             <% if (user.status!=="admin" ){ %>
                                 <a href="/users/delete-user/<%= user._id %>" class="btn btn-sm btn-danger">حذف</a>
+                                <a href="/users/addsms-user/<%= user._id %>" class="btn btn-sm btn-primary">شارژ</a>
+                                <a href="/realty/all-userrealtyforadmin/<%= user._id %>"
+                                    class="btn btn-sm btn-success">فایلها</a>
+
                                 <% } %>
                         </td>
                     </tr>

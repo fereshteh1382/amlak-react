@@ -449,6 +449,51 @@ exports.disactiveUser = async (req, res) => {
         res.render("errors/500");
     }
 };
+/************************ */
+exports.addSmsUserForm = async (req, res) => {
+
+    try {
+
+        // const allusers = await User.find({})
+        const result = await User.findById(req.params.id);
+        const fullname = result.fullname;
+        const userid = req.params.id;
+
+        res.render("private/addsms", {
+            pageTitle: "بخش مدیریت | افزودن شارژ",
+            path: "/users/allusersgroup",
+            layout: "./layouts/usersgroupLayout",
+            fullname,
+            userid
+
+        });
+    } catch (err) {
+        console.log(err);
+        // get500(req, res);
+    }
+
+
+};
+/************************************** */
+exports.addSmsUserPost = async (req, res) => {
+    let counts = req.body.smscount;
+    let user = await User.findOne({ _id: req.params.id });
+
+    if (!user) {
+        return res.redirect("/404");
+    } else {
+        //console.log(user.smscount);
+        user.smscount = Number(user.smscount) + Number(counts);
+        await user.save();
+    }
+
+
+    //  req.flash("success_msg", "پسورد شما با موفقیت بروزرسانی شد");
+    res.redirect("/users/allusers");
+};
+/************************** */
+
+/*********************** */
 exports.AdminhandleLogin1 = async (req, res, next) => {
     /* if (!req.body["g-recaptcha-response"]) {
          req.flash("error", "اعتبار سنجی captcha الزامی می باشد");
