@@ -12,10 +12,10 @@ export const clearAgencyUser = () => {
 
 export const setNumberOfRemainingSmsAgency = (remainingms) => {
     return async (dispatch, getState)  => {
-        const smsInfo = { remainingSms: remainingms };
+        const agencyUserInfo =   { ...getState().agencyUser,remainingSms: remainingms }       
         await dispatch(
         {   type: "SET_NUMBER_REMAINING_SMS_AGENCY_USER",
-            payload: { ...getState().user, ...smsInfo }
+            payload: agencyUserInfo
         });
     };
 };

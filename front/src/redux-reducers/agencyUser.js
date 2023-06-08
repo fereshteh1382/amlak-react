@@ -4,7 +4,7 @@ export const agencyUserReducer = (state = {remainingSms:0}, action) => {
             return { ...action.payload }; 
         case "CLEAR_AGENCY_USER":
             return { ...action.payload };
-        case "GET_NUMBER_REMAINING_SMS_AGENCY_USER":
+        case "SET_NUMBER_REMAINING_SMS_AGENCY_USER":
             return { ...action.payload };     
         default:
             return state;

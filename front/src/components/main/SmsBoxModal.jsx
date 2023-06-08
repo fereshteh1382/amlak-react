@@ -18,7 +18,7 @@ const SmsBoxModal = ({show, handleSendSms, handleClose}) =>{
                         <Form.Group as={Col} >
                             <Form.Label>متن پیام کوتاه</Form.Label>
                             <Form.Control as="textarea" rows={3} 
-                                {...registers('message',{...condition.message})} />
+                                {...registers('message',{...condition.message, value: ''})} />
                             {errorss.message && checkError(errorss.message.type, "متن پیام کوتاه", condition.message)}
                         </Form.Group>
                     </Row>

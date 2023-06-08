@@ -169,9 +169,12 @@ const CustomerContext = ({ children }) => {
             const { status } = data;
             if (status === 201) {
                 successMessage(`پیامک با موفقیت ارسال گردید.`);
-                const smsCount = await RemainingSmsCountApi({userid: userInfo.userId});
-                dispatch(setNumberOfRemainingSmsAgency(smsCount));
-                handleReserveClose();
+                const smsdata = await RemainingSmsCountApi({userid: userInfo.userId});
+                if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
+                    dispatch(setNumberOfRemainingSmsAgency(smsdata.data.smscount));
+                }
+                
+                handleSmsClose();
             }
         } catch (ex) {
             errorMessage(ex.message ? ex.message : "مشکلی در ثبت ارسال پیامک رخ داده است.");
