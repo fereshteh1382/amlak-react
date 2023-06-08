@@ -29,12 +29,11 @@ const AgencyLogin = () => {
     }
 
     const handleLogin =  async(formdata) => {
-        // setLoading(true);
         try {
             const { status, data } = await loginUserApi(formdata);
             if (status === 200) {
                 
-                let UserInfo = SetUserInfoByToken(data); 
+                const UserInfo = SetUserInfoByToken(data); 
                 const smsdata = await RemainingSmsCountApi({userid: data.userId});
                 if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
                     UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}

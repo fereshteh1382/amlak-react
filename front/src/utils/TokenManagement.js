@@ -60,6 +60,21 @@ export const getUserForAxios = () => {
     return userInfo;
 };
 
+export const getUserId = () => {
+    const token = localStorage.getItem("UserToken");
+    if(token){
+        const tokenInfo = decodeToken(token);
+        const dateNow = Date.now() / 1000;
+        if (tokenInfo.exp < dateNow) {
+            localStorage.removeItem("UserToken");
+        }
+        else{
+            return tokenInfo.user.userId
+        }
+    }
+    return 0;
+};
+
 export const existUser = () =>{
     const user = getUserInfoByToken();
     return user && user.mobile && !isEmpty(user.mobile);

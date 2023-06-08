@@ -34,6 +34,11 @@ const AgencySidebar = () => {
                         <li><NavLink to="/agency/estates" className={({ isActive }) => isActive ? "active" : ""}>  ملک ها   </NavLink></li>
                     </ul>
                 </div>
+                <div className="inner">
+                    <ul>
+                        <li><NavLink to="/agency/groupSms" className={({ isActive }) => isActive ? "active" : ""}>ارسال پیام گروهی</NavLink></li>
+                    </ul>
+                </div>
                 {/*  <div className="inner">
                     <ul>
                         <li><NavLink to="/agency/contract" className={({ isActive }) => isActive ? "active" : ""}> قراردادها  </NavLink></li>

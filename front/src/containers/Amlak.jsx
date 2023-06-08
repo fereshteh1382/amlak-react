@@ -10,6 +10,7 @@ import CustomerLayout from "../components/agency/customer/CustomerLayout";
 import AgencyLogout from "../components/agency/Logout";
 
 import EstateLayout from "../components/agency/estate/EsatetLayout";
+import GroupSms from "../components/agency/GroupSms";
 
 const Amlak = () => {
 
@@ -36,6 +37,8 @@ const Amlak = () => {
                     {/* 
                     <Route path="customers/:customerid"  element={<ProtectedRoute><CustomerLayout mode="edit" /></ProtectedRoute>}/> */}
                     
+                    <Route path="groupSms"  element={<ProtectedRoute><GroupSms /></ProtectedRoute>}/>
+
                 </Route>
             </Routes>
         </>
