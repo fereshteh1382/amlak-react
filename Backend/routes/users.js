@@ -27,7 +27,7 @@ router.get("/register", userController.register);
 router.post("/handleRegister", userController.handleRegister);
 //router.post("/register", userController.createUser);
 router.post("/register", userController.handleRegister);
-
+router.post("/smscount/:userid", userController.getremainsms);
 //  @desc   Forget Password Page
 //  @route  GET /users/forget-password
 router.get("/forget-password", userController.forgetPasswrod);

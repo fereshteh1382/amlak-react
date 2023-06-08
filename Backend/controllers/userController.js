@@ -92,7 +92,31 @@ exports.handleRegister = async (req, res, next) => {
         next(err);
     }
 };
+/*************************** */
+exports.getremainsms = async (req, res) => {
 
+    try {
+        const user = await User.findOne({ user: req.params.userid });
+        if (!user) {
+
+            error.statusCode = 401;
+            throw error;
+        }
+
+
+        res.status(200).json({ smscount: user.smscount });
+
+        //console.log(allcustomers);
+
+    } catch (err) {
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+/************************* */
 /*exports.createUser = async (req, res) => {
     const errors = [];
     try {

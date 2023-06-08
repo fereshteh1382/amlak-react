@@ -19,3 +19,6 @@ export const RegisterCustomers = customer => {
         JSON.stringify(customer)
     );
 };
+export const SmscountApi = user => {
+    return http.post(`${config.localapi}/users/smscount`, JSON.stringify(user));
+};
