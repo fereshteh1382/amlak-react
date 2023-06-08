@@ -17,7 +17,7 @@ const Customer = ({ cutomerInfo }) => {
     return (
         <tr>
             <td>{cutomerInfo.fullname}</td>
-            <td>{cutomerInfo.mobile}</td>
+            <td>{cutomerInfo.tel}</td>
             <td>{cutomerInfo.address}</td>
             <td>{cutomerInfo.desc}</td>
             <td>

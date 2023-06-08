@@ -1,14 +1,15 @@
+import CustomerContext from "../../../context/CustomerContext";
 import EstateContext from "../../../context/EstateContext";
 import EstateManagement from "./EstateManagement";
 import EstatesWrapper from "./EstatesWrapper";
 
 const EstateLayout = ({mode}) =>{
     return(
-        <EstateContext>
-        <>
-            {mode === 'show' ? <EstatesWrapper /> : <EstateManagement />}
-        </>    
-        </EstateContext>
+        <CustomerContext>
+            <EstateContext>
+                {mode === 'show' ? <EstatesWrapper /> : <EstateManagement />}
+            </EstateContext>
+        </CustomerContext>
     )
 }
 

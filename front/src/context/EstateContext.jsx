@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
 // import { withRouter } from "react-router";
-import { getAllCustomersApi} from "../services/agencyCustomerAPIs";
 import { AddEstateApi, getAllEstateApi } from "../services/agencyEstateAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
@@ -15,7 +14,6 @@ const EstateContext = ({ children }) => {
     const userInfo = getUserForAxios();
     const [estatesInfo, setEstatesInfo] = useState([]);
     const [estate, setEstate] = useState({});
-    const [allCustomers, setAllCustomers] = useState([]);
 
     const condition = {
         customer:{required: true},
@@ -26,14 +24,10 @@ const EstateContext = ({ children }) => {
         meterage: { required: true},
         images: { },
         price: { required: true},
-        rooms: { required: true, min:0, max:5},
-        yearconstruction: { required: true, min: 1390, max:1402},
-        floor: { required: true, min:0, max:8},
-        elevator: {},
-        parking: {},
-        warehouse: {},
-        address: {},
-        desc: {},
+        rooms: { max:5},
+        yearconstruction: { max:1402},
+        floor: {max:8},
+        address: { required: true},
     }
 
     const statusOptions = [{ key: 0, value: '', text: "", label:' ' }, 
@@ -46,12 +40,10 @@ const EstateContext = ({ children }) => {
     useEffect(() => {
         const fetchInfo = async () => {
             try { 
-                getAllCustomers();
                 getUserEstates();
                 
             } catch (ex) {
                 setEstatesInfo([]);
-                setAllCustomers([]);
             }
         };
         
@@ -69,22 +61,7 @@ const EstateContext = ({ children }) => {
             setEstate(existed)
     }
 
-    const getAllCustomers = async () =>{
-        const customerInfo = await getAllCustomersApi(userInfo.userId);
-        if (customerInfo.data && customerInfo.data.allcustomers) {
-            let customers = customerInfo.data.allcustomers.map((d) => ({
-                key: d._id,
-                value: d._id,
-                text: d.fullname,
-                label: d.fullname
-            }));
-
-            setAllCustomers([{ key: 0, value: '', text: "", label:' ' },...customers]);
-        }
-        else {
-            setAllCustomers([]);
-        }
-    }
+    
     
     const getUserEstates = async () => {
         const esInfo = await getAllEstateApi(userInfo.userId);
@@ -123,13 +100,12 @@ const EstateContext = ({ children }) => {
             value={{
                 estatesInfo,
                 condition,
-                allCustomers,
                 estate,
                 YesNoOptions,
                 statusOptions,
                 setEstate,
                 handleEstateInsert,
-                SetEsatetByID
+                SetEsatetByID,
             }}
         >
             {children}

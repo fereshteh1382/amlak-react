@@ -1,8 +1,7 @@
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { withRouter } from "../components/main/withRouter ";
-// import { withRouter } from "react-router";
-import { customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi, SendSmsToCustomerApi } from "../services/agencyCustomerAPIs";
+import { getAllCustomersApi, customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi, SendSmsToCustomerApi } from "../services/agencyCustomerAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { CustomerStateContext } from "./CustomerStateContext";
@@ -14,6 +13,7 @@ const CustomerContext = ({ children }) => {
     const [loadingFields, setLoadingFields] = useState({ loading: false, blur: false });
     const userInfo = getUserForAxios();
 
+    const [allCustomers, setAllCustomers] = useState([]);
 
     /** delete modal */
     const [DeleteModalShow, setDeleteModalShow] = useState(false);
@@ -21,21 +21,27 @@ const CustomerContext = ({ children }) => {
     const handleDeleteShow = () => setDeleteModalShow(true);
     const handleDeleteAccept = () => { handleDeleteCustomer(customerInfo); handleDeleteClose() };
 
-    /** delete modal */
+    /** sms modal */
     const [SmsModalShow, setSmsModalShow] = useState(false);
     const handleSmsClose = () => setSmsModalShow(false);
     const handleSmsShow = () => setSmsModalShow(true);
 
-    /** delete reserve */
+    /** reserve modal */
     const [reserveContent, setReserveContent] = useState("list");
     const [reserveModalShow, setReserveModalShow] = useState(false);
     const handleReserveClose = () => setReserveModalShow(false);
     const handleReserveShow = () => setReserveModalShow(true);
 
 
+    /** NewCustomer modal */
+    const [newCustomerModalShow, setNewCustomerModalShow] = useState(false);
+    const handleNewCustomerModalClose = () => setNewCustomerModalShow(false);
+    const handleNewCustomerModalShow = () => setNewCustomerModalShow(true);
+
     useEffect(() => {
         const fetchInfo = async () => {
             try {
+                getAllCustomers();
                 getNewCustomer();
             } catch (ex) {
                 setNewCustomers([]);
@@ -50,11 +56,29 @@ const CustomerContext = ({ children }) => {
     const condition = {
         fullname: { required: true, minLength: 5, },
         tel: { required: true, },
-        address: { required: true, minLength: 10, },
+        address: {minLength: 10, },
         desc: {},
     }
 
     /************************************************* */
+
+    const getAllCustomers = async () =>{
+        const customerInfo = await getAllCustomersApi(userInfo.userId);
+        if (customerInfo.data && customerInfo.data.allcustomers) {
+            let customers = customerInfo.data.allcustomers.map((d) => ({
+                key: d._id,
+                value: d._id,
+                text: d.fullname,
+                label: d.fullname
+            }));
+
+            setAllCustomers([{ key: 0, value: '', text: "", label:' ' },...customers]);
+        }
+        else {
+            setAllCustomers([]);
+        }
+    }
+
     const getNewCustomer = async () => {
         const customerInfo = await getNewCustomersApi(userInfo.userId);
         if (customerInfo.data && customerInfo.data.allcustomers) {
@@ -87,9 +111,11 @@ const CustomerContext = ({ children }) => {
                     //باید id ارسال شود
                     // setCustomerInfo("234234");
                     successMessage("اطلاعات مشتری با موفقیت ثبت شد.");
+                    handleNewCustomerModalClose();
                 }
             }
             getNewCustomer();
+            getAllCustomers();
             setLoadingFields({ loading: false, blur: false });
         } catch (ex) {
             errorMessage(ex.message ? ex.message : "مشکلی در ثبت اطلاعات رخ داده است.");
@@ -152,6 +178,7 @@ const CustomerContext = ({ children }) => {
                 defaultVal,
                 newCustomers,
                 customerInfo,
+                allCustomers,
                 condition,
                 loadingFields,
 
@@ -174,7 +201,11 @@ const CustomerContext = ({ children }) => {
                 SmsModalShow,
                 handleSmsClose,
                 handleSmsShow,
-                handleSendSms
+                handleSendSms,
+
+                newCustomerModalShow,
+                handleNewCustomerModalClose,
+                handleNewCustomerModalShow,
             }}
         >
             {children}

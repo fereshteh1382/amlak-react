@@ -4,6 +4,7 @@ export const CustomerStateContext = createContext({
     defaultVal:{},
     customerId: 0,
     customerInfo:{},
+    allCustomers:[],
     condition: {},
     loadingFields: {},
 
@@ -29,4 +30,7 @@ export const CustomerStateContext = createContext({
     handleSmsShow: ()=>{},
     handleSendSms: ()=>{},
 
+    newCustomerModalShow: false,
+    handleNewCustomerModalClose: ()=>{},
+    handleNewCustomerModalShow: ()=>{},
 });
