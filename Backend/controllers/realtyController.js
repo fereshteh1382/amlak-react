@@ -114,6 +114,59 @@ exports.deleterezerv = async (req, res) => {
     }
 };
 /********************************* */
+exports.getAllrealtyforadmin = async (req, res) => {
+
+    try {
+
+        const allrealtys = await Realty.find({ user: req.params.id })
+            .sort({
+                createdAt: "desc",
+            })
+
+        res.render("private/allrealty", {
+            pageTitle: "بخش مدیریت | فایل ها",
+            path: "/usersgroup/allusersgroup",
+            layout: "./layouts/usersgroupLayout",
+
+            allrealtys,
+
+            /* currentPage: page,
+             nextPage: page + 1,
+             previousPage: page - 1,
+             hasNextPage: postPerPage * page < numberOfPosts,
+             hasPreviousPage: page > 1,
+             lastPage: Math.ceil(numberOfPosts / postPerPage),*/
+        });
+    } catch (err) {
+        console.log(err);
+        // get500(req, res);
+    }
+};
+/************************** */
+exports.confirmrealty = async (req, res) => {
+    try {
+        const result = await Realty.findByIdAndUpdate(req.params.id, { status: 'public' });
+
+        // console.log(result);
+        res.redirect("/users/allusers");
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
+    }
+};
+/************************** */
+exports.noconfirmrealty = async (req, res) => {
+    try {
+        const result = await Realty.findByIdAndUpdate(req.params.id, { status: 'private' });
+
+        // console.log(result);
+        res.redirect("/users/allusers");
+    } catch (err) {
+        console.log(err);
+        res.render("errors/500");
+    }
+};
+/********************************/
 /*exports.getIndex = async (req, res) => {
     const page = +req.query.page || 1;
     const postPerPage = 5;

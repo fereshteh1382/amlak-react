@@ -107,7 +107,7 @@ const realtySchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: "public",
+        default: "private",
         enum: ["private", "public"],
     },
 
