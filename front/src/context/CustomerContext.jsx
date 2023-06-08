@@ -1,13 +1,18 @@
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { withRouter } from "../components/main/withRouter ";
+import { setNumberOfRemainingSmsAgency } from "../redux-actions/agencyUser";
 import { getAllCustomersApi, customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi, SendSmsToCustomerApi } from "../services/agencyCustomerAPIs";
+import { RemainingSmsCountApi } from "../services/agencyUserAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { CustomerStateContext } from "./CustomerStateContext";
 
 
 const CustomerContext = ({ children }) => {
+    const dispatch = useDispatch();
+
     const [newCustomers, setNewCustomers] = useState([]);
     const [customerInfo, setCustomerInfo] = useState({});
     const [loadingFields, setLoadingFields] = useState({ loading: false, blur: false });
@@ -164,6 +169,8 @@ const CustomerContext = ({ children }) => {
             const { status } = data;
             if (status === 201) {
                 successMessage(`پیامک با موفقیت ارسال گردید.`);
+                const smsCount = await RemainingSmsCountApi({userid: userInfo.userId});
+                dispatch(setNumberOfRemainingSmsAgency(smsCount));
                 handleReserveClose();
             }
         } catch (ex) {

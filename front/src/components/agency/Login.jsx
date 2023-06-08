@@ -8,7 +8,7 @@ import { addAgencyUser } from "../../redux-actions/agencyUser";
 import { SetUserInfoByToken, existUser } from "../../utils/TokenManagement";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
-import { loginUserApi } from "../../services/agencyUserAPIs";
+import { loginUserApi, RemainingSmsCountApi } from "../../services/agencyUserAPIs";
 
 
 const AgencyLogin = () => {
@@ -33,7 +33,14 @@ const AgencyLogin = () => {
         try {
             const { status, data } = await loginUserApi(formdata);
             if (status === 200) {
-                const UserInfo = SetUserInfoByToken(data); 
+                
+                let UserInfo = SetUserInfoByToken(data); 
+                const smsdata = await RemainingSmsCountApi({userid: data.userId});
+                if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
+                    UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}
+                }
+                else
+                    UserInfo = {...UserInfo, remainingSms: 0}
                 dispatch(addAgencyUser(UserInfo));
                 return <Navigate to="/agency" replace="true" />;
             }
