@@ -37,6 +37,24 @@ const EstateContext = ({ children }) => {
     const YesNoOptions = [{ key: 0, value: '', text: "", label:' ' }, 
                           { key: 'yes', value: 'yes', text: "دارد", label:'دارد' },
                           { key: 'no', value: 'no', text: "ندارد", label:'ندارد' }]
+
+                          
+    let RoomsOptions = [];
+    for (let i = 0; i < 6; i++) {
+        RoomsOptions[i] = { key:i, value:i>0 ? i:'', text: `${i>0 ? i:''}`, label: `${i}` };
+    }
+
+    let YearOptions = [{ key: "0", value: '', text: "", label:' ' }];
+    let ind = 1;
+    for (let i = 1402; i>=1390; i--) {
+        YearOptions[ind++] = { key:i, value: i, text: `${i}`, label: `${i}` };
+    }
+        
+    let FloorOptions = [{ key: "0", value: '', text: "", label:' ' }];
+    for (let i = 1; i<=10; i++) {
+        FloorOptions[ind++] = { key:i, value:i, text: `${i}`, label: `${i}` };
+    }          
+    
     useEffect(() => {
         const fetchInfo = async () => {
             try { 
@@ -103,6 +121,9 @@ const EstateContext = ({ children }) => {
                 estate,
                 YesNoOptions,
                 statusOptions,
+                RoomsOptions, 
+                YearOptions, 
+                FloorOptions,
                 setEstate,
                 handleEstateInsert,
                 SetEsatetByID,

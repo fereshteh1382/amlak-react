@@ -16,7 +16,7 @@ const EstateForm = () =>{
     const navigate = useNavigate();
 
     const esContext = useContext(EstateStateContext);
-    const {condition, handleEstateInsert, estate, statusOptions, YesNoOptions } = esContext;
+    const {condition, handleEstateInsert, estate, statusOptions, YesNoOptions, RoomsOptions, YearOptions, FloorOptions} = esContext;
 
     const custContext = useContext(CustomerStateContext);
     const {newCustomerModalShow, handleNewCustomerModalClose, handleNewCustomerModalShow, allCustomers } = custContext;
@@ -130,40 +130,43 @@ const EstateForm = () =>{
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="rooms" className="col-md-2">تعداد اتاق</Form.Label>
-                                <Col md={5}>
-                                    <Form.Control
-                                        type="text" 
+                                <Col md={2}>
+                                    <Form.Select
                                         className="form-control" 
-                                        placeholder="تعداد اتاق" 
-                                        {...register('rooms',{...condition.rooms, value: estate.rooms})} />
-                                        {errors.rooms && checkError(errors.rooms.type,"تعداد اتاق",condition.rooms)}
+                                        {...register("rooms", { ...condition.rooms, value: estate.rooms})}
+                                    >
+                                        <OptionSelect Options={RoomsOptions} />
+                                    </Form.Select>
+                                    {errors.rooms && checkError(errors.rooms.type,"تعداد اتاق",condition.rooms)}
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="yearconstruction" className="col-md-2">سال ساخت</Form.Label>
-                                <Col md={5}>
-                                    <input 
-                                        type="text" 
+                                <Col md={2}>
+                                    <Form.Select
                                         className="form-control" 
-                                        placeholder="سال ساخت" 
-                                        {...register('yearconstruction',{...condition.yearconstruction, value: estate.yearconstruction})} />
-                                        {errors.yearconstruction && checkError(errors.yearconstruction.type,"سال ساخت",condition.yearconstruction)}
+                                        {...register("yearconstruction", { ...condition.yearconstruction, value: estate.yearconstruction})}
+                                    >
+                                        <OptionSelect Options={YearOptions} />
+                                    </Form.Select>
+                                    {errors.yearconstruction && checkError(errors.yearconstruction.type,"سال ساخت",condition.yearconstruction)}
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="floor" className="col-md-2">طبقه</Form.Label>
-                                <Col md={5}>
-                                    <Form.Control
-                                        type="text" 
+                                <Col md={2}>
+                                    <Form.Select
                                         className="form-control" 
-                                        placeholder="طبقه" 
-                                        {...register('floor',{...condition.floor, value: estate.floor})} />
-                                        {errors.floor && checkError(errors.floor.type,"طبقه",condition.floor)}
+                                        {...register("floor", { ...condition.floor, value: estate.floor})}
+                                    >
+                                        <OptionSelect Options={FloorOptions} />
+                                    </Form.Select>
+                                    {errors.floor && checkError(errors.floor.type,"طبقه",condition.floor)}
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="elevator" className="col-md-2">آسانسور</Form.Label>
-                                <Col md={5}>
+                                <Col md={2}>
                                     <Form.Select
                                         className="form-control" 
                                         {...register("elevator", { ...condition.elevator, value: estate.elevator})}
@@ -175,7 +178,7 @@ const EstateForm = () =>{
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="parking" className="col-md-2">پارکینگ</Form.Label>
-                                <Col md={5}>
+                                <Col md={2}>
                                     <Form.Select
                                         className="form-control" 
                                         {...register("parking", { ...condition.parking, value: estate.parking})}
@@ -187,7 +190,7 @@ const EstateForm = () =>{
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="warehouse" className="col-md-2">انباری</Form.Label>
-                                <Col md={5}>
+                                <Col md={2}>
                                     <Form.Select
                                         className="form-control" 
                                         {...register("warehouse", { ...condition.warehouse, value: estate.warehouse})}
