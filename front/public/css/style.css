@@ -1307,6 +1307,9 @@ main#home-page {
 }
 
 @media screen and (max-width: 767px) {
+    .hide-col{
+        display: none;
+    }
     .landing-layer header {
         padding-top: 0;
     }
@@ -1402,4 +1405,68 @@ main#home-page {
 }
 .font-12{
     font-size: 12px;
+}
+
+.estate-detail-section {
+    padding: 2em 0;
+    position: relative;
+}
+.estate-detail-header{
+    font-size: 18px;
+    font-weight: 700;
+}
+.estate-detail-city{
+    color:#4b5b74;
+}
+.estate-detail-grid{
+    border-left: 1px solid #bbb;
+}
+.estate-detail-grid-title{
+    color: #bbb;
+}
+.estate-detail-info{
+    border-top: 1px solid rgba(174, 174, 174, 0.56);
+    padding: 10px;
+    font-size: 16px;
+}
+.estate-detail-title{
+    color:rgba(0,0,0,.56);
+}
+
+.estate-detail-value{
+    font-weight: bold;
+}
+.width-80{
+    width: 80px;
+}
+.landing-layer .active{
+    color: rgb(224, 104, 35)!important;
+}
+
+
+/* dashborad */
+.bg-c-blue {
+    background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+
+.dashboard-card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.dashboard-card .card-dashboard-block {
+    padding: 25px;
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
 }
