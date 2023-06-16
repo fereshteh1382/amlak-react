@@ -5,7 +5,7 @@ const Estate = ({propEstate}) =>{
     const hssContext = useContext(HomeStateContext);
     const { showSelectedEstate  } = hssContext;
     return(
-        <div className="col-md-6 col-lg-3 " onClick={()=>{showSelectedEstate(propEstate._id)}}>
+        <div className="col-md-6 col-lg-3 " style={{cursor:"pointer"}} onClick={()=>{showSelectedEstate(propEstate._id)}}>
             <div className="product text-center">
                <img className="img-fluid" src="/pics/product.jpg" alt={propEstate.title} />
                     <div className="overlay"></div>
