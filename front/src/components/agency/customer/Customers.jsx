@@ -23,9 +23,9 @@ const Customers = ({customers}) =>{
                     <tr>
                         <th>نام </th>
                         <th>تلفن</th>
-                        <th>آدرس</th>
-                        <th>توضیحات</th>
-                        <th>رزرو وقت</th>
+                        <th className="hide-col">آدرس</th>
+                        <th className="hide-col">توضیحات</th>
+                        <th className="hide-col">رزرو وقت</th>
                         <th>عملیات</th>
                     </tr>
                 </thead>

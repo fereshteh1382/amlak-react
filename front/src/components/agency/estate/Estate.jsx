@@ -15,7 +15,7 @@ const Estate = ({ EstateInfo }) => {
                             <img className="card-img py-2" src="/pics/product.jpg" alt={EstateInfo.title} />
                         </div>
                     </div>
-                    <div className="col-sm-7">
+                    <div className="col-sm-7 text-center">
                         <div className="card-body">
                             <h5 className="card-title">{EstateInfo.title}</h5>
                             <p className="card-text">وضعیت: {EstateInfo.status === 'public' ? 'عمومی' : 'شخصی'}</p>

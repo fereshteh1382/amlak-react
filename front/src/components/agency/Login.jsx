@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faKey, faLock, faMobileRetro} from "@fortawesome/free-solid-svg-icons";
 import { addAgencyUser } from "../../redux-actions/agencyUser";
-import { SetUserInfoByToken, existUser } from "../../utils/TokenManagement";
+import { SetUserInfoByToken, existUser, existAdmin } from "../../utils/TokenManagement";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
 import { loginUserApi, RemainingSmsCountApi } from "../../services/agencyUserAPIs";
@@ -14,7 +14,10 @@ import { loginUserApi, RemainingSmsCountApi } from "../../services/agencyUserAPI
 const AgencyLogin = () => {
     const { register, handleSubmit, formState:{errors} } = useForm();
     const dispatch = useDispatch();
-    if(existUser()){
+    
+    if(existAdmin()){
+        return <Navigate to="/admin" replace="true" />;
+    }else if(existUser()){
         return <Navigate to="/agency" replace="true" />;
     }
 
@@ -41,7 +44,7 @@ const AgencyLogin = () => {
                 else
                     UserInfo = {...UserInfo, remainingSms: 0}
                 dispatch(addAgencyUser(UserInfo));
-                return <Navigate to="/agency" replace="true" />;
+                
             }
             // setLoading(false);
         } catch (exception) {

@@ -1,25 +1,21 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-
 import Nav from "../components/home/Nav";
-import { getAllPublicEstate } from "../redux-actions/estate";
 import Estates from "../components/home/Estates";
+import { Outlet, useLocation } from "react-router-dom"
+
+import HomeContext from "../context/HomeContext";
 
 const Home = () =>{
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getAllPublicEstate());
-    }, []);
-    
+    const location = useLocation();
+    const pathName = location.pathname;
 
     return(
 
-        <>
+        <HomeContext>
             <Nav />
-            <Estates />
-
-            {/* <Footer /> */}
-        </>
+            {
+                (pathName === '/' || pathName === '/estate' || pathName === '/estate/') ? <Estates /> :   <Outlet />
+            }
+        </HomeContext>
 
     )
 }

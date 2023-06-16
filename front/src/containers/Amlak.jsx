@@ -11,16 +11,26 @@ import AgencyLogout from "../components/agency/Logout";
 
 import EstateLayout from "../components/agency/estate/EsatetLayout";
 import GroupSms from "../components/agency/GroupSms";
+import EstateInfo from "../components/home/EstateInfo";
+import Main from "../components/admin/agency/Main";
+import Dashboard from "../components/admin/Dashboard";
 
 const Amlak = () => {
 
     return (
         <>
             <Routes>
-                <Route path="/" element={<Home />}>
+                <Route path="/" element={<Home />}></Route>
+                <Route  path="/estate" element={<Home />}> 
+                    <Route path="" element={<Home />} />
+                    <Route path=":id" element={<EstateInfo />} />
                 </Route>
+                   
                 <Route path="/admin" element={<AdminPanel />}>
+                    <Route index  element={<Dashboard />} />
+                    <Route path="agency"  element={<Main />}/>
                 </Route>
+                
                 <Route path="/agency" element={<AgencyPanel />}>
                     <Route index  element={<ProtectedRoute><AgencyDashboard /></ProtectedRoute>} />
                     <Route path="login"  element={<AgencyLogin />}/>

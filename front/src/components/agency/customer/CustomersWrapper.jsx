@@ -5,7 +5,7 @@ import {faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import Search from "./Search";
 import Customers from "./Customers";
 import { CustomerStateContext } from "../../../context/CustomerStateContext";
-import { Alert } from "react-bootstrap";
+import { Alert, Col } from "react-bootstrap";
 
 
 const CustomersWrapper = ({mode}) =>{
@@ -22,7 +22,7 @@ const CustomersWrapper = ({mode}) =>{
             {newCustomers.length>0 ? 
             <>
                 <Search />
-                <Customers customers={newCustomers}  />
+                <Col><Customers customers={newCustomers}  /></Col>
             </> : 
             <Alert variant="info" >تاکنون اطلاعاتی از مشتریان شما ثبت نشده است</Alert>
             }

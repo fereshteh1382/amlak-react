@@ -61,8 +61,10 @@ const EstateForm = () =>{
                                         title="درصورتی که مشتری در لیست نمی باشد میتوانید از این بخش استفاده کنید"
                                         className="pl-1 text-success" onClick={() => { handleNewCustomerModalShow() }} />
                                 </Col>
-                            </Form.Group>       
-                            <Form.Group as={Row} className="mb-3">
+                            </Form.Group>  
+                            <Form.Control type="hidden"  {...register('category',{...condition.category, value: "all"})} />
+                                 
+                            {/* <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="category" className="col-md-2"> دسته بندی</Form.Label>
                                 <Col md={5}>
                                     <Form.Control
@@ -72,7 +74,7 @@ const EstateForm = () =>{
                                         {...register('category',{...condition.category, value: estate.category})} />
                                         {errors.category && checkError(errors.category.type,"دسته بندی",condition.category)}
                                 </Col>
-                            </Form.Group>
+                            </Form.Group> */}
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label htmlFor="city" className="col-md-2">شهر</Form.Label>
                                 <Col md={5}>

@@ -18,9 +18,9 @@ const Customer = ({ cutomerInfo }) => {
         <tr>
             <td>{cutomerInfo.fullname}</td>
             <td>{cutomerInfo.tel}</td>
-            <td>{cutomerInfo.address}</td>
-            <td>{cutomerInfo.desc}</td>
-            <td>
+            <td className="hide-col">{cutomerInfo.address}</td>
+            <td className="hide-col">{cutomerInfo.desc}</td>
+            <td className="hide-col">
                 {/* <FontAwesomeIcon 
                         className= "text-warning" 
                         style={{cursor:"pointer"}} 

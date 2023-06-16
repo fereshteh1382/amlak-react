@@ -83,3 +83,8 @@ export const existUser = () =>{
 export const ClearUserTokens = () => {
     localStorage.removeItem("UserToken");
 }
+
+export const existAdmin = () =>{
+    
+    return false;
+}

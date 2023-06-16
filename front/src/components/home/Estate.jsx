@@ -1,11 +1,15 @@
+import { useContext } from "react";
+import { HomeStateContext } from "../../context/HomeStateContext";
+
 const Estate = ({propEstate}) =>{
+    const hssContext = useContext(HomeStateContext);
+    const { showSelectedEstate  } = hssContext;
     return(
-        <div className="col-md-6 col-lg-3 ">
-            <div className="product">
-                <a href="#" className="img-prod"><img className="img-fluid" src="/pics/product.jpg" alt="melk" />
+        <div className="col-md-6 col-lg-3 " onClick={()=>{showSelectedEstate(propEstate._id)}}>
+            <div className="product text-center">
+               <img className="img-fluid" src="/pics/product.jpg" alt={propEstate.title} />
                     <div className="overlay"></div>
-                </a>
-                <div className="text py-3 pb-4 px-3 text-center">
+                <div className="text py-3 pb-4 px-3">
                     <h3><a href="#">{propEstate.title}</a></h3>
                     <div className="d-flex">
                         <div className="mx-auto">
@@ -15,7 +19,6 @@ const Estate = ({propEstate}) =>{
                             </p>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
