@@ -47,13 +47,14 @@ router.post("/reset-password/:id", userController.handleResetPassword);
 //  @desc   Register Handle
 //  @route  POST /users/register
 router.get("/allusers", userController.getAllusers);
+router.get("/allusersfront", userController.getAllUsersFront);
 router.get("/delete-user/:id", userController.deleteUser);
 router.get("/active-user/:id", userController.activeUser);
 router.get("/disactive-user/:id", userController.disactiveUser);
 router.get("/addsms-user/:id", userController.addSmsUserForm);
 router.post("/addsms-post/:id", userController.addSmsUserPost);
 router.post("/single-user/:id", userController.getSingleUser);
-
+router.get("/token-user/:mobile", userController.handleTokenLogin);
 
 
 module.exports = router;

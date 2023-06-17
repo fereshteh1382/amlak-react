@@ -74,9 +74,16 @@ export const getSingleUser = userId => {
 };
 /************************ */
 export const EditRealty = realtyId => {
-    return http.get(`${config.localapi}/customers/edit-realty/${realtyId}`);
+    return http.post(`${config.localapi}/customers/edit-realty/${realtyId}`);
 };
-
+/***************************** */
+export const TokenUser = mobile => {
+    return http.get(`${config.localapi}/customers/token-user/${mobile}`);
+};
+/**************************** */
+export const getAllUsersFront = user => {
+    return http.get(`${config.localapi}/users/allusersfront`);
+};
 /******************************** */
 /*export const RegisterImage = img => {
     return http.post(

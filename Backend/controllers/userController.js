@@ -296,6 +296,49 @@ exports.handleLogin = async (req, res, next) => {
         return res.status(err.statusCode).send(err.message);
     }
 };
+/*********************Handle************** */
+exports.handleTokenLogin = async (req, res, next) => {
+
+
+    try {
+
+        const user = await User.findOne({ mobile: req.params.mobile });
+        if (!user) {
+            const error = new Error(
+                "A user with this mobile could not be found"
+            );
+            error.statusCode = 401;
+            throw error;
+        }
+
+        if (user.status === "admin") {
+
+            const token = await jwt.sign(
+                {
+                    user: {
+                        userId: user._id.toString(),
+                        mobile: user.mobile,
+                        fullname: user.fullname,
+                        //status: user.status
+                        // isAdmin: user.isAdmin
+                    }
+                },
+                "secret",
+                {
+                    expiresIn: "1h"
+                }
+            );
+
+            res.status(200).json({ token, userId: user._id.toString() });
+        }
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        return res.status(err.statusCode).send(err.message);
+    }
+};
+/************************************** */
 /************************************** */
 exports.AdminhandleLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -386,6 +429,31 @@ exports.handleResetPassword = async (req, res) => {
     req.flash("success_msg", "پسورد شما با موفقیت بروزرسانی شد");
     res.redirect("/admin/login");
 };
+
+/************************************ */
+exports.getAllUsersFront = async (req, res) => {
+    // const currentPage = Number.parseInt(req.query.page) || 1;
+    // const perPage = Number.parseInt(req.query.perpage) || 4;
+    try {
+
+        const allusers = await User.find({})
+            .sort({
+                createdAt: "desc",
+            });
+
+        res.status(200).json({ allusers });
+        //console.log(allcustomers);
+
+    } catch (err) {
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+/************************* */
+/******************************* */
 exports.getAllusers = async (req, res) => {
     const page = +req.query.page || 1;
     const postPerPage = 10;
@@ -417,6 +485,7 @@ exports.getAllusers = async (req, res) => {
         // get500(req, res);
     }
 };
+/****************************** */
 exports.deleteUser = async (req, res) => {
     try {
         const result = await User.findByIdAndRemove(req.params.id);
