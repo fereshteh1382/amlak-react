@@ -56,6 +56,26 @@ export const getAllPublicRealty = realty => {
 export const getAllUserRealty = realty => {
     return http.get(`${config.localapi}/realty/all-userrealty/${user}`);
 };
+/***************** */
+export const handleProfile = user => {
+    return http.post(
+        `${config.localapi}/users/handleProfile/${userId}`,
+        JSON.stringify(user)
+    );
+};
+/*********************** */
+export const handleSingleRealty = realty => {
+    return http.post(
+        `${config.localapi}/realty/single-realty/${realtyId}`);
+};
+/*********************** */
+export const getSingleUser = userId => {
+    return http.get(`${config.localapi}/users/single-user/${userId}`);
+};
+/************************ */
+export const EditRealty = realtyId => {
+    return http.get(`${config.localapi}/customers/edit-realty/${realtyId}`);
+};
 
 /******************************** */
 /*export const RegisterImage = img => {

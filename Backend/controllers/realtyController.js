@@ -166,6 +166,50 @@ exports.noconfirmrealty = async (req, res) => {
         res.render("errors/500");
     }
 };
+/************************** */
+exports.editRealty = async (req, res, next) => {
+
+    try {
+        /* const errors = validationResult(req);
+         if (!errors.isEmpty()) {
+             const error = new Error("Validation is failed.");
+             error.statusCode = 422;
+             error.data = errors.array();
+             throw error;
+         }*/
+        const realty = await Realty.findOne({ _id: req.params.id });
+
+        const { city, range, title, meterage,
+            price, rooms, yearconstruction, floor, elevator,
+            parking, warehouse, address, desc } = req.body;
+
+        realty.city = city;
+        realty.range = range;
+        realty.title = title;
+        realty.meterage = meterage;
+        realty.price = price;
+        realty.rooms = rooms;
+        realty.yearconstruction = yearconstruction;
+        realty.floor = floor;
+        realty.elevator = elevator;
+        realty.parking = parking;
+        realty.warehouse = warehouse;
+        realty.address = address;
+        realty.desc = desc;
+
+        await realty.save();
+        res.status(200).json({ message: "اطلاعات ملک با موفقیت ویرایش گردید." });
+        //  }
+
+
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+/************************* */
 /********************************/
 /*exports.getIndex = async (req, res) => {
     const page = +req.query.page || 1;

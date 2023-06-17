@@ -52,7 +52,7 @@ router.get("/active-user/:id", userController.activeUser);
 router.get("/disactive-user/:id", userController.disactiveUser);
 router.get("/addsms-user/:id", userController.addSmsUserForm);
 router.post("/addsms-post/:id", userController.addSmsUserPost);
-
+router.post("/single-user/:id", userController.getSingleUser);
 
 
 

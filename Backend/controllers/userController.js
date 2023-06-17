@@ -278,6 +278,7 @@ exports.handleLogin = async (req, res, next) => {
                     userId: user._id.toString(),
                     mobile: user.mobile,
                     fullname: user.fullname,
+                    //status: user.status
                     // isAdmin: user.isAdmin
                 }
             },
@@ -287,7 +288,7 @@ exports.handleLogin = async (req, res, next) => {
             }
         );
 
-        res.status(200).json({ token, userId: user._id.toString() });
+        res.status(200).json({ token, userId: user._id.toString(), status: user.status });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -492,7 +493,31 @@ exports.addSmsUserPost = async (req, res) => {
     res.redirect("/users/allusers");
 };
 /************************** */
+/*************************** */
+exports.getSingleUser = async (req, res) => {
 
+    try {
+        const user = await User.findOne({ user: req.params.id });
+        if (!user) {
+
+            error.statusCode = 401;
+            throw error;
+        }
+
+
+        res.status(200).json({ user: user });
+
+        //console.log(allcustomers);
+
+    } catch (err) {
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+/************************* */
 /*********************** */
 exports.AdminhandleLogin1 = async (req, res, next) => {
     /* if (!req.body["g-recaptcha-response"]) {
