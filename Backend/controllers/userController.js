@@ -278,7 +278,7 @@ exports.handleLogin = async (req, res, next) => {
                     userId: user._id.toString(),
                     mobile: user.mobile,
                     fullname: user.fullname,
-                    //status: user.status
+                    status: user.status
                     // isAdmin: user.isAdmin
                 }
             },
@@ -288,7 +288,7 @@ exports.handleLogin = async (req, res, next) => {
             }
         );
 
-        res.status(200).json({ token, userId: user._id.toString(), status: user.status });
+        res.status(200).json({ token, userId: user._id.toString() });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -319,7 +319,7 @@ exports.handleTokenLogin = async (req, res, next) => {
                         userId: user._id.toString(),
                         mobile: user.mobile,
                         fullname: user.fullname,
-                        //status: user.status
+                        status: user.status
                         // isAdmin: user.isAdmin
                     }
                 },
@@ -329,8 +329,11 @@ exports.handleTokenLogin = async (req, res, next) => {
                 }
             );
 
-            res.status(200).json({ token, userId: user._id.toString() });
+
+
         }
+        res.status(200).json({ token, user: user });
+        //res.status(200).json({ message: user.status });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

@@ -7,7 +7,7 @@ const realtySchema = new mongoose.Schema({
 
     category: {
         type: String,
-        required: true,
+
         trim: true,
         /* minlength: 5,
          maxlength: 100,*/
@@ -52,34 +52,29 @@ const realtySchema = new mongoose.Schema({
     rooms: {
         type: String,
         default: "0",
-        enum: ["1", "2", "3", "4", "5"]
+
     },
     yearconstruction: {
         type: String,
         default: "1402",
-        enum: ["1401", "1400", "1399", "1398", "1397", "1396", "1395", "1394", "1393", "1392", "1391", "1390"]
     },
     floor: {
         type: String,
         default: "0",
-        enum: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     },
     elevator: {
         type: String,
         default: "yes",
-        enum: ["yes", "no"],
 
     },
     parking: {
         type: String,
         default: "yes",
-        enum: ["yes", "no"],
 
     },
     warehouse: {
         type: String,
         default: "yes",
-        enum: ["yes", "no"],
 
     },
     address: {

@@ -74,11 +74,11 @@ export const getSingleUser = userId => {
 };
 /************************ */
 export const EditRealty = realtyId => {
-    return http.post(`${config.localapi}/customers/edit-realty/${realtyId}`);
+    return http.post(`${config.localapi}/realty/edit-realty/${realtyId}`);
 };
 /***************************** */
 export const TokenUser = mobile => {
-    return http.get(`${config.localapi}/customers/token-user/${mobile}`);
+    return http.get(`${config.localapi}/users/token-user/${mobile}`);
 };
 /**************************** */
 export const getAllUsersFront = user => {

@@ -8,7 +8,9 @@ exports.handleAddRealty = async (req, res, next) => {
 
     try {
 
-        const { category, city, range, title, meterage, images, price, rooms, yearconstruction, floor, elevator, parking, warehouse, address, desc, user, customer, status } = req.body;
+        const { category, city, range, title, meterage,
+            images, price, rooms, yearconstruction, floor,
+            elevator, parking, warehouse, address, desc, user, customer, status } = req.body;
         let realty; let messagetxt = "";
 
         realty = new Realty({
