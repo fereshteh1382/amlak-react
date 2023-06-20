@@ -1470,3 +1470,13 @@ main#home-page {
 .f-right {
     float: right;
 }
+
+/* bottom navbar */
+.navbar-nav .bottom-nav-link{
+    margin-left: 30px;
+    margin-top: 10px;
+    color:rgba(75, 72, 72, 0.801)
+}
+.bottom-nav-link.active{
+    color:rgb(243, 82, 24);
+}
