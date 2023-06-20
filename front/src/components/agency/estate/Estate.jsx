@@ -4,7 +4,7 @@ import { EstateStateContext } from "../../../context/EstateStateContext";
 
 const Estate = ({ EstateInfo }) => {
     const esContext = useContext(EstateStateContext);
-    const { setEstate } = esContext;
+    const { SetEsatetByID } = esContext;
 
 
     return (
@@ -21,7 +21,7 @@ const Estate = ({ EstateInfo }) => {
                             <p className="card-text">وضعیت: {EstateInfo.status === 'public' ? 'عمومی' : 'شخصی'}</p>
 
                             <Link className="btn btn-warning font-12" 
-                                onClick={()=>setEstate(EstateInfo)}
+                                onClick={()=>SetEsatetByID(EstateInfo._id)}
                                 to={`/agency/estates/${EstateInfo._id}`} >مدیریت ملک</Link>
                         </div>
                     </div>

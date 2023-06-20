@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faKey, faLock, faMobileRetro} from "@fortawesome/free-solid-svg-icons";
 import { addAgencyUser } from "../../redux-actions/agencyUser";
-import { SetUserInfoByToken, existUser, existAdmin } from "../../utils/TokenManagement";
+import { SetUserInfoByToken, existUser, existAdmin, SetAdminInfoByToken, getUserFromToken } from "../../utils/TokenManagement";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
 import { loginUserApi, RemainingSmsCountApi } from "../../services/agencyUserAPIs";
@@ -33,17 +33,23 @@ const AgencyLogin = () => {
 
     const handleLogin =  async(formdata) => {
         try {
+
             const { status, data } = await loginUserApi(formdata);
             if (status === 200) {
-                
-                let UserInfo = SetUserInfoByToken(data); 
-                const smsdata = await RemainingSmsCountApi({userid: data.userId});
-                if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
-                    UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}
+                const tokenInfo = getUserFromToken(data.token)
+                if(tokenInfo && tokenInfo.status && tokenInfo.status === 'admin'){    
+                    SetAdminInfoByToken(data); 
                 }
-                else
-                    UserInfo = {...UserInfo, remainingSms: 0}
-                dispatch(addAgencyUser(UserInfo));
+                else{
+                    let UserInfo = SetUserInfoByToken(data); 
+                    const smsdata = await RemainingSmsCountApi({userid: data.userId});
+                    if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
+                        UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}
+                    }
+                    else
+                        UserInfo = {...UserInfo, remainingSms: 0}
+                    dispatch(addAgencyUser(UserInfo));
+                }
                 
             }
             // setLoading(false);

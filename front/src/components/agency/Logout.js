@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {  useNavigate } from "react-router-dom";
 import { clearAgencyUser } from "../../redux-actions/agencyUser";
-import { ClearUserTokens } from "../../utils/TokenManagement";
+import { ClearAllUserTokens } from "../../utils/TokenManagement";
 
 
 const AgencyLogout = () => {
@@ -10,9 +10,9 @@ const AgencyLogout = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        ClearUserTokens();
+        ClearAllUserTokens();
         dispatch(clearAgencyUser());
-        navigate('/agency', { replace: true });
+        navigate('/', { replace: true });
     }, []);
     return null;
 };

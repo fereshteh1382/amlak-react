@@ -42,7 +42,7 @@ const EstateForm = () =>{
                 <div className="inner">
                     <div className="account-information">
                         <Form key={1} onSubmit={handleSubmit(handleEstateInsert)} >
-                            <Form.Control type="hidden" />
+                            <Form.Control type="hidden"  {...register("_id", {value: estate._id})} />
 
                             
                             <Form.Group as={Row} className="mb-3">

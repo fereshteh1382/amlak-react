@@ -22,10 +22,7 @@ const Main = () =>{
                     </thead>
                     <tbody>
                         {
-                            allAgencyInfo.length == 0 ? <tr><td colSpan={4}>رکوردی یافت نشد</td></tr> :
-                            allAgencyInfo.map((item, index) => (
-                                <Agency key={index} agencyInfo={item}  />
-                            ))
+                            allAgencyInfo.length >0 ? <Agency /> : <tr><td colSpan={4}>رکوردی یافت نشد</td></tr>
                         }
                     </tbody>
                 </Table>

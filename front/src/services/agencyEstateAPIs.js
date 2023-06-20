@@ -13,8 +13,17 @@ export const AddEstateApi = realty => {
     );
 };
 
+export const EditEstateApi = realty => {
+    return http.post(`${config.localapi}/realty/edit-realty/${realty._id}`, JSON.stringify(realty));
+};
+
 export const getAllPublicEstateApi = realty => {
     return http.get(`${config.localapi}/realty/all-publicrealty`);
+};
+
+export const getEstateInfoApi = realtyId => {
+    return http.post(
+        `${config.localapi}/realty/single-realty/${realtyId}`);
 };
 
 

@@ -27,6 +27,26 @@ export const SetUserInfoByToken = (data) => {
     return userInfo;
 };
 
+export const SetAdminInfoByToken = (data) => {
+    let adminInfo = {};
+    if (data && data.token) {
+        localStorage.setItem("AdminToken", data.token);
+        const tokenInfo = decodeToken(data.token);
+        console.log(tokenInfo);
+        const dateNow = Date.now() / 1000;
+        if (tokenInfo.exp < dateNow) {
+            localStorage.removeItem("AdminToken");
+        }
+        else{
+            adminInfo = { Name: tokenInfo.user.fullname, mobile: tokenInfo.user.mobile }
+        }
+
+    }
+    return adminInfo;
+};
+
+
+
 export const getUserInfoByToken = () => {
     let userInfo = {};
     const token = localStorage.getItem("UserToken");
@@ -80,11 +100,20 @@ export const existUser = () =>{
     return user && user.mobile && !isEmpty(user.mobile);
 }
 
-export const ClearUserTokens = () => {
+export const ClearAllUserTokens = () => {
     localStorage.removeItem("UserToken");
+    localStorage.removeItem("AdminToken");
 }
 
 export const existAdmin = () =>{
-    
+    const token = localStorage.getItem("AdminToken");
+    if(token){
+        
+        const tokenInfo = decodeToken(token);
+        const dateNow = Date.now() / 1000;
+        if (tokenInfo.exp >= dateNow) {
+            return true;
+        }
+    }
     return false;
 }

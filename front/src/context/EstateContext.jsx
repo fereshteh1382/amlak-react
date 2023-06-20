@@ -1,9 +1,9 @@
-import { isNull } from "lodash";
+import { isEmpty, isNull } from "lodash";
 import { useEffect, useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
 // import { withRouter } from "react-router";
-import { AddEstateApi, getAllEstateApi } from "../services/agencyEstateAPIs";
+import { AddEstateApi, EditEstateApi, getAllEstateApi } from "../services/agencyEstateAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { EstateStateContext } from "./EstateStateContext";
@@ -74,10 +74,15 @@ const EstateContext = ({ children }) => {
     /************************************************* */
 
     const SetEsatetByID = estateid =>{
+        if(estateid === 0)
+            setEstate({})  
         const existed = estatesInfo.find(o => o._id === estateid);
         if (existed && existed._id) 
             setEstate(existed)
+        else
+            setEstate({})  
     }
+
 
     
     
@@ -99,12 +104,23 @@ const EstateContext = ({ children }) => {
             estate.parking = isNull(estate.parking) ? 'no' : estate.parking;
             estate.elevator = isNull(estate.elevator) ? 'no' : estate.elevator;
             estate.warehouse = isNull(estate.warehouse) ? 'no' : estate.warehouse;
-            const { status } = await AddEstateApi({...estate, user: userInfo.userId});
-            if (status === 201) {
-                successMessage("اطلاعات ملک با موفقیت ثبت شد.");
-                getUserEstates();
-                navigate('/agency/estates', { replace: true });
+            if(!isEmpty(estate._id)){
+                const { status } = await EditEstateApi({...estate, user: userInfo.userId});
+                if (status === 200) {
+                    successMessage("اطلاعات ملک با موفقیت ویرایش گردید.");
+                    navigate('/agency/estates', { replace: true });
+                }
             }
+            else{
+                const { status } = await AddEstateApi({...estate, user: userInfo.userId});
+                if (status === 201) {
+                    successMessage("اطلاعات ملک با موفقیت ثبت شد.");
+                    navigate('/agency/estates', { replace: true });
+                }
+            }
+            getUserEstates();
+           
+            
             // setLoadingFields({ loading: false, blur: false });
         } catch (ex) {
             errorMessage(ex.message ? ex.message : "مشکلی در ثبت اطلاعات رخ داده است.");

@@ -10,12 +10,12 @@ import Esatets from "./Estates";
 
 const EstatesWrapper = () =>{
     const esContext = useContext(EstateStateContext);
-    const {estatesInfo} = esContext;
+    const {estatesInfo, SetEsatetByID} = esContext;
    
     return(
         <>
             <Container className="text-center">
-                <Link to="/agency/estates/new" className="btn btn-success">
+                <Link to="/agency/estates/new" onClick={()=>SetEsatetByID(0)} className="btn btn-success">
                     <FontAwesomeIcon icon={faHome} className="pl-1" /> ثبت ملک جدید
                 </Link>
             </Container>
