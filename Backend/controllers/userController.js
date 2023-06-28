@@ -311,27 +311,27 @@ exports.handleTokenLogin = async (req, res, next) => {
             throw error;
         }
 
-        if (user.status === "admin") {
+        //if (user.status == "admin") {
 
-            const token = await jwt.sign(
-                {
-                    user: {
-                        userId: user._id.toString(),
-                        mobile: user.mobile,
-                        fullname: user.fullname,
-                        status: user.status
-                        // isAdmin: user.isAdmin
-                    }
-                },
-                "secret",
-                {
-                    expiresIn: "1h"
+        const token = jwt.sign(
+            {
+                user: {
+                    userId: user._id.toString(),
+                    mobile: user.mobile,
+                    fullname: user.fullname,
+                    status: user.status
+                    // isAdmin: user.isAdmin
                 }
-            );
+            },
+            "secret",
+            {
+                expiresIn: "1h"
+            }
+        );
 
 
 
-        }
+        //  } else { token = 'null'; }
         res.status(200).json({ token, user: user });
         //res.status(200).json({ message: user.status });
     } catch (err) {
