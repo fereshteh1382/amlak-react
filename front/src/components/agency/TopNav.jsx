@@ -1,6 +1,7 @@
 import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLocation } from "react-router-dom";
+import { existUser } from "../../utils/TokenManagement";
 
 const AgencyTopNav = () =>{
     const location = useLocation();
@@ -18,7 +19,7 @@ const AgencyTopNav = () =>{
                             </ul>
                         </div>
                         {
-                            pathName === '/agency/login' || pathName === '/agency/register' ?  '' : 
+                            (pathName === '/agency/login' || pathName === '/agency/register' || !existUser()) ?  '' : 
                             <div className="col-sm-6 col-xs-12">
                                 <div className="clientarea">
                                     <div className="loggein ">

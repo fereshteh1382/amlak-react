@@ -15,9 +15,7 @@ const AgencyLogin = () => {
     const { register, handleSubmit, formState:{errors} } = useForm();
     const dispatch = useDispatch();
     
-    if(existAdmin()){
-        return <Navigate to="/admin" replace="true" />;
-    }else if(existUser()){
+    if(existUser()){
         return <Navigate to="/agency" replace="true" />;
     }
 
@@ -37,19 +35,16 @@ const AgencyLogin = () => {
             const { status, data } = await loginUserApi(formdata);
             if (status === 200) {
                 const tokenInfo = getUserFromToken(data.token)
-                if(tokenInfo && tokenInfo.status && tokenInfo.status === 'admin'){    
-                    SetAdminInfoByToken(data); 
+
+                let UserInfo = SetUserInfoByToken(data); 
+                const smsdata = await RemainingSmsCountApi({userid: data.userId});
+                if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
+                    UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}
                 }
-                else{
-                    let UserInfo = SetUserInfoByToken(data); 
-                    const smsdata = await RemainingSmsCountApi({userid: data.userId});
-                    if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
-                        UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}
-                    }
-                    else
-                        UserInfo = {...UserInfo, remainingSms: 0}
-                    dispatch(addAgencyUser(UserInfo));
-                }
+                else
+                    UserInfo = {...UserInfo, remainingSms: 0}
+                dispatch(addAgencyUser(UserInfo));
+                
                 
             }
             // setLoading(false);

@@ -14,6 +14,7 @@ import GroupSms from "../components/agency/GroupSms";
 import EstateInfo from "../components/home/EstateInfo";
 import Main from "../components/admin/agency/Main";
 import Dashboard from "../components/admin/Dashboard";
+import AdminLogin from "../components/admin/Login";
 
 const Amlak = () => {
 
@@ -26,11 +27,14 @@ const Amlak = () => {
                     <Route path=":id" element={<EstateInfo />} />
                 </Route>
                    
+                <Route path="/adminpanel" element={<AdminLogin />} />   
                 <Route path="/admin" element={<AdminPanel />}>
                     <Route index  element={<Dashboard />} />
                     <Route path="agency"  element={<Main />}/>
                 </Route>
+
                 
+               
                 <Route path="/agency" element={<AgencyPanel />}>
                     <Route index  element={<ProtectedRoute><AgencyDashboard /></ProtectedRoute>} />
                     <Route path="login"  element={<AgencyLogin />}/>

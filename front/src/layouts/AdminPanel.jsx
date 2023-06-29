@@ -1,10 +1,13 @@
-import { faSignIn } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import AdminTopNav from "../components/admin/AdminTopNav";
 import AdminContext from "../context/AdminContext";
+import { existAdmin } from "../utils/TokenManagement";
 
 const AdminPanel = () =>{
+    const exist = existAdmin();
+    if (!exist) {
+        return <Navigate to="/admin/login" replace="true" />;
+    }
     return(
         <AdminContext>
             <AdminTopNav />
