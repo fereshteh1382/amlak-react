@@ -94,7 +94,7 @@ const AdminLogin = () => {
                             </div>
                             {errors.password && checkError(errors.password.type,"رمزعبور",condition.password)}
                             <div className="text-center">
-                                <button className="btn btn-warning">  ورود به سایت</button>
+                                <button className="btn btn-warning">  ورود به پنل ادمین</button>
                             </div>
                         </form>
                     </div>

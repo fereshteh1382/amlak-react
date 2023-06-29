@@ -6,7 +6,7 @@ import { existAdmin } from "../utils/TokenManagement";
 const AdminPanel = () =>{
     const exist = existAdmin();
     if (!exist) {
-        return <Navigate to="/admin/login" replace="true" />;
+        return <Navigate to="/adminpanel" replace="true" />;
     }
     return(
         <AdminContext>
