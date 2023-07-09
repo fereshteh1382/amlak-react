@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
-import { getAllUsersFrontApi, TokenUserApi } from "../services/agencyUserAPIs";
+import { addAgencyUser } from "../redux-actions/agencyUser";
+import { getAllUsersFrontApi, RemainingSmsCountApi, TokenUserApi } from "../services/agencyUserAPIs";
 import { errorMessage, successMessage } from "../utils/message";
+import { SetUserInfoByToken } from "../utils/TokenManagement";
 // import { withRouter } from "react-router";
 import { AdminStateContext } from "./AdminStateContext";
 
 
 const AdminContext = ({ children }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [allAgencyInfo, setAllAgencyInfo] = useState([]);
@@ -37,11 +41,16 @@ const AdminContext = ({ children }) => {
 
     const loginAsAgency = async mobile => {
         try {
-            
-                const { status } = await TokenUserApi(mobile);
+                const { data, status } = await TokenUserApi(mobile);
                 if (status === 200) {
-                    // successMessage("اطلاعات ملک با موفقیت ویرایش گردید.");
-                    navigate('/agency/estates', { replace: true });
+                    let UserInfo = SetUserInfoByToken(data); 
+                    const smsdata = await RemainingSmsCountApi({userid: data.userId});
+                    if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
+                        UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}
+                        dispatch(addAgencyUser(UserInfo));
+                        navigate('/agency', { replace: true });
+                    }
+                    
                 }
         } catch (ex) {
             errorMessage(ex.message ? ex.message : "مشکلی در انجام عملیات رخ داده است.");
