@@ -493,10 +493,12 @@ exports.deleteUser = async (req, res) => {
     try {
         const result = await User.findByIdAndRemove(req.params.id);
         // console.log(result);
-        res.redirect("/users/allusers");
+        //res.redirect("/users/allusers");
+        res.status(200).json({ message: "ِDelete Success." });
     } catch (err) {
         console.log(err);
-        res.render("errors/500");
+        //res.render("errors/500");
+        err.statusCode = 500;
     }
 };
 exports.activeUser = async (req, res) => {
@@ -505,10 +507,11 @@ exports.activeUser = async (req, res) => {
         const result = await User.findByIdAndUpdate(req.params.id, { status: 'active' });
 
         // console.log(result);
-        res.redirect("/users/allusers");
+        //res.redirect("/users/allusers");
+        res.status(200).json({ message: "ِActive Success." });
     } catch (err) {
         console.log(err);
-        res.render("errors/500");
+        err.statusCode = 500;
     }
 };
 exports.disactiveUser = async (req, res) => {
@@ -516,10 +519,11 @@ exports.disactiveUser = async (req, res) => {
         const result = await User.findByIdAndUpdate(req.params.id, { status: 'noactive' });
 
         // console.log(result);
-        res.redirect("/users/allusers");
+        // res.redirect("/users/allusers");
+        res.status(200).json({ message: "ِDisActive Success." });
     } catch (err) {
         console.log(err);
-        res.render("errors/500");
+        err.statusCode = 500;
     }
 };
 /************************ */
@@ -549,20 +553,29 @@ exports.addSmsUserForm = async (req, res) => {
 };
 /************************************** */
 exports.addSmsUserPost = async (req, res) => {
-    let counts = req.body.smscount;
+    //let counts = req.body.smscount;
+    let counts = req.params.smscount;
     let user = await User.findOne({ _id: req.params.id });
+    try {
+        if (!user) {
+            //return res.redirect("/404");
+            error.statusCode = 401;
+            throw error;
+        } else {
+            //console.log(user.smscount);
+            user.smscount = Number(user.smscount) + Number(counts);
+            await user.save();
+        }
 
-    if (!user) {
-        return res.redirect("/404");
-    } else {
-        //console.log(user.smscount);
-        user.smscount = Number(user.smscount) + Number(counts);
-        await user.save();
+        res.status(200).json({ message: "Saved" });
+        //res.redirect("/users/allusers");
+    } catch (err) {
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
     }
-
-
-    //  req.flash("success_msg", "پسورد شما با موفقیت بروزرسانی شد");
-    res.redirect("/users/allusers");
 };
 /************************** */
 /*************************** */

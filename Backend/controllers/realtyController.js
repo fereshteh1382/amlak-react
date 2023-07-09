@@ -150,10 +150,12 @@ exports.confirmrealty = async (req, res) => {
         const result = await Realty.findByIdAndUpdate(req.params.id, { status: 'public' });
 
         // console.log(result);
-        res.redirect("/users/allusers");
+        // res.redirect("/users/allusers");
+        res.status(200).json({ message: "confirm realty." });
+
     } catch (err) {
         console.log(err);
-        res.render("errors/500");
+        //  res.render("errors/500");
     }
 };
 /************************** */
@@ -162,10 +164,11 @@ exports.noconfirmrealty = async (req, res) => {
         const result = await Realty.findByIdAndUpdate(req.params.id, { status: 'private' });
 
         // console.log(result);
-        res.redirect("/users/allusers");
+        // res.redirect("/users/allusers");
+        res.status(200).json({ message: "No confirm realty." });
     } catch (err) {
         console.log(err);
-        res.render("errors/500");
+        //res.render("errors/500");
     }
 };
 /************************** */

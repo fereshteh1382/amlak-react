@@ -25,7 +25,14 @@ export const getEstateInfoApi = realtyId => {
     return http.post(
         `${config.localapi}/realty/single-realty/${realtyId}`);
 };
+/** */
+export const confirmrealty = realtyId => {
+    return http.get(`${config.localapi}/realty/confirmrealty/${realtyId}`);
+};
 
+export const noconfirmrealty = realtyId => {
+    return http.get(`${config.localapi}/realty/noconfirmrealty/${realtyId}`);
+};
 
 
 

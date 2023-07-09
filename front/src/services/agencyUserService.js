@@ -84,6 +84,26 @@ export const TokenUser = mobile => {
 export const getAllUsersFront = user => {
     return http.get(`${config.localapi}/users/allusersfront`);
 };
+/*************************** */
+export const DeleteUser = userId => {
+    return http.get(`${config.localapi}/users/delete-user/${userId}`);
+};
+/*************************** */
+export const ActiveUser = userId => {
+    return http.get(`${config.localapi}/users/active-user/${userId}`);
+};
+/*************************** */
+export const DisActiveUser = userId => {
+    return http.get(`${config.localapi}/users/disactive-user/${userId}`);
+};
+/*************************** */
+/*export const addsmsuser = userId => {
+    return http.get(`${config.localapi}/users/addsms-user/${userId}`);
+};*/
+/*************************** */
+export const savesmsuser = userId => {
+    return http.post(`${config.localapi}/users/addsms-post/${userId}/${smscount}`);
+};
 /******************************** */
 /*export const RegisterImage = img => {
     return http.post(
