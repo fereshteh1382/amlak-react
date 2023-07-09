@@ -61,13 +61,13 @@ const CustomerContext = ({ children }) => {
     const condition = {
         fullname: { required: true, minLength: 5, },
         tel: { required: true, },
-        address: {minLength: 10, },
+        address: { minLength: 10, },
         desc: {},
     }
 
     /************************************************* */
 
-    const getAllCustomers = async () =>{
+    const getAllCustomers = async () => {
         const customerInfo = await getAllCustomersApi(userInfo.userId);
         if (customerInfo.data && customerInfo.data.allcustomers) {
             let customers = customerInfo.data.allcustomers.map((d) => ({
@@ -77,7 +77,7 @@ const CustomerContext = ({ children }) => {
                 label: d.fullname
             }));
 
-            setAllCustomers([{ key: 0, value: '', text: "", label:' ' },...customers]);
+            setAllCustomers([{ key: 0, value: '', text: "", label: ' ' }, ...customers]);
         }
         else {
             setAllCustomers([]);
@@ -165,15 +165,15 @@ const CustomerContext = ({ children }) => {
 
     const handleSendSms = async messageBody => {
         try {
-            const data = await SendSmsToCustomerApi({ customernumbers: customerInfo.tel, userId: userInfo.userId, message: messageBody });
+            const data = await SendSmsToCustomerApi({ userId: userInfo.userId, customernumbers: customerInfo.tel, message: messageBody });
             const { status } = data;
             if (status === 201) {
                 successMessage(`پیامک با موفقیت ارسال گردید.`);
-                const smsdata = await RemainingSmsCountApi({userid: userInfo.userId});
-                if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
+                const smsdata = await RemainingSmsCountApi({ userid: userInfo.userId });
+                if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount) {
                     dispatch(setNumberOfRemainingSmsAgency(smsdata.data.smscount));
                 }
-                
+
                 handleSmsClose();
             }
         } catch (ex) {

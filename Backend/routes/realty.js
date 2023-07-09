@@ -11,6 +11,6 @@ router.get("/confirmrealty/:id", realtyController.confirmrealty);
 router.get("/noconfirmrealty/:id", realtyController.noconfirmrealty);
 router.post("/edit-realty/:id", realtyController.editRealty);
 
-/*router.get("/delete-realty/:id", realtyController.deleteRealty);
-router.post("/single-realty/:id", realtyController.singleRealty);*/
+/*router.get("/delete-realty/:id", realtyController.deleteRealty);*/
+router.post("/single-realty/:id", realtyController.getSingleRealty);
 module.exports = router;

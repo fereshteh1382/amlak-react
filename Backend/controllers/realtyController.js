@@ -212,6 +212,32 @@ exports.editRealty = async (req, res, next) => {
     }
 };
 /************************* */
+/*************************** */
+exports.getSingleRealty = async (req, res) => {
+
+    try {
+
+        const realty = await Realty.findOne({ _id: req.params.id });
+        if (!realty) {
+
+            error.statusCode = 401;
+            throw error;
+        }
+
+
+        res.status(200).json({ realty: realty });
+
+        //console.log(allcustomers);
+
+    } catch (err) {
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+/************************* */
 /********************************/
 /*exports.getIndex = async (req, res) => {
     const page = +req.query.page || 1;

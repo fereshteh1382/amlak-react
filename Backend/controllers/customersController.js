@@ -138,7 +138,6 @@ exports.deleteCustomer = async (req, res) => {
 };
 /******************************* */
 exports.smsCustomer = async (req, res) => {
-
     var Kavenegar = require('kavenegar');
     var api = Kavenegar.KavenegarApi({
         apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
@@ -147,25 +146,25 @@ exports.smsCustomer = async (req, res) => {
 
         user = req.params.userid;
         num = req.params.customernumbers;
-        msg = req.params.message;
+        msg = req.params.message; //console.log(msg);
         const userfind = await User.findOne({ _id: user });
         if (userfind.smscount > 0) {
             /** */
-            api.Send({
-                message: msg, //"وب سرویس تخصصی کاوه نگار",
-                sender: "10008663",
-                receptor: num //"09156195942"
-
-            },
-                function (response, status) {
-                    console.log(response);
-                    console.log(status);
-                });
-
+            api.VerifyLookup({
+                receptor: num,
+                token: num,
+                token10: "به پنل مدیریت املاک خوش آمدید.",
+                // token10: "welcome To Panel",
+                template: "rezerv"
+            }, function (response, status) {
+                console.log(response);
+                console.log(status);
+            });
             /** */
             userfind.smscount = userfind.smscount - 1;
             await userfind.save();
-            res.status(201).json({ message: "Send Sms To Customer .", number: num });
+            res.status(201).json({ message: "Send Sms To Customer .", number: msg });
+
 
         } else {
             res.status(202).json({ message: "You Don't Have Account For Send Sms." });
