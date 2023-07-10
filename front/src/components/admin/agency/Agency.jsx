@@ -6,7 +6,7 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 const Agency = ({agencyInfo}) =>{
     const acontext = useContext(AdminStateContext);
-    const {loginAsAgency, changeUserStatus} = acontext;
+    const {loginAsAgency, changeUserStatus, handleSmsCountModalShow} = acontext;
     return(
 
         <tr>
@@ -16,7 +16,7 @@ const Agency = ({agencyInfo}) =>{
             <td><FontAwesomeIcon icon={faSignIn} onClick={()=>loginAsAgency(agencyInfo.mobile)} className="pl-1" style={{cursor: "pointer"}} /> </td>
             <td>
                 {/* <FontAwesomeIcon icon={faTrash} onClick={()=>loginAsAgency(agencyInfo.mobile)} className="pl-3 text-danger" style={{cursor: "pointer"}} /> */}
-                <FontAwesomeIcon icon={faSms} onClick={()=>loginAsAgency(agencyInfo.mobile)} className="pl-3 text-primary" style={{cursor: "pointer", fontSize: "20px"}} />
+                <FontAwesomeIcon icon={faSms} onClick={() => { handleSmsCountModalShow(agencyInfo._id) }} className="pl-3 text-primary" style={{cursor: "pointer", fontSize: "20px"}} />
                 <BootstrapSwitchButton checked={agencyInfo.status === 'active'}
                     onChange={()=>changeUserStatus(agencyInfo._id, agencyInfo.status)}  
                     size="xs" onlabel="فعال"  onstyle="success"  width={80} height={10}

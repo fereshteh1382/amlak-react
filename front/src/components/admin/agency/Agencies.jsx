@@ -4,10 +4,11 @@ import { useContext } from "react";
 import { Container, Table } from "react-bootstrap";
 import { AdminStateContext } from "../../../context/AdminStateContext";
 import Agency from "./Agency";
+import SmsChargedBoxModal from "./SmsChargedBoxModal";
 
 const AdminAgencies = () =>{
     const acontext = useContext(AdminStateContext);
-    const {allAgencyInfo} = acontext;
+    const {allAgencyInfo, smsCountModal, chargedUserSms, handleSmsCountModalClose} = acontext;
     return(
             <Container className="table-responsive-sm mx-auto mt-5" style={{maxWidth:"700px"}}>
                 <h1 className="text-center">لیست مشاورین املاک</h1>
@@ -30,6 +31,7 @@ const AdminAgencies = () =>{
                         }
                     </tbody>
                 </Table>
+                <SmsChargedBoxModal show={smsCountModal} handleChargedSms={chargedUserSms} handleClose={handleSmsCountModalClose} />
             </Container>
         
     )

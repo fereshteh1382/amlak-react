@@ -18,6 +18,10 @@ export const DisActiveUserApi = userId => {
     return http.get(`${config.localapi}/users/disactive-user/${userId}`);
 };
 
+export const ChargedUserSmsPanelApi = (userId, smscount) => {
+    return http.post(`${config.localapi}/users/addsms-post/${userId}/${smscount}`);
+};
+
 
 export const registerUserApi = user => {
     return http.post(

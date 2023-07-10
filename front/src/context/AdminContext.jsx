@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
 import { addAgencyUser } from "../redux-actions/agencyUser";
-import { ActiveUserApi, DisActiveUserApi, getAllUsersFrontApi, RemainingSmsCountApi, TokenUserApi } from "../services/agencyUserAPIs";
+import { ActiveUserApi, DisActiveUserApi, getAllUsersFrontApi, RemainingSmsCountApi, TokenUserApi, ChargedUserSmsPanelApi } from "../services/agencyUserAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { SetUserInfoByToken } from "../utils/TokenManagement";
 // import { withRouter } from "react-router";
@@ -17,6 +17,18 @@ const AdminContext = ({ children }) => {
 
     const [allAgencyInfo, setAllAgencyInfo] = useState([]);
     
+    /** sms modal */
+    const [useridChargedSms, setUseridChargedSms] = useState(0);
+    const [smsCountModal, setSmsCountModalShow] = useState(false);
+    const handleSmsCountModalClose = () => {
+        setUseridChargedSms(0)
+        setSmsCountModalShow(false);
+    }
+    const handleSmsCountModalShow = (id) => {
+        setUseridChargedSms(id);
+        setSmsCountModalShow(true);
+    }
+
     useEffect(() => {
         const fetchInfo = async () => {
             try {
@@ -71,7 +83,6 @@ const AdminContext = ({ children }) => {
                 
                 
                 if (status == 200) {
-                    console.log(status)    
                     successMessage("تغییر وضعیت کاربر با موفقیت انجام گردید.");
                     
                 }
@@ -80,6 +91,25 @@ const AdminContext = ({ children }) => {
         }
     };
 
+    const chargedUserSms = async formdata => {
+        try {
+
+            console.log(formdata.smscount)
+                if(isEmpty(useridChargedSms) && formdata.smscount && formdata.smscount*1 <1){
+                    errorMessage("خطا در اطلاعات");
+                    return;
+                }
+                const { data, status } = await ChargedUserSmsPanelApi(useridChargedSms, formdata.smscount);
+                if (status == 200) {
+                    successMessage("شارژ پنل پیامک با موفقیت انجام شد");
+                    handleSmsCountModalClose();
+                }
+        } catch (ex) {
+            errorMessage(ex.message ? ex.message : "مشکلی در انجام عملیات رخ داده است.");
+        }
+    };
+
+    
     
     return (
         <AdminStateContext.Provider
@@ -87,6 +117,11 @@ const AdminContext = ({ children }) => {
                 allAgencyInfo,
                 loginAsAgency,
                 changeUserStatus,
+                chargedUserSms,
+                handleSmsCountModalShow,
+                handleSmsCountModalClose,
+                smsCountModal,
+                useridChargedSms, 
             }}
         >
             {children}

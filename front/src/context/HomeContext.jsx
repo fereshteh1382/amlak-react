@@ -25,8 +25,8 @@ const HomeContext = ({ children }) => {
         try {
             
             const output = await getEstateInfoApi(id);
-            console.log(output)
             if (output.status === 200) {
+                setSelectedEstateInfo(output.data.realty);
                 navigate(`/estate/${id}`);
             }
         } catch (ex) {
