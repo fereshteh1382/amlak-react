@@ -12,9 +12,9 @@ import AgencyLogout from "../components/agency/Logout";
 import EstateLayout from "../components/agency/estate/EsatetLayout";
 import GroupSms from "../components/agency/GroupSms";
 import EstateInfo from "../components/home/EstateInfo";
-import Main from "../components/admin/agency/Main";
 import Dashboard from "../components/admin/Dashboard";
 import AdminLogin from "../components/admin/Login";
+import AdminAgencies from "../components/admin/agency/Agencies";
 
 const Amlak = () => {
 
@@ -30,7 +30,7 @@ const Amlak = () => {
                 <Route path="/adminpanel" element={<AdminLogin />} />   
                 <Route path="/admin" element={<AdminPanel />}>
                     <Route index  element={<Dashboard />} />
-                    <Route path="agency"  element={<Main />}/>
+                    <Route path="agency"  element={<AdminAgencies />}/>
                 </Route>
 
                 

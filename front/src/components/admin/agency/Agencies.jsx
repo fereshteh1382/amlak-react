@@ -5,7 +5,7 @@ import { Container, Table } from "react-bootstrap";
 import { AdminStateContext } from "../../../context/AdminStateContext";
 import Agency from "./Agency";
 
-const Main = () =>{
+const AdminAgencies = () =>{
     const acontext = useContext(AdminStateContext);
     const {allAgencyInfo} = acontext;
     return(
@@ -18,11 +18,15 @@ const Main = () =>{
                             <th scope="col">نام بنگاه</th>
                             <th scope="col">تلفن</th>
                             <th scope="col">لاگین</th>
+                            <th scope="col">عملیات</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            allAgencyInfo.length >0 ? <Agency /> : <tr><td colSpan={4}>رکوردی یافت نشد</td></tr>
+                            allAgencyInfo.length == 0 ? <tr><td colSpan={4}>رکوردی یافت نشد</td></tr> :
+                            allAgencyInfo.map((item, index) => (
+                                <Agency key={index} agencyInfo={item}  />
+                            ))
                         }
                     </tbody>
                 </Table>
@@ -31,4 +35,4 @@ const Main = () =>{
     )
 }
 
-export default Main;
+export default AdminAgencies;

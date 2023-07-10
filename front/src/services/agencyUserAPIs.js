@@ -10,6 +10,14 @@ export const TokenUserApi = mobile => {
     return http.get(`${config.localapi}/users/token-user/${mobile}`);
 };
 
+export const ActiveUserApi = userId => {
+    return http.get(`${config.localapi}/users/active-user/${userId}`);
+};
+
+export const DisActiveUserApi = userId => {
+    return http.get(`${config.localapi}/users/disactive-user/${userId}`);
+};
+
 
 export const registerUserApi = user => {
     return http.post(

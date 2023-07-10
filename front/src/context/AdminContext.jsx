@@ -1,9 +1,10 @@
+import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
 import { addAgencyUser } from "../redux-actions/agencyUser";
-import { getAllUsersFrontApi, RemainingSmsCountApi, TokenUserApi } from "../services/agencyUserAPIs";
+import { ActiveUserApi, DisActiveUserApi, getAllUsersFrontApi, RemainingSmsCountApi, TokenUserApi } from "../services/agencyUserAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { SetUserInfoByToken } from "../utils/TokenManagement";
 // import { withRouter } from "react-router";
@@ -57,11 +58,35 @@ const AdminContext = ({ children }) => {
         }
     };
 
+    const changeUserStatus = async (userid, userstatus) => {
+        try {
+
+                if(isEmpty(userid) && userstatus !== 'noactive' && userstatus !== 'active'){
+                    errorMessage("خطا در وضعیت کاربر");
+                    return;
+                }
+
+                const { data, status } = (userstatus == 'noactive') ? 
+                    await ActiveUserApi(userid) : await DisActiveUserApi(userid);
+                
+                
+                if (status == 200) {
+                    console.log(status)    
+                    successMessage("تغییر وضعیت کاربر با موفقیت انجام گردید.");
+                    
+                }
+        } catch (ex) {
+            errorMessage(ex.message ? ex.message : "مشکلی در انجام عملیات رخ داده است.");
+        }
+    };
+
+    
     return (
         <AdminStateContext.Provider
             value={{
                 allAgencyInfo,
                 loginAsAgency,
+                changeUserStatus,
             }}
         >
             {children}
