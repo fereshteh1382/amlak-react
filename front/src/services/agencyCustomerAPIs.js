@@ -38,7 +38,7 @@ export const RezervDateForCustomerApi = customer => {
     );
 };*/
 export const SendSmsToCustomerApi = smsInfo => {
-    return http.post(
+    return http.get(
         `${config.localapi}/customers/sms-customers/${smsInfo.userId}/${smsInfo.customernumbers}/${smsInfo.message}`,
     );
 };

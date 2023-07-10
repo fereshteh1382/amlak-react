@@ -9,7 +9,7 @@ router.get("/all-customers/:userid", customersController.getAllCustomers);
 router.get("/delete-customers/:id", customersController.deleteCustomer);
 router.post("/edit-customers/:id", customersController.editCustomer);
 router.get("/single-customer/:id", customersController.getSingleCustomer);
-router.post("/sms-customers/:userid/:customernumbers/:message", customersController.smsCustomer);
+router.get("/sms-customers/:userid/:customernumbers/:message", customersController.smsCustomer);
 router.post("/sms-allcustomers/:userid/:message", customersController.smstoAllCustomers);
 router.get("/search-customer/:name", customersController.getSearchCustomer);
 

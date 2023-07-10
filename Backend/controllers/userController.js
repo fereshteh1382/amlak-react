@@ -73,8 +73,23 @@ exports.handleRegister = async (req, res, next) => {
                 // isAdmin: false
             });
             await user.save();
-            //   await User.create({ fullname, mobile, hashedPw });
+            /**** */
 
+
+
+            /** */
+            api.VerifyLookup({
+                receptor: mobile,
+                token: mobile,
+                // token20: "ثبت نام شما با موفقیت انجام شد پس از تایید ادمین میتوانید لاگین نمایید.",
+                template: "amlak"
+            }, function (response, status) {
+                console.log(response);
+                console.log(status);
+            });
+            /** */
+
+            /***** */
             messagetxt = "User created.";
             res.status(201).json({ message: messagetxt });
         }
