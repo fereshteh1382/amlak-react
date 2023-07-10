@@ -248,4 +248,30 @@ exports.getSingleCustomer = async (req, res) => {
 
     }
 };
+/******************************** */
+/*exports.findAll = function (req, res) {
+    var country = req.params.country;
+    db.collection('wines', function (err, collection) {
+        collection.find({ 'country': new RegExp('/' + country + '/i') }).toArray(function (err, items) {
+            res.jsonp(items);
+        });
+    });
+};*/
+/**************************** */
+exports.getSearchCustomer = async (req, res) => {
+    try {
+        const name = req.params.name;
+
+        const searchcustomer = await Customers.find({ fullname: { $regex: '.*' + name + '.*', $options: 'i' } });
+        res.status(200).json({ name, searchcustomer });
+
+    } catch (err) {
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+
+    }
+};
+
 
