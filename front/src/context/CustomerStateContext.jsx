@@ -20,6 +20,8 @@ export const CustomerStateContext = createContext({
 
     reserveModalShow: false,
     reserveContent: "list",
+    isSearch:false,
+    SearchCustomer: () =>{},
     handleReserveShow: ()=>{},
     handleReserveClose: ()=>{},
     setReserveContent: ()=>{},

@@ -10,8 +10,8 @@ import { Alert, Col } from "react-bootstrap";
 
 const CustomersWrapper = ({mode}) =>{
     const csContext = useContext(CustomerStateContext);
-    const {newCustomers} = csContext;
-   
+    const {newCustomers, isSearch} = csContext;
+    const msg = isSearch ? 'رکوردی یافت نشد'  : 'تاکنون اطلاعاتی از مشتریان شما ثبت نشده است';
     return(
         <>
             <Link to="/agency/customers/new" className="btn btn-success">
@@ -19,14 +19,11 @@ const CustomersWrapper = ({mode}) =>{
             </Link>
             <br/>
             <br/>
-            {newCustomers.length>0 ? 
-            <>
-                <Search />
-                <Col><Customers customers={newCustomers}  /></Col>
-            </> : 
-            <Alert variant="info" >تاکنون اطلاعاتی از مشتریان شما ثبت نشده است</Alert>
-            }
             
+            {newCustomers.length>0  || isSearch ? <Search /> : '' }
+            {newCustomers.length>0 ? <Col><Customers customers={newCustomers}  /></Col> : '' }
+            {newCustomers.length == 0 ?  <Alert variant="info" >{msg}</Alert> : ''}    
+           
         </>
     )
 }
