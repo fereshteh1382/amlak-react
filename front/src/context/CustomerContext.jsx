@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { withRouter } from "../components/main/withRouter ";
 import { setNumberOfRemainingSmsAgency } from "../redux-actions/agencyUser";
-import { getAllCustomersApi, customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi, SendSmsToCustomerApi } from "../services/agencyCustomerAPIs";
+import { getAllCustomersApi, customerRegisterApi, DeleteCustomerApi, EditCustomerApi, getNewCustomersApi, RezervDateForCustomerApi, SendSmsToCustomerApi, SearchCustomerApi } from "../services/agencyCustomerAPIs";
 import { RemainingSmsCountApi } from "../services/agencyUserAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
@@ -14,6 +14,7 @@ const CustomerContext = ({ children }) => {
     const dispatch = useDispatch();
 
     const [newCustomers, setNewCustomers] = useState([]);
+    const [isSearch, setIsSearch] = useState(false);
     const [customerInfo, setCustomerInfo] = useState({});
     const [loadingFields, setLoadingFields] = useState({ loading: false, blur: false });
     const userInfo = getUserForAxios();
@@ -85,9 +86,30 @@ const CustomerContext = ({ children }) => {
     }
 
     const getNewCustomer = async () => {
+        setIsSearch(false);
         const customerInfo = await getNewCustomersApi(userInfo.userId);
         if (customerInfo.data && customerInfo.data.allcustomers) {
             setNewCustomers(customerInfo.data.allcustomers);
+        }
+        else {
+            setNewCustomers([]);
+        }
+
+    }
+
+    const SearchCustomer = async (cusomerInfo) => {
+        let customerInfo = [];
+        setIsSearch(true);
+        if(isEmpty(cusomerInfo.name))
+            customerInfo = await getNewCustomersApi(userInfo.userId);
+        else  
+            customerInfo = await SearchCustomerApi(/*userInfo.userId,*/ cusomerInfo.name);
+
+        if (customerInfo.data && customerInfo.data.allcustomers) {
+            setNewCustomers(customerInfo.data.allcustomers);
+        }
+        else if (customerInfo.data && customerInfo.data.searchcustomer) {
+            setNewCustomers(customerInfo.data.searchcustomer);
         }
         else {
             setNewCustomers([]);
@@ -196,6 +218,9 @@ const CustomerContext = ({ children }) => {
                 reserveModalShow,
                 reserveContent,
 
+                isSearch,
+
+                SearchCustomer,
                 handleCustomerRegister,
                 handleDeleteCustomer,
                 setCustomerInfo,
