@@ -265,8 +265,14 @@ exports.getSingleCustomer = async (req, res) => {
 exports.getSearchCustomer = async (req, res) => {
     try {
         const name = req.params.name;
+        const userid = req.params.userid;
 
-        const searchcustomer = await Customers.find({ fullname: { $regex: '.*' + name + '.*', $options: 'i' } });
+        const searchcustomer = await Customers.find({
+            $and: [
+                { fullname: { $regex: '.*' + name + '.*', $options: 'i' } },
+                { user: userid }
+            ]
+        });
         res.status(200).json({ name, searchcustomer });
 
     } catch (err) {

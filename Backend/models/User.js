@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
         default: 100,
 
     },
+    verifycode: {
+        type: String,
+
+    },
     createdAt: {
         type: Date,
         default: Date.now,

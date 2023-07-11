@@ -287,6 +287,20 @@ exports.handleLogin = async (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
+        /** */
+        verifycode = '1234';
+        user.verifycode = verifycode;
+        await user.save();
+        /* api.VerifyLookup({
+             receptor: mobile,
+             token: mobile,
+             token2: verifycode,
+             template: "verify"
+         }, function (response, status) {
+             console.log(response);
+             console.log(status);
+         });*/
+        /** */
         const token = await jwt.sign(
             {
                 user: {
@@ -309,6 +323,31 @@ exports.handleLogin = async (req, res, next) => {
             err.statusCode = 500;
         }
         return res.status(err.statusCode).send(err.message);
+    }
+};
+/*********************************** */
+exports.handleVerifyCode = async (req, res, next) => {
+
+    try {
+        const user = await User.findOne({ _id: req.params.id });
+        if (!user) {
+
+            error.statusCode = 401;
+            throw error;
+        }
+        if (user.verifycode === req.params.verifycode) {
+            res.status(200).json({ user: user });
+        } else {
+            res.status(201).json({ message: "verifycode is incorrect" });
+        }
+
+
+    } catch (err) {
+
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
     }
 };
 /*********************Handle************** */

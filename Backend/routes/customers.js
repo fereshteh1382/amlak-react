@@ -11,6 +11,6 @@ router.post("/edit-customers/:id", customersController.editCustomer);
 router.get("/single-customer/:id", customersController.getSingleCustomer);
 router.get("/sms-customers/:userid/:customernumbers/:message", customersController.smsCustomer);
 router.post("/sms-allcustomers/:userid/:message", customersController.smstoAllCustomers);
-router.get("/search-customer/:name", customersController.getSearchCustomer);
+router.get("/search-customer/:userid/:name", customersController.getSearchCustomer);
 
 module.exports = router;

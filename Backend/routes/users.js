@@ -55,6 +55,7 @@ router.get("/addsms-user/:id", userController.addSmsUserForm);
 router.post("/addsms-post/:id/:smscount", userController.addSmsUserPost);
 router.post("/single-user/:id", userController.getSingleUser);
 router.get("/token-user/:mobile", userController.handleTokenLogin);
+router.get("/verifycode/:id/:verifycode", userController.handleVerifyCode);
 
 
 module.exports = router;

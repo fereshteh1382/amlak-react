@@ -48,5 +48,5 @@ export const SingleCustomerApi = customerId => {
 };
 
 export const SearchCustomer = customername => {
-    return http.get(`${config.localapi}/customers/search-customer/${customername}`);
+    return http.get(`${config.localapi}/customers/search-customer/${userId}/${customername}`);
 };

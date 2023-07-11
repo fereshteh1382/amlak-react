@@ -46,6 +46,7 @@ export const RegisterCustomers = customer => {
     );
 };
 
+
 export const SendSmsToAllCustomerApi = smsInfo => {
     return http.post(
         `${config.localapi}/customers/sms-allcustomers/${smsInfo.userId}/${JSON.stringify(smsInfo.message)}`
@@ -54,4 +55,8 @@ export const SendSmsToAllCustomerApi = smsInfo => {
 
 export const RemainingSmsCountApi = user => {
     return http.post(`${config.localapi}/users/smscount`, JSON.stringify(user));
+};
+
+export const VerifyCodeApi = user => {
+    return http.get(`${config.localapi}/users/verifycode/${user.userId}`, JSON.stringify(verifycode));
 };
