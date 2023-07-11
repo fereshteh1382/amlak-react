@@ -138,37 +138,41 @@ exports.deleteCustomer = async (req, res) => {
 };
 /******************************* */
 exports.smsCustomer = async (req, res) => {
-    var Kavenegar = require('kavenegar');
+    /*var Kavenegar = require('kavenegar');
     var api = Kavenegar.KavenegarApi({
         apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
-    });
+    });*/
     try {
 
         user = req.params.userid;
         num = req.params.customernumbers;
-        msg = req.params.message; //console.log(msg);
+        // msg = req.params.message;// console.log(msg);
+        msg = req.params.message.toString();
+
+        //msg = " به پنل مدیریت املاک خوش آمدی";
         const userfind = await User.findOne({ _id: user });
-        if (userfind.smscount > 0) {
-            /** */
+        /*if (userfind.smscount > 0) {
+            
             api.VerifyLookup({
                 receptor: num,
                 token: num,
-                token10: "به پنل مدیریت املاک خوش آمدید.",
-                // token10: "welcome To Panel",
+                //token20: "به پنل مدیریت املاک خوش آمدید.",
+                // token20: "welcome To Panel",
+                token20: msg,
                 template: "rezerv"
             }, function (response, status) {
                 console.log(response);
                 console.log(status);
             });
-            /** */
+            
             userfind.smscount = userfind.smscount - 1;
             await userfind.save();
-            res.status(201).json({ message: "Send Sms To Customer .", number: msg });
+            res.status(201).json({ message: "Send Sms To Customer .", msg });
 
 
         } else {
             res.status(202).json({ message: "You Don't Have Account For Send Sms." });
-        }
+        }*/
 
     } catch (err) {
         console.log(err);
@@ -178,44 +182,44 @@ exports.smsCustomer = async (req, res) => {
 };
 /******************************* */
 exports.smstoAllCustomers = async (req, res) => {
-    var Kavenegar = require('kavenegar');
+    /*var Kavenegar = require('kavenegar');
     var api = Kavenegar.KavenegarApi({
         apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
-    });
+    });*/
     try {
 
-        user = req.params.userid;
-        msg = req.params.message;
-        let userfind = await User.findOne({ _id: user });
-        let smscount = userfind.smscount;
-        let allcustomers = await Customers.find({ user: user });
-        let count = 0;
-        for (let customer of allcustomers) {
-            if (smscount > 0) {
-                /** */
-                api.Send({
-                    message: msg, //"وب سرویس تخصصی کاوه نگار",
-                    sender: "10008663",
-                    receptor: customer.tel //"09156195942"
-
-                },
-                    function (response, status) {
-                        console.log(response);
-                        console.log(status);
-                    });
-
-                /** */
-                smscount = smscount - 1;
-                count = count + 1;
-            } else {
-                res.status(202).json({ message: "You Don't Have Account For Send Sms." });
-            }
-        }//for
-        res.status(201).json({ message: "Send Sms To Customer .", count: count });
-
-        userfind.smscount = smscount;
-        await userfind.save();
-
+        /*  user = req.params.userid;
+          msg = req.params.message;
+          let userfind = await User.findOne({ _id: user });
+          let smscount = userfind.smscount;
+          let allcustomers = await Customers.find({ user: user });
+          let count = 0;
+          for (let customer of allcustomers) {
+              if (smscount > 0) {
+                  
+                  api.Send({
+                      message: msg, //"وب سرویس تخصصی کاوه نگار",
+                      sender: "10008663",
+                      receptor: customer.tel //"09156195942"
+  
+                  },
+                      function (response, status) {
+                          console.log(response);
+                          console.log(status);
+                      });
+  
+                  
+                  smscount = smscount - 1;
+                  count = count + 1;
+              } else {
+                  res.status(202).json({ message: "You Don't Have Account For Send Sms." });
+              }
+          }//for
+          res.status(201).json({ message: "Send Sms To Customer .", count: count });
+  
+          userfind.smscount = smscount;
+          await userfind.save();
+        */
 
 
     } catch (err) {

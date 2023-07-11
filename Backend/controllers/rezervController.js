@@ -3,6 +3,7 @@ const Rezerv = require("../models/Rezerv");
 const { formatDate } = require("../utils/jalali");
 const { truncate } = require("../utils/helpers");
 //const { sendEmail } = require("../utils/mailer");
+const User = require("../models/User");
 
 exports.handleRezervCustomers = async (req, res, next) => {
     // console.log(req);
@@ -15,7 +16,7 @@ exports.handleRezervCustomers = async (req, res, next) => {
              throw error;
          }*/
         // const user = req.user._id;
-        const { customerid, user, rezervdate, rezervtime } = req.body;
+        const { customerid, user, rezervdate, rezervtime, customernumber } = req.body;
         // const userCount = await Customers.findOne({ fullname });
         let rezerv; let messagetxt = "";
         /*if (userCount) {
@@ -33,7 +34,29 @@ exports.handleRezervCustomers = async (req, res, next) => {
             //user: req.user.id,
         });
         await rezerv.save();
+        /**** */
+        const userfind = await User.findOne({ _id: user });
 
+        if (userfind.smscount > 0) {
+            /** */
+            api.VerifyLookup({
+                receptor: customernumber,
+                token: customernumber,
+                token20: rezervdate,
+                token10: rezervtime,
+                template: "rezerv"
+            }, function (response, status) {
+                console.log(response);
+                console.log(status);
+            });
+            /** */
+            userfind.smscount = userfind.smscount - 1;
+            await userfind.save();
+            //res.status(201).json({ message: "Send Sms To Customer .", msg });
+
+
+        }
+        /***** */
         messagetxt = "Rezerv Added.";
         res.status(201).json({ message: messagetxt });
         // }
