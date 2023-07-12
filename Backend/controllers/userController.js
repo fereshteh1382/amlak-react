@@ -78,15 +78,19 @@ exports.handleRegister = async (req, res, next) => {
 
 
             /** */
-            api.VerifyLookup({
-                receptor: mobile,
-                token: mobile,
-                // token20: "ثبت نام شما با موفقیت انجام شد پس از تایید ادمین میتوانید لاگین نمایید.",
-                template: "amlak"
-            }, function (response, status) {
-                console.log(response);
-                console.log(status);
-            });
+            /* var Kavenegar = require('kavenegar');
+             var api = Kavenegar.KavenegarApi({
+                 apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
+             });
+             api.VerifyLookup({
+                 receptor: mobile,
+                 token: mobile,
+                 // token20: "ثبت نام شما با موفقیت انجام شد پس از تایید ادمین میتوانید لاگین نمایید.",
+                 template: "amlak"
+             }, function (response, status) {
+                 console.log(response);
+                 console.log(status);
+             });*/
             /** */
 
             /***** */
@@ -291,7 +295,12 @@ exports.handleLogin = async (req, res, next) => {
         verifycode = '1234';
         user.verifycode = verifycode;
         await user.save();
-        /* api.VerifyLookup({
+        /* 
+        var Kavenegar = require('kavenegar');
+    var api = Kavenegar.KavenegarApi({
+        apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
+    });
+        api.VerifyLookup({
              receptor: mobile,
              token: mobile,
              token2: verifycode,

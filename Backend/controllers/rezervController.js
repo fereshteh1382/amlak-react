@@ -39,6 +39,10 @@ exports.handleRezervCustomers = async (req, res, next) => {
 
         if (userfind.smscount > 0) {
             /** */
+            /*var Kavenegar = require('kavenegar');
+            var api = Kavenegar.KavenegarApi({
+                apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
+            });
             api.VerifyLookup({
                 receptor: customernumber,
                 token: customernumber,
@@ -48,7 +52,7 @@ exports.handleRezervCustomers = async (req, res, next) => {
             }, function (response, status) {
                 console.log(response);
                 console.log(status);
-            });
+            });*/
             /** */
             userfind.smscount = userfind.smscount - 1;
             await userfind.save();
