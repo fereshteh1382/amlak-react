@@ -102,6 +102,10 @@ export const existUser = () =>{
 
 export const ClearAllUserTokens = () => {
     localStorage.removeItem("UserToken");
+}
+
+export const ClearAdminTokens = () => {
+    localStorage.removeItem("UserToken");
     localStorage.removeItem("AdminToken");
 }
 
@@ -117,3 +121,21 @@ export const existAdmin = () =>{
     }
     return false;
 }
+
+export const SetMobileToken = (mobile) => {
+
+    localStorage.setItem("MobileRegisterToken", mobile);
+};
+
+export const GetMobileToken = () => {
+
+    return localStorage.getItem("MobileRegisterToken");
+};
+
+export const ExistRegisterMobileToken = () => {
+
+    const mobile = GetMobileToken();
+    if(mobile) return true;
+
+    return false;
+};
