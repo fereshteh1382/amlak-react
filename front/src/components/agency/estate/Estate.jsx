@@ -20,15 +20,15 @@ const Estate = ({ EstateInfo }) => {
                     <div className="col-sm-7 text-center">
                         <div className="card-body">
                             <h5 className="card-title">{EstateInfo.title}</h5>
-                            <p className="card-text">وضعیت:
+                            <p className="card-text">وضعیت:{existAdmin() ? "" : (EstateInfo.status === 'public' ? 'عمومی' : 'شخصی')}</p>
                             {existAdmin() ? 
                                 <BootstrapSwitchButton checked={EstateInfo.status == 'public'}
                                 onChange={()=>changeEstateStatus(EstateInfo._id, EstateInfo.status)}  
                                 size="xs" onlabel="عمومی"  onstyle="success"  width={80} height={30}
                                 offlabel="شخصی" offstyle="danger"  />    
-                                :  (EstateInfo.status === 'public' ? 'عمومی' : 'شخصی')
+                                :  ""
                             }
-                            </p>
+                            
                             <Link className="btn btn-warning font-12 m-3" 
                                 onClick={()=>SetEsatetByID(EstateInfo._id)}
                                 to={`/agency/estates/${EstateInfo._id}`} >مدیریت ملک</Link>

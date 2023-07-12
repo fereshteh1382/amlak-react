@@ -26,11 +26,11 @@ export const getEstateInfoApi = realtyId => {
         `${config.localapi}/realty/single-realty/${realtyId}`);
 };
 /** */
-export const confirmrealty = realtyId => {
+export const SetPublicEstateApi = realtyId => {
     return http.get(`${config.localapi}/realty/confirmrealty/${realtyId}`);
 };
 
-export const noconfirmrealty = realtyId => {
+export const SetPrivateStateApi = realtyId => {
     return http.get(`${config.localapi}/realty/noconfirmrealty/${realtyId}`);
 };
 
