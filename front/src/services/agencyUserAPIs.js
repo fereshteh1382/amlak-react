@@ -57,6 +57,6 @@ export const RemainingSmsCountApi = user => {
     return http.post(`${config.localapi}/users/smscount`, JSON.stringify(user));
 };
 
-export const VerifyCodeApi = user => {
-    return http.get(`${config.localapi}/users/verifycode/${user.userId}`, JSON.stringify(verifycode));
+export const VerifyCodeApi = (userId, verifycode) => {
+    return http.get(`${config.localapi}/users/verifycode/${userId}`, JSON.stringify(verifycode));
 };

@@ -13,6 +13,7 @@ const Agency = ({agencyInfo}) =>{
             <td>{agencyInfo.fullname}</td>
             <td>{agencyInfo.fullname}</td>
             <td>{agencyInfo.mobile}</td>
+            <td>{agencyInfo.smscount}</td>
             <td><FontAwesomeIcon icon={faSignIn} onClick={()=>loginAsAgency(agencyInfo.mobile)} className="pl-1" style={{cursor: "pointer"}} /> </td>
             <td>
                 {/* <FontAwesomeIcon icon={faTrash} onClick={()=>loginAsAgency(agencyInfo.mobile)} className="pl-3 text-danger" style={{cursor: "pointer"}} /> */}
