@@ -41,7 +41,7 @@ const Register = () => {
         setLoading(true);
         try {
             const { status } = await registerUserApi(userInfo);
-            if (status === 201) {
+            if (status === 200) {
                 SetMobileToken(userInfo.mobile);
                 return <Navigate to="/agency/verifycode" replace="true" />;
             }

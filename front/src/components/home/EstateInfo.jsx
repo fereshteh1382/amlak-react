@@ -39,6 +39,14 @@ const EstateInfo = () =>{
                             <span>{selectedEstateInfo.rooms}</span>
                         </div>
                     </div>
+                    {/* <div className="row estate-detail-info">
+                        <div className="col-md-6 estate-detail-title">مشاور املاک</div>
+                        <div className="col-md-6 text-left estate-detail-value">{selectedEstateInfo.user.fullname}</div>
+                    </div>
+                    <div className="row estate-detail-info">
+                        <div className="col-md-6 estate-detail-title">موبایل</div>
+                        <div className="col-md-6 text-left estate-detail-value">{selectedEstateInfo.user.mobile}</div>
+                    </div> */}
                     <div className="row estate-detail-info">
                         <div className="col-md-6 estate-detail-title">قیمت</div>
                         <div className="col-md-6 text-left estate-detail-value">{selectedEstateInfo.price}</div>
