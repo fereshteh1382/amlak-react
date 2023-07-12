@@ -9,7 +9,7 @@ const Estate = ({propEstate}) =>{
             <div className="product text-center">
                <img className="img-fluid" src="/pics/product.jpg" alt={propEstate.title} />
                     <div className="overlay"></div>
-                <div className="text py-3 pb-4 px-3">
+                <div className="text py-3 pb-2 px-3">
                     <h3><a href="#">{propEstate.title}</a></h3>
                     <div className="d-flex">
                         <div className="mx-auto">
@@ -18,6 +18,13 @@ const Estate = ({propEstate}) =>{
                                 <span> تومان</span>
                             </p>
                         </div>
+
+                    </div>
+                    <div>
+                        <p style={{color:"#717577"}}>
+                            <span> {propEstate.user.fullname}</span>
+                            <span className="m-2"> {propEstate.user.mobile}</span>
+                        </p>
                     </div>
                 </div>
             </div>
