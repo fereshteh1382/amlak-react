@@ -95,7 +95,7 @@ exports.handleRegister = async (req, res, next) => {
 
             /***** */
             messagetxt = "User created.";
-            res.status(201).json({ message: messagetxt });
+            res.status(200).json({ message: messagetxt });
         }
 
         // sendEmail(

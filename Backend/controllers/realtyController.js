@@ -3,6 +3,7 @@ const Realty = require("../models/Realty");
 //const { formatDate } = require("../utils/jalali");
 //const { truncate } = require("../utils/helpers");
 //const { sendEmail } = require("../utils/mailer");
+const User = require("../models/User");
 
 exports.handleAddRealty = async (req, res, next) => {
 
@@ -66,15 +67,24 @@ exports.getAllPublicRealty = async (req, res, next) => {
     // const currentPage = Number.parseInt(req.query.page) || 1;
     // const perPage = Number.parseInt(req.query.perpage) || 4;
     try {
+        /* Drinks
+         .find({})
+         .populate('drinks_name', 'tab.name')
+         .exec(function (err, result) { 
+            console.log('The Drinks List is', result);
+         });*/
         const allrealtys = await Realty.find({ status: "public" })
+            .populate('user')
+
             .sort({
                 createdAt: "desc",
             })
 
+
         // .skip((currentPage - 1) * perPage)
         // .limit(perPage);
         //console.log(allcustomers);
-        res.status(201).json({ allrealtys });
+        res.status(200).json({ allrealtys });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
