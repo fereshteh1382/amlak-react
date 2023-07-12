@@ -101,6 +101,7 @@ const AdminContext = ({ children }) => {
                 }
                 const { data, status } = await ChargedUserSmsPanelApi(useridChargedSms, formdata.smscount);
                 if (status == 200) {
+                    getAllAgency();
                     successMessage("شارژ پنل پیامک با موفقیت انجام شد");
                     handleSmsCountModalClose();
                 }

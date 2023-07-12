@@ -103,7 +103,7 @@ const CustomerContext = ({ children }) => {
         if(isEmpty(cusomerInfo.name))
             customerInfo = await getNewCustomersApi(userInfo.userId);
         else  
-            customerInfo = await SearchCustomerApi(/*userInfo.userId,*/ cusomerInfo.name);
+            customerInfo = await SearchCustomerApi(userInfo.userId, cusomerInfo.name);
 
         if (customerInfo.data && customerInfo.data.allcustomers) {
             setNewCustomers(customerInfo.data.allcustomers);
@@ -171,8 +171,7 @@ const CustomerContext = ({ children }) => {
     const handleRezervDateForCustomers = async customerReservation => {
         setLoadingFields({ loading: true, blur: true });
         try {
-
-            const data = await RezervDateForCustomerApi({ ...customerReservation, user: userInfo.userId, customerid: customerInfo._id });
+            const data = await RezervDateForCustomerApi({ ...customerReservation, user: userInfo.userId, customerid: customerInfo._id, customernumber: customerInfo.tel });
             const { status } = data;
             if (status === 201) {
                 successMessage(`اطلاعات رزرو با موفقیت ثبت گردید.`);

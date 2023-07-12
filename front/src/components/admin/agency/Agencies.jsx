@@ -18,6 +18,7 @@ const AdminAgencies = () =>{
                             <th scope="col">نام</th>
                             <th scope="col">نام بنگاه</th>
                             <th scope="col">تلفن</th>
+                            <th scope="col"> تعداد پیامک</th>
                             <th scope="col">لاگین</th>
                             <th scope="col">عملیات</th>
                         </tr>
