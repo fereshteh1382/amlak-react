@@ -11,7 +11,7 @@ const Body = ({typeView}) => {
                     <div className="agency-body">
                         <div className="row">
                             {
-                                (pathName === '/agency/login' || pathName === '/agency/register') ? 
+                                (pathName === '/agency/login' || pathName === '/agency/register' || pathName === '/agency/verifycode') ? 
                                 <div className="col-md-12 col-sm-12 col-xs-12">
                                     <Outlet />
                                 </div> :

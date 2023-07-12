@@ -19,7 +19,7 @@ const AgencyTopNav = () =>{
                             </ul>
                         </div>
                         {
-                            (pathName === '/agency/login' || pathName === '/agency/register' || !existUser()) ?  '' : 
+                            (pathName === '/agency/login' || pathName === '/agency/register'  || pathName === '/agency/verifycode' || !existUser()) ?  '' : 
                             <div className="col-sm-6 col-xs-12">
                                 <div className="clientarea">
                                     <div className="loggein ">

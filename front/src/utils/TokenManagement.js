@@ -132,6 +132,10 @@ export const GetMobileToken = () => {
     return localStorage.getItem("MobileRegisterToken");
 };
 
+export const RemovetMobileToken = () => {
+    localStorage.removeItem("MobileRegisterToken");
+};
+
 export const ExistRegisterMobileToken = () => {
 
     const mobile = GetMobileToken();
