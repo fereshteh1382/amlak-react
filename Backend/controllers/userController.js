@@ -329,7 +329,7 @@ exports.handleLogin = async (req, res, next) => {
 exports.handleVerifyCode = async (req, res, next) => {
 
     try {
-        const user = await User.findOne({ _id: req.params.id });
+        const user = await User.findOne({ mobile: req.params.mobile });
         if (!user) {
 
             error.statusCode = 401;
