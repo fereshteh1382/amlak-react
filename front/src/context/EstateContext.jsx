@@ -128,6 +128,26 @@ const EstateContext = ({ children }) => {
         }
     };
 
+    const changeEstateStatus = async (estateid, estatestatus) => {
+        try {
+
+                if(isEmpty(estateid) && estatestatus !== 'public' && estatestatus !== 'private'){
+                    errorMessage("خطا در وضعیت ملک");
+                    return;
+                }
+
+                // const { data, status } = (estatestatus == 'public') ? 
+                //     await ActiveUserApi(estateid) : await DisActiveUserApi(estateid);
+                
+                
+                // if (status == 200) {
+                //     successMessage("تغییر وضعیت ملک با موفقیت انجام گردید.");
+                    
+                // }
+        } catch (ex) {
+            errorMessage(ex.message ? ex.message : "مشکلی در انجام عملیات رخ داده است.");
+        }
+    };
 
     return (
         <EstateStateContext.Provider
@@ -143,6 +163,7 @@ const EstateContext = ({ children }) => {
                 setEstate,
                 handleEstateInsert,
                 SetEsatetByID,
+                changeEstateStatus
             }}
         >
             {children}

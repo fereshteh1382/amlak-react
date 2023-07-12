@@ -12,4 +12,5 @@ export const EstateStateContext = createContext({
     handleEstateInsert: ()=>{},
     statusOptions:()=>{},
     SetEsatetByID:()=>{},
+    changeEstateStatus: ()=>{}
 });
