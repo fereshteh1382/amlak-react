@@ -15,6 +15,9 @@ import EstateInfo from "../components/home/EstateInfo";
 import Dashboard from "../components/admin/Dashboard";
 import AdminLogin from "../components/admin/Login";
 import AdminAgencies from "../components/admin/agency/Agencies";
+import AdminLogout from "../components/admin/Logout";
+import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
+import VerifySms from "../components/admin/VerifySms";
 
 const Amlak = () => {
 
@@ -28,9 +31,11 @@ const Amlak = () => {
                 </Route>
                    
                 <Route path="/adminpanel" element={<AdminLogin />} />   
-                <Route path="/admin" element={<AdminPanel />}>
-                    <Route index  element={<Dashboard />} />
-                    <Route path="agency"  element={<AdminAgencies />}/>
+                <Route path="/admin" element={<AdminProtectedRoute><AdminPanel /></AdminProtectedRoute>}>
+                    <Route index  element={<AdminProtectedRoute><Dashboard /></AdminProtectedRoute>} />
+
+                    <Route path="agency"  element={<AdminProtectedRoute><AdminAgencies /></AdminProtectedRoute>}/>
+                    <Route path="logout"  element={<AdminLogout />}/>
                 </Route>
 
                 
@@ -40,6 +45,7 @@ const Amlak = () => {
                     <Route path="login"  element={<AgencyLogin />}/>
                     <Route path="logout"  element={<AgencyLogout />}/>
                     <Route path="register" element={<Register />} />
+                    <Route path="verifycode" element={<VerifySms />} />
 
                     <Route path="customers"  element={<ProtectedRoute><CustomerLayout mode="show" /></ProtectedRoute>}/>
                     <Route path="customers/new"  element={<ProtectedRoute><CustomerLayout mode="new" /></ProtectedRoute>}/>

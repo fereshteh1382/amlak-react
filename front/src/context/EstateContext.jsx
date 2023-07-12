@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
 // import { withRouter } from "react-router";
-import { AddEstateApi, EditEstateApi, getAllEstateApi } from "../services/agencyEstateAPIs";
+import { AddEstateApi, EditEstateApi, getAllEstateApi, SetPublicEstateApi, SetPrivateStateApi } from "../services/agencyEstateAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { EstateStateContext } from "./EstateStateContext";
@@ -128,6 +128,25 @@ const EstateContext = ({ children }) => {
         }
     };
 
+    const changeEstateStatus = async (estateid, estatestatus) => {
+        try {
+
+                if(isEmpty(estateid) && estatestatus !== 'public' && estatestatus !== 'private'){
+                    errorMessage("خطا در وضعیت ملک");
+                    return;
+                }
+
+                const { data, status } = (estatestatus == 'public') ? 
+                    await SetPrivateStateApi(estateid) : await SetPublicEstateApi(estateid);
+                
+                
+                if (status == 200) {
+                    successMessage("تغییر وضعیت ملک با موفقیت انجام گردید.");
+                }
+        } catch (ex) {
+            errorMessage(ex.message ? ex.message : "مشکلی در انجام عملیات رخ داده است.");
+        }
+    };
 
     return (
         <EstateStateContext.Provider
@@ -143,6 +162,7 @@ const EstateContext = ({ children }) => {
                 setEstate,
                 handleEstateInsert,
                 SetEsatetByID,
+                changeEstateStatus
             }}
         >
             {children}

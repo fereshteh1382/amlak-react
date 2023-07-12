@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
 import { addAgencyUser } from "../redux-actions/agencyUser";
-import { ActiveUserApi, DisActiveUserApi, getAllUsersFrontApi, RemainingSmsCountApi, TokenUserApi, ChargedUserSmsPanelApi } from "../services/agencyUserAPIs";
+import { ActiveUserApi, DisActiveUserApi, getAllUsersFrontApi,  TokenUserApi, ChargedUserSmsPanelApi } from "../services/agencyUserAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { SetUserInfoByToken } from "../utils/TokenManagement";
 // import { withRouter } from "react-router";
@@ -57,9 +57,8 @@ const AdminContext = ({ children }) => {
                 const { data, status } = await TokenUserApi(mobile);
                 if (status === 200) {
                     let UserInfo = SetUserInfoByToken(data); 
-                    const smsdata = await RemainingSmsCountApi({userid: data.userId});
-                    if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {
-                        UserInfo = {...UserInfo,remainingSms: smsdata.data.smscount}
+                    if (data.user && data.user.smscount ) {
+                        UserInfo = {...UserInfo,remainingSms: data.user.smscount}
                         dispatch(addAgencyUser(UserInfo));
                         navigate('/agency', { replace: true });
                     }

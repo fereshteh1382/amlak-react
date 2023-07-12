@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { EstateStateContext } from "../../../context/EstateStateContext";
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+import { existAdmin } from "../../../utils/TokenManagement";
 
 const Estate = ({ EstateInfo }) => {
     const esContext = useContext(EstateStateContext);
-    const { SetEsatetByID } = esContext;
+    const { SetEsatetByID, changeEstateStatus } = esContext;
 
 
     return (
@@ -18,11 +20,20 @@ const Estate = ({ EstateInfo }) => {
                     <div className="col-sm-7 text-center">
                         <div className="card-body">
                             <h5 className="card-title">{EstateInfo.title}</h5>
-                            <p className="card-text">وضعیت: {EstateInfo.status === 'public' ? 'عمومی' : 'شخصی'}</p>
-
-                            <Link className="btn btn-warning font-12" 
+                            <p className="card-text">وضعیت:{existAdmin() ? "" : (EstateInfo.status === 'public' ? 'عمومی' : 'شخصی')}</p>
+                            {existAdmin() ? 
+                                <BootstrapSwitchButton checked={EstateInfo.status == 'public'}
+                                onChange={()=>changeEstateStatus(EstateInfo._id, EstateInfo.status)}  
+                                size="xs" onlabel="عمومی"  onstyle="success"  width={80} height={30}
+                                offlabel="شخصی" offstyle="danger"  />    
+                                :  ""
+                            }
+                            
+                            <Link className="btn btn-warning font-12 m-3" 
                                 onClick={()=>SetEsatetByID(EstateInfo._id)}
                                 to={`/agency/estates/${EstateInfo._id}`} >مدیریت ملک</Link>
+                               
+                            
                         </div>
                     </div>
                 </div>
