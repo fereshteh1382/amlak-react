@@ -98,9 +98,9 @@ const AgencyLogin = () => {
                             <Link to="/agency/register">
                                 <FontAwesomeIcon icon={faUserPlus} className="pl-1" /> عضویت در سایت
                             </Link>
-                            <Link to="/agency/forgotPassword">
+                            {/* <Link to="/agency/forgotPassword">
                                 <FontAwesomeIcon icon={faKey} className="pl-1" />  رمز عبور خود را فراموش کرده ام!
-                            </Link>
+                            </Link> */}
                         </div>
 
                         <div className="text-center">

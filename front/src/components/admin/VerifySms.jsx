@@ -75,11 +75,11 @@ const VerifySms = () => {
                                         />
                                 </div>   
                                 {errors.smscode && checkError(errors.smscode.type,"کدتایید",condition.smscode)}
-                                <div className="link">
+                                {/* <div className="link">
                                     <Link to="/agency/forgotPassword">
                                         <FontAwesomeIcon icon={faKey} className="pl-1" /> ارسال مجدد پیامک
                                     </Link>
-                                </div>
+                                </div> */}
 
                                 <div className="text-center">
                                     <button className="btn btn-warning">  ارسال کد تایید</button>
