@@ -93,7 +93,6 @@ const AdminContext = ({ children }) => {
     const chargedUserSms = async formdata => {
         try {
 
-            console.log(formdata.smscount)
                 if(isEmpty(useridChargedSms) && formdata.smscount && formdata.smscount*1 <1){
                     errorMessage("خطا در اطلاعات");
                     return;

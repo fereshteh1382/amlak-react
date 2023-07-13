@@ -17,7 +17,7 @@ import AdminLogin from "../components/admin/Login";
 import AdminAgencies from "../components/admin/agency/Agencies";
 import AdminLogout from "../components/admin/Logout";
 import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
-import VerifySms from "../components/admin/VerifySms";
+import VerifySms from "../components/agency/VerifySms";
 
 const Amlak = () => {
 

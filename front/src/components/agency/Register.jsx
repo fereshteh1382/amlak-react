@@ -13,13 +13,13 @@ import { ExistRegisterMobileToken, existUser, SetMobileToken } from '../../utils
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, setError} = useForm();
     const [loading, setLoading] = useState(false);
+    const [verify, setVerify] = useState(false);
 
     if(existUser()){
         return <Navigate to="/agency" replace="true" />;
-    }else if(ExistRegisterMobileToken()){
+    }else if(verify){
         return <Navigate to="/agency/verifycode" replace="true" />;
     }
-    
     const ClassName = {
         form: `my-4 mx-auto ${loading ? "background-blur disabled":""}`,
         registerBtn:`btn btn-warning ${loading ? "disabled": ""}`,
@@ -43,6 +43,7 @@ const Register = () => {
             const { status } = await registerUserApi(userInfo);
             if (status === 200) {
                 SetMobileToken(userInfo.mobile);
+                setVerify(true);
                 return <Navigate to="/agency/verifycode" replace="true" />;
             }
             setLoading(false);

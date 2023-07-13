@@ -4,7 +4,6 @@ import { HomeStateContext } from "../../context/HomeStateContext";
 const EstateInfo = () =>{
     const hssContext = useContext(HomeStateContext);
     const { selectedEstateInfo  } = hssContext;
-    console.log(selectedEstateInfo)
     return(
         <section className="estate-detail-section">
     	<div className="container">

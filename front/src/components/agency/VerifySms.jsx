@@ -15,7 +15,7 @@ const VerifySms = () => {
     const [successMessage, setSuccessMessage] = useState(false);
     const { register, handleSubmit, formState:{errors} } = useForm();
     const mobile = GetMobileToken();
-    if(existUser()){
+    if(existUser() || !mobile){
         return <Navigate to="/agency" replace="true" />;
     }
 
@@ -33,7 +33,7 @@ const VerifySms = () => {
             }
            
             const { status, data } = await VerifyCodeApi(mobile, formdata.smscode);
-            if (status === 201) {
+            if (status === 200) {
                 RemovetMobileToken();
                 setSuccessMessage(true);
             }

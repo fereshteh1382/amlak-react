@@ -15,7 +15,6 @@ const AgencyDashboard = () =>{
         try {
             const userInfo = getUserForAxios();
             const sss = await EditProfileApi({...formdata, userId:userInfo.userId} );
-            console.log(sss, {...formdata, userId:userInfo.userId});
             // const { status, data } = await loginUserApi(formdata);
 
         } catch (exception) {

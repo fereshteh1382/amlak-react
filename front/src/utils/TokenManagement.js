@@ -32,7 +32,6 @@ export const SetAdminInfoByToken = (data) => {
     if (data && data.token) {
         localStorage.setItem("AdminToken", data.token);
         const tokenInfo = decodeToken(data.token);
-        console.log(tokenInfo);
         const dateNow = Date.now() / 1000;
         if (tokenInfo.exp < dateNow) {
             localStorage.removeItem("AdminToken");
