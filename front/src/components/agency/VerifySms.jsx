@@ -36,6 +36,8 @@ const VerifySms = () => {
             if (status === 200) {
                 RemovetMobileToken();
                 setSuccessMessage(true);
+            }else{
+                errorMessage("خطا در کدتایید ارسالی");
             }
         } catch (exception) {
             errorMessage(exception.message);
