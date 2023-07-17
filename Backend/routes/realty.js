@@ -13,4 +13,7 @@ router.post("/edit-realty/:id", realtyController.editRealty);
 
 /*router.get("/delete-realty/:id", realtyController.deleteRealty);*/
 router.post("/single-realty/:id", realtyController.getSingleRealty);
+router.get("/image-add/", realtyController.getAddFilet);
+router.post("/image-upload", realtyController.uploadImageRealty);
+
 module.exports = router;

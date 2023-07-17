@@ -8,13 +8,7 @@ const User = require("../models/User");
 exports.handleRezervCustomers = async (req, res, next) => {
     // console.log(req);
     try {
-        /* const errors = validationResult(req);
-         if (!errors.isEmpty()) {
-             const error = new Error("Validation is failed.");
-             error.statusCode = 422;
-             error.data = errors.array();
-             throw error;
-         }*/
+
         // const user = req.user._id;
         const { customerid, user, rezervdate, rezervtime, customernumber } = req.body;
         // const userCount = await Customers.findOne({ fullname });

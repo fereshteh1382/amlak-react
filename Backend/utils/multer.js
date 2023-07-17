@@ -6,6 +6,7 @@ exports.storage = multer.diskStorage({
         cb(null, "./public/uploads/");
     },
     filename: (req, file, cb) => {
+        console.log(file);
         cb(null, `${uuid()}_${file.originalname}`);
     },
 });

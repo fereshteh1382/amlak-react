@@ -70,11 +70,32 @@ exports.handleRegister = async (req, res, next) => {
                 fullname,
                 mobile,
                 password: password,
+                status: "raw"
                 // isAdmin: false
             });
-            await user.save();
+            //  await user.save();
             /**** */
-
+            /** */
+            verifycode = '1234';
+            //let verifycode = (Math.random() + 1).toString(36).substring(7);
+            // console.log()
+            user.verifycode = verifycode;
+            await user.save();
+            /* 
+            var Kavenegar = require('kavenegar');
+            var api = Kavenegar.KavenegarApi({
+            apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
+            });
+            api.VerifyLookup({
+                 receptor: mobile,
+                 token: mobile,
+                 token2: verifycode,
+                 template: "verify"
+             }, function (response, status) {
+                 console.log(response);
+                 console.log(status);
+             });*/
+            /** */
 
 
             /** */
@@ -136,50 +157,6 @@ exports.getremainsms = async (req, res) => {
     }
 };
 /************************* */
-/*exports.createUser = async (req, res) => {
-    const errors = [];
-    try {
-        await User.userValidation(req.body);
-        const { fullname, email, password } = req.body;
-
-        const user = await User.findOne({ email });
-        if (user) {
-            errors.push({ message: "کاربری با این ایمیل موجود است" });
-            return res.render("register", {
-                pageTitle: "ثبت نام کاربر",
-                path: "/register",
-                errors,
-            });
-        }
-
-        await User.create({ fullname, email, password });
-
-        //? Send Welcome Email
-         sendEmail(
-             email,
-             fullname,
-             "خوش آمدی به وبلاگ ما",
-             "خیلی خوشحالیم که به جمع ما وبلاگرهای خفن ملحق شدی"
-         );
-
-        req.flash("success_msg", "ثبت نام موفقیت آمیز بود.");
-        res.redirect("/admin/login");
-    } catch (err) {
-        console.log(err);
-        err.inner.forEach((e) => {
-            errors.push({
-                name: e.path,
-                message: e.message,
-            });
-        });
-
-        return res.render("register", {
-            pageTitle: "ثبت نام کاربر",
-            path: "/register",
-            errors,
-        });
-    }
-};*/
 
 exports.forgetPasswrod = async (req, res) => {
     res.render("forgetPass", {
@@ -291,25 +268,7 @@ exports.handleLogin = async (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-        /** */
-        verifycode = '1234';
-        user.verifycode = verifycode;
-        await user.save();
-        /* 
-        var Kavenegar = require('kavenegar');
-    var api = Kavenegar.KavenegarApi({
-        apikey: '7A63756B4330304473632B7471614A78376D7A4B66347264434E3066492B6C5A74654C3161534C503636593D'
-    });
-        api.VerifyLookup({
-             receptor: mobile,
-             token: mobile,
-             token2: verifycode,
-             template: "verify"
-         }, function (response, status) {
-             console.log(response);
-             console.log(status);
-         });*/
-        /** */
+
         const token = await jwt.sign(
             {
                 user: {
@@ -344,7 +303,10 @@ exports.handleVerifyCode = async (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-        if (user.verifycode === req.params.verifycode) {
+        verifyuser = req.params.verifycode.toString();
+        if (user.verifycode === verifyuser) {
+            user.status = "noactive";
+            await user.save();
             res.status(200).json({ user: user });
         } else {
             res.status(201).json({ message: "verifycode is incorrect" });

@@ -105,9 +105,3 @@ export const savesmsuser = userId => {
     return http.post(`${config.localapi}/users/addsms-post/${userId}/${smscount}`);
 };
 /******************************** */
-/*export const RegisterImage = img => {
-    return http.post(
-        `${config.localapi}/customersfile/image-upload`,
-        JSON.stringify(img)
-    );
-};*/

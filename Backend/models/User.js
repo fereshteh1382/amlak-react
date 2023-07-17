@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "noactive",
-        enum: ["active", "noactive", "admin"],
+        enum: ["active", "noactive", "admin", "raw"],
     },
     smscount: {
         type: Number,

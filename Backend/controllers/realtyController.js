@@ -1,9 +1,14 @@
 //const Yup = require("yup");
+//import { storage } from 'redux-persist/lib/storage';
 const Realty = require("../models/Realty");
 //const { formatDate } = require("../utils/jalali");
 //const { truncate } = require("../utils/helpers");
 //const { sendEmail } = require("../utils/mailer");
 const User = require("../models/User");
+const multer = require("multer");
+const sharp = require("sharp");
+const shortId = require("shortid");
+const { storage, fileFilter } = require("../utils/multer");
 
 exports.handleAddRealty = async (req, res, next) => {
 
@@ -251,6 +256,64 @@ exports.getSingleRealty = async (req, res) => {
     }
 };
 /************************* */
+
+exports.getAddFilet = (req, res) => {
+    res.render("private/addPost", {
+        pageTitle: "بخش مدیریت | ساخت پست جدید",
+        path: "/realty/image-upload",
+        layout: "./layouts/dashLayout",
+        fullname: "admin",
+    });
+};
+
+/**************************** */
+exports.uploadImageRealty = (req, res) => {
+
+    const upload = multer({
+        limits: { fileSize: 4000000 },
+        //dest: "uploads/",
+        storage: storage,
+        fileFilter: fileFilter,
+    }).single("image");
+
+    //req.file
+    //console.log(req.file);
+
+    // res.send("dgfgdf");
+    upload(req, res, async (err) => {
+        if (err) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+                return res
+                    .status(400)
+                    .send("حجم عکس ارسالی نباید بیشتر از 4 مگابایت باشد");
+            }
+            res.status(400).send(err);
+        } else {
+            if (req.file) {
+                const fileName = `${shortId.generate()}_${req.file.originalname
+                    }`;
+                /**Add in table */
+
+                /**** */
+                await sharp(req.file.buffer)
+                    .jpeg({
+                        quality: 60,
+                    })
+                    .toFile(`./public/uploads/${fileName}`)
+                    .catch((err) => console.log(err));
+                //   res.json({ "message": "", "address": "" });
+                res.send("success");
+
+                /*res.status(200).send(
+                    `http://localhost:3000/uploads/${fileName}`
+                );*/
+            } else {
+                res.send("جهت آپلود باید عکسی انتخاب کنید");
+            }
+        }
+    });
+};
+
 /********************************/
 /*exports.getIndex = async (req, res) => {
     const page = +req.query.page || 1;

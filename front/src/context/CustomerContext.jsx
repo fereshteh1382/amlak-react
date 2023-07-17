@@ -100,9 +100,9 @@ const CustomerContext = ({ children }) => {
     const SearchCustomer = async (cusomerInfo) => {
         let customerInfo = [];
         setIsSearch(true);
-        if(isEmpty(cusomerInfo.name))
+        if (isEmpty(cusomerInfo.name))
             customerInfo = await getNewCustomersApi(userInfo.userId);
-        else  
+        else
             customerInfo = await SearchCustomerApi(userInfo.userId, cusomerInfo.name);
 
         if (customerInfo.data && customerInfo.data.allcustomers) {

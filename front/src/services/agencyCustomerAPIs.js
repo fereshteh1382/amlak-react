@@ -26,8 +26,7 @@ export const EditCustomerApi = customerInfo => {
 
 export const RezervDateForCustomerApi = customer => {
     return http.post(
-        `${config.localapi}/customers/add-rezerv`,
-        JSON.stringify(customer)
+        `${config.localapi}/rezerv/add-rezerv`, JSON.stringify(customer)
     );
 };
 
