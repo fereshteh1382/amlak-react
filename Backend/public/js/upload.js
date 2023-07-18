@@ -1,6 +1,5 @@
 document.getElementById("imageUpload").onclick = function () {
     let xhttp = new XMLHttpRequest(); // create new AJAX request
-
     const selectedImage = document.getElementById("selectedImage");
     // console.log(selectedImage.files[0]);
     const imageStatus = document.getElementById("imageStatus");
@@ -44,7 +43,8 @@ document.getElementById("imageUpload").onclick = function () {
         // formData.append("image", "sample");
 
         console.log(formData);
-        xhttp.send(formData);
+        result = xhttp.send(formData);
+        console.log(result);
     } else {
         //  imageStatus.innerHTML = "برای آپلود باید عکسی انتخاب کنید";
     }

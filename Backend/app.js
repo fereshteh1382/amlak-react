@@ -1,6 +1,6 @@
 const path = require("path");
 
-const debug = require("debug")("weblog-project");
+const debug = require("debug")("amlak-react");
 const fileUpload = require("express-fileupload");
 const express = require("express");
 const mongoose = require("mongoose");

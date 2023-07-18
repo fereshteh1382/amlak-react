@@ -8,6 +8,7 @@ const User = require("../models/User");
 const multer = require("multer");
 const sharp = require("sharp");
 const shortId = require("shortid");
+const appRoot = require("app-root-path");
 const { storage, fileFilter } = require("../utils/multer");
 
 exports.handleAddRealty = async (req, res, next) => {
@@ -265,21 +266,83 @@ exports.getAddFilet = (req, res) => {
         fullname: "admin",
     });
 };
+/************************* */
+exports.uploadImageRealty = async (req, res) => {
+    // const errorArr = [];
+    const realtyid = req.body.realtyid;
+    const thumbnail1 = req.files ? req.files.thumbnail1 : {};
+    const thumbnail2 = req.files ? req.files.thumbnail2 : {};
+    const thumbnail3 = req.files ? req.files.thumbnail3 : {};
 
+    const fileName1 = `${shortId.generate()}_${thumbnail1.name}`;
+    const uploadPath1 = `${appRoot}/public/uploads/thumbnails/${fileName1}`;
+    const fileName2 = `${shortId.generate()}_${thumbnail2.name}`;
+    const uploadPath2 = `${appRoot}/public/uploads/thumbnails/${fileName2}`;
+    const fileName3 = `${shortId.generate()}_${thumbnail3.name}`;
+    const uploadPath3 = `${appRoot}/public/uploads/thumbnails/${fileName3}`;
+
+    // console.log(realtyid);
+
+    try {
+        req.body = { realtyid, thumbnail1, thumbnail2, thumbnail3 };
+
+        // console.log(req.body);
+
+        //await Blog.postValidation(req.body);
+
+        await sharp(thumbnail1.data)
+            .jpeg({ quality: 60 })
+            .toFile(uploadPath1)
+            .catch((err) => console.log(err));
+        await sharp(thumbnail2.data)
+            .jpeg({ quality: 60 })
+            .toFile(uploadPath2)
+            .catch((err) => console.log(err));
+        await sharp(thumbnail3.data)
+            .jpeg({ quality: 60 })
+            .toFile(uploadPath3)
+            .catch((err) => console.log(err));
+
+
+        //const { realtyid, thumbnail1, thumbnail2, thumbnail3 } = req.body;
+        const realty = await Realty.findOne({ _id: realtyid });
+        console.log(realty);
+        //if (realty) { res.redirect("/dashboard"); }
+
+        realty.thumbnail1 = fileName1;
+        realty.thumbnail2 = fileName2;
+        realty.thumbnail3 = fileName3;
+
+        await realty.save();
+
+        messagetxt = "Realty Images Added.";
+        res.status(200).json({ message: messagetxt });
+        //  res.redirect("/dashboard");
+    } catch (err) {
+        console.log(err);
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+
+    }
+};
 /**************************** */
-exports.uploadImageRealty = (req, res) => {
+exports.uploadImageRealty00 = (req, res) => {
 
-    const upload = multer({
-        limits: { fileSize: 4000000 },
-        //dest: "uploads/",
-        storage: storage,
-        fileFilter: fileFilter,
-    }).single("image");
+    // const upload = multer({
+    //   limits: { fileSize: 4000000 },
+    //dest: "uploads/",
+    //  storage: storage,
+    //  fileFilter: fileFilter,
+    // }).single("image");
 
     //req.file
     //console.log(req.file);
 
-    // res.send("dgfgdf");
+    //res.send("dgfgdf");
+    var upload = multer({ storage: storage }).single('image');
+
+
     upload(req, res, async (err) => {
         if (err) {
             if (err.code === "LIMIT_FILE_SIZE") {
@@ -302,72 +365,55 @@ exports.uploadImageRealty = (req, res) => {
                     .toFile(`./public/uploads/${fileName}`)
                     .catch((err) => console.log(err));
                 //   res.json({ "message": "", "address": "" });
-                res.send("success");
+                res.json("success");
 
                 /*res.status(200).send(
                     `http://localhost:3000/uploads/${fileName}`
                 );*/
             } else {
-                res.send("جهت آپلود باید عکسی انتخاب کنید");
+                res.json("جهت آپلود باید عکسی انتخاب کنید");
             }
         }
     });
 };
+/************************ */
+/*exports.uploadImageRealty = (req, res, next) => {
 
-/********************************/
-/*exports.getIndex = async (req, res) => {
-    const page = +req.query.page || 1;
-    const postPerPage = 5;
+    var storage = multer.diskStorage({
 
-    try {
-        const numberOfPosts = await Customers.find({
-            status: "public",
-        }).countDocuments();
+        destination: function (req, file, callback) {
+            callback(null, './public/uploads/');
+        },
+        filename: function (req, file, callback) {
+            var temp_file_arr = file.originalname.split(".");
 
-        const posts = await Customers.find({ status: "public" })
-            .sort({
-                createdAt: "desc",
-            })
-            .skip((page - 1) * postPerPage)
-            .limit(postPerPage);
+            var temp_file_name = temp_file_arr[0];
 
-        res.render("index", {
-            pageTitle: "مشتریان",
-            path: "/",
-            posts,
-            formatDate,
-            truncate,
-            currentPage: page,
-            nextPage: page + 1,
-            previousPage: page - 1,
-            hasNextPage: postPerPage * page < numberOfPosts,
-            hasPreviousPage: page > 1,
-            lastPage: Math.ceil(numberOfPosts / postPerPage),
-        });
-        //? Smooth Scrolling
-    } catch (err) {
-        console.log(err);
-        res.render("errors/500");
-    }
-};
+            var temp_file_extension = temp_file_arr[1];
 
-exports.getSinglePost = async (req, res) => {
-    try {
-        const post = await Blog.findOne({ _id: req.params.id }).populate(
-            "user"
-        );
+            callback(null, temp_file_name + '-' + Date.now() + '.' + temp_file_extension);
+        }
 
-        if (!post) return res.redirect("errors/404");
+    });
 
-        res.render("post", {
-            pageTitle: post.title,
-            path: "/post",
-            post,
-            formatDate,
-        });
-    } catch (err) {
-        console.log(err);
-        res.render("errors/500");
-    }
+    var upload = multer({ storage: storage }).single('image');
+
+    upload(req, res, function (error) {
+
+        if (error) {
+            // return response.end('Error Uploading File');
+            //res.send("Error Uploading File");
+            res.json({ 'message': 'File uploaded No successfully' });
+
+        }
+        else {
+            // return response.end('File is uploaded successfully');
+            //  res.send("uploaded successfully");
+            res.json({ 'message': 'File uploaded successfully' });
+        }
+
+    });
+
 };
 */
+/********************************/

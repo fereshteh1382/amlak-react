@@ -109,11 +109,19 @@ const realtySchema = new mongoose.Schema({
     /* 
      image: { type: Schema.Types.ObjectId,
          ref: 'Multimedia', required: true
-     },
-     thumbnail: {
-         type: String,
-          required: true,
      },*/
+    thumbnail1: {
+        type: String,
+
+    },
+    thumbnail2: {
+        type: String,
+
+    },
+    thumbnail3: {
+        type: String,
+
+    },
 
 
 });
