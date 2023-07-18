@@ -3,9 +3,9 @@ import { Link, Navigate } from "react-router-dom";
 import Helmet from "react-helmet";
 import {useForm} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faKey, faLock, faMobileRetro} from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus, faLock, faMobileRetro} from "@fortawesome/free-solid-svg-icons";
 import { addAgencyUser } from "../../redux-actions/agencyUser";
-import { SetUserInfoByToken, existUser, existAdmin, SetAdminInfoByToken, getUserFromToken } from "../../utils/TokenManagement";
+import { SetUserInfoByToken, existUser, RemovetMobileToken } from "../../utils/TokenManagement";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
 import { loginUserApi, RemainingSmsCountApi } from "../../services/agencyUserAPIs";
@@ -14,7 +14,8 @@ import { loginUserApi, RemainingSmsCountApi } from "../../services/agencyUserAPI
 const AgencyLogin = () => {
     const { register, handleSubmit, formState:{errors} } = useForm();
     const dispatch = useDispatch();
-    
+    RemovetMobileToken();
+
     if(existUser()){
         return <Navigate to="/agency" replace="true" />;
     }
@@ -34,8 +35,6 @@ const AgencyLogin = () => {
 
             const { status, data } = await loginUserApi(formdata);
             if (status === 200) {
-                const tokenInfo = getUserFromToken(data.token)
-
                 let UserInfo = SetUserInfoByToken(data); 
                 const smsdata = await RemainingSmsCountApi({userid: data.userId});
                 if (smsdata.status === 200 && smsdata.data && smsdata.data.smscount ) {

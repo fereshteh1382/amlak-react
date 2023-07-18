@@ -7,7 +7,7 @@ import {faRightToBracket, faMobileRetro, faLock, faUser } from "@fortawesome/fre
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
 import { registerUserApi } from "../../services/agencyUserAPIs";
-import { ExistRegisterMobileToken, existUser, SetMobileToken } from '../../utils/TokenManagement';
+import {  existUser, SetMobileToken } from '../../utils/TokenManagement';
 
 
 const Register = () => {

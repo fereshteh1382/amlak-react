@@ -1,9 +1,9 @@
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Helmet from "react-helmet";
 import {useForm} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faKey,  faMobileRetro} from "@fortawesome/free-solid-svg-icons";
-import { existUser,    GetMobileToken, RemovetMobileToken } from "../../utils/TokenManagement";
+import { faMobileRetro} from "@fortawesome/free-solid-svg-icons";
+import { existUser,    GetMobileToken } from "../../utils/TokenManagement";
 import { errorMessage} from "../../utils/message";
 import { checkError } from "../../utils/FormValidator";
 import {  VerifyCodeApi } from "../../services/agencyUserAPIs";
@@ -32,9 +32,9 @@ const VerifySms = () => {
                 return;
             }
            
-            const { status, data } = await VerifyCodeApi(mobile, formdata.smscode);
+            const { status} = await VerifyCodeApi(mobile, formdata.smscode);
             if (status === 200) {
-                RemovetMobileToken();
+                //RemovetMobileToken();
                 setSuccessMessage(true);
             }else{
                 errorMessage("خطا در کدتایید ارسالی");
