@@ -77,21 +77,22 @@ const EstateContext = ({ children }) => {
     /************************************************* */
     const handleMainfileChange = (e) => {
         const fileInfo = e.target.files[0];
-        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type ==="image/png") ? 
+        console.log(fileInfo.type);
+        (fileInfo.type === 'image/jpeg' || fileInfo.type === 'image/jpeg' || fileInfo.type ==="image/png") ? 
             setMainFile({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo , fileError:''})
         :   setMainFile({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)"  }) 
     };
 
     const handleImage2fileChange = (e) => {
         const fileInfo = e.target.files[0];
-        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type ==="image/png") ? 
+        (fileInfo.type === 'image/jpg' || fileInfo.type === 'image/jpeg' || fileInfo.type ==="image/png") ? 
             setImage2File({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo , fileError:''})
         :   setImage2File({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)"  }) 
     };
 
     const handleImage3fileChange = (e) => {
         const fileInfo = e.target.files[0];
-        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type ==="image/png") ? 
+        (fileInfo.type === 'image/jpg' || fileInfo.type === 'image/jpeg' || fileInfo.type ==="image/png") ? 
             setImage3File({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo , fileError:''})
         :   setImage3File({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)"  }) 
     };
@@ -133,6 +134,7 @@ const EstateContext = ({ children }) => {
                 formdata.append("realtyid", estate._id);
                 let hasFile = false;
                 if(mainFile.fileValue!==""){
+                    console.log( mainFile.fileValue);
                     formdata.append("thumbnail1", mainFile.fileValue);
                     hasFile = true;
                 }
@@ -146,7 +148,9 @@ const EstateContext = ({ children }) => {
                 }    
                 
                 if(hasFile){
-                        const eee = await RegisterImage(mainFile.fileValue);
+                    console.log(formdata);
+                        const eee = await RegisterImage(formdata);
+                        console.log(eee);
                         errorMessage(eee);
                 }
                 const { status } = await EditEstateApi({...estate, user: userInfo.userId});
