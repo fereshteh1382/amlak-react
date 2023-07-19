@@ -8,9 +8,15 @@ export const EstateStateContext = createContext({
     RoomsOptions:[], 
     YearOptions:[], 
     FloorOptions:[],
+    mainFile:{},
+    image2File:{},
+    image3File:{},
     setEstate: ()=>{},
     handleEstateInsert: ()=>{},
     statusOptions:()=>{},
     SetEsatetByID:()=>{},
-    changeEstateStatus: ()=>{}
+    changeEstateStatus: ()=>{},
+    handleMainfileChange: ()=>{},
+    handleImage2fileChange: ()=>{},
+    handleImage3fileChange: ()=>{},
 });
