@@ -34,10 +34,10 @@ export const SetPrivateStateApi = realtyId => {
     return http.get(`${config.localapi}/realty/noconfirmrealty/${realtyId}`);
 };
 
-export const RegisterImage = img => {
+export const RegisterImage = (imgInfo) => {
     return http.post(
         `${config.localapi}/realty/image-upload`,
-        JSON.stringify(img)
+        imgInfo
     );
 };
 

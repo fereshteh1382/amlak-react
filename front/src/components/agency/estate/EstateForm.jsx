@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import {useForm} from 'react-hook-form';
 import { checkError } from "../../../utils/FormValidator";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,8 +15,9 @@ const EstateForm = () =>{
     const urlParams = useParams();
     const navigate = useNavigate();
 
+
     const esContext = useContext(EstateStateContext);
-    const {condition, handleEstateInsert, estate, statusOptions, YesNoOptions, RoomsOptions, YearOptions, FloorOptions} = esContext;
+    const {condition, handleEstateInsert, estate, handleMainfileChange, handleImage2fileChange, handleImage3fileChange, YesNoOptions, RoomsOptions, YearOptions, FloorOptions, mainFile, image2File, image3File} = esContext;
 
     const custContext = useContext(CustomerStateContext);
     const {newCustomerModalShow, handleNewCustomerModalClose, handleNewCustomerModalShow, allCustomers } = custContext;
@@ -28,6 +29,8 @@ const EstateForm = () =>{
             navigate('/agency/estates', { replace: true });
         }
     }, [estate, urlParams, navigate]);
+
+    
 
     // const ClassName = {
     //     form: `my-4 mx-auto ${loadingFields.loading ? "background-blur disabled":""}`,
@@ -213,6 +216,42 @@ const EstateForm = () =>{
                                     </Form.Select>
                                     {errors.status && checkError(errors.status.type,"نوع نمایش",condition.status)}
                                 </Col>    
+                            </Form.Group> */}
+                             <Form.Group as={Row} className="mb-3">
+                                <Form.Label htmlFor="" className="col-md-2">تصویر اصلی</Form.Label>
+                                <Col md={4}>
+                                        <Form.Control type="file" name={mainFile.fileValue} onChange={handleMainfileChange}/>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label htmlFor="" className="col-md-2">تصویر دوم</Form.Label>
+                                <Col md={4}>
+                                        <Form.Control type="file" name={image2File.fileValue} onChange={handleImage2fileChange}/>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label htmlFor="" className="col-md-2">تصویر سوم</Form.Label>
+                                <Col md={4}>
+                                        <Form.Control type="file" name={image3File.fileValue} onChange={handleImage3fileChange}/>
+                                </Col>
+                            </Form.Group>
+                            {/* <Form.Group as={Row} className="mb-3">
+                                <Col md={2}>
+                                    <InputFileByIcon
+                                        nameFile= {mainFile.fileName}
+                                        inputName={mainFile.fileValue}
+                                        fileAccept=".jpg"
+                                        onChangeFile={handlefileChange}
+                                        inputLabel= " آپلود تصویر اصلی" /> */}
+                            
+                            {/* {(getValues("HasAttach") *1 === 1 && jobFile.deletedFile==="0") &&
+                                    <>
+                                        <FontAwesomeIcon role="button" className="text-custom-blue" icon={faFileDownload} onClick={e=>downloadAttachedFile()}/> 
+                                        <FontAwesomeIcon role="button" title="remove file" className="text-danger ms-2" icon={faTimesCircle} onClick={e => removeAttachedFile()} />
+                                    </> 
+                                }  */}
+                                    {/* {errors.warehouse && checkError(errors.warehouse.type,"انباری",condition.warehouse)} */}
+                                {/* </Col>
                             </Form.Group> */}
                             <div className="text-center">
                                 <button type="submit" className="btn btn-warning" >ذخیره اطلاعات</button>

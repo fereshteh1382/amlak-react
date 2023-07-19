@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import { withRouter } from "../components/main/withRouter ";
 // import { withRouter } from "react-router";
-import { AddEstateApi, EditEstateApi, getAllEstateApi, SetPublicEstateApi, SetPrivateStateApi } from "../services/agencyEstateAPIs";
+import { AddEstateApi, EditEstateApi, getAllEstateApi, SetPublicEstateApi, SetPrivateStateApi, RegisterImage } from "../services/agencyEstateAPIs";
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { EstateStateContext } from "./EstateStateContext";
@@ -14,6 +14,9 @@ const EstateContext = ({ children }) => {
     const userInfo = getUserForAxios();
     const [estatesInfo, setEstatesInfo] = useState([]);
     const [estate, setEstate] = useState({});
+    const [mainFile, setMainFile] = useState({ fileName: '', fileValue: '', uploaded: '', fileError:'', deletedFile:"0" });
+    const [image2File, setImage2File] = useState({ fileName: '', fileValue: '', uploaded: '', fileError:'', deletedFile:"0" });
+    const [image3File, setImage3File] = useState({ fileName: '', fileValue: '', uploaded: '', fileError:'', deletedFile:"0" });
 
     const condition = {
         customer:{required: true},
@@ -72,6 +75,26 @@ const EstateContext = ({ children }) => {
     
 
     /************************************************* */
+    const handleMainfileChange = (e) => {
+        const fileInfo = e.target.files[0];
+        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type ==="image/png") ? 
+            setMainFile({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo , fileError:''})
+        :   setMainFile({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)"  }) 
+    };
+
+    const handleImage2fileChange = (e) => {
+        const fileInfo = e.target.files[0];
+        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type ==="image/png") ? 
+            setImage2File({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo , fileError:''})
+        :   setImage2File({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)"  }) 
+    };
+
+    const handleImage3fileChange = (e) => {
+        const fileInfo = e.target.files[0];
+        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type ==="image/png") ? 
+            setImage3File({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo , fileError:''})
+        :   setImage3File({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)"  }) 
+    };
 
     const SetEsatetByID = estateid =>{
         if(estateid === 0)
@@ -100,11 +123,32 @@ const EstateContext = ({ children }) => {
 
     const handleEstateInsert = async estate => {
         // setLoadingFields({ loading: false, blur: true });
+        
         try {
             estate.parking = isNull(estate.parking) ? 'no' : estate.parking;
             estate.elevator = isNull(estate.elevator) ? 'no' : estate.elevator;
             estate.warehouse = isNull(estate.warehouse) ? 'no' : estate.warehouse;
             if(!isEmpty(estate._id)){
+                let formdata = new FormData();
+                formdata.append("realtyid", estate._id);
+                let hasFile = false;
+                if(mainFile.fileValue!==""){
+                    formdata.append("thumbnail1", mainFile.fileValue);
+                    hasFile = true;
+                }
+                if(image2File.fileValue!==""){
+                    formdata.append("thumbnail2", image2File.fileValue);
+                    hasFile = true;
+                }
+                if(image3File.fileValue!==""){
+                    formdata.append("thumbnail3", image3File.fileValue);
+                    hasFile = true;
+                }    
+                
+                if(hasFile){
+                        const eee = await RegisterImage(mainFile.fileValue);
+                        errorMessage(eee);
+                }
                 const { status } = await EditEstateApi({...estate, user: userInfo.userId});
                 if (status === 200) {
                     successMessage("اطلاعات ملک با موفقیت ویرایش گردید.");
@@ -112,7 +156,7 @@ const EstateContext = ({ children }) => {
                 }
             }
             else{
-                const { status } = await AddEstateApi({...estate, user: userInfo.userId});
+                const { status, data } = await AddEstateApi({...estate, user: userInfo.userId});
                 if (status === 201) {
                     successMessage("اطلاعات ملک با موفقیت ثبت شد.");
                     navigate('/agency/estates', { replace: true });
@@ -159,10 +203,16 @@ const EstateContext = ({ children }) => {
                 RoomsOptions, 
                 YearOptions, 
                 FloorOptions,
+                mainFile,
+                image2File,
+                image3File,
                 setEstate,
                 handleEstateInsert,
                 SetEsatetByID,
-                changeEstateStatus
+                changeEstateStatus,
+                handleMainfileChange,
+                handleImage2fileChange,
+                handleImage3fileChange
             }}
         >
             {children}
