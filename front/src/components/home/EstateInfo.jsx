@@ -13,7 +13,7 @@ const EstateInfo = () =>{
     	<div className="container">
     		<div className="row">
     			<div className="col-lg-6 mb-5 ftco-animate text-center">
-                    <img className="img-fluid" src={estatepic} alt="title" style="max-height:300px" />
+                    <img className="img-fluid" src={estatepic} alt="title" style={{"max-height":"300px"}} />
     			</div>
     			<div className="col-lg-6 product-details pl-md-5 ftco-animate" style={{maxWidth:"500px"}}>
     				<h1 className="estate-detail-header">{selectedEstateInfo.title}</h1>
