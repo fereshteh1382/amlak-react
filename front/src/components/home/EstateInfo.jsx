@@ -8,10 +8,17 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import { isEmpty } from "lodash";
+import { useParams } from "react-router-dom";
 
 const EstateInfo = () =>{
+    const urlParams = useParams();
     const hssContext = useContext(HomeStateContext);
-    const { selectedEstateInfo  } = hssContext;
+    const { selectedEstateInfo, showSelectedEstate  } = hssContext;
+    if(isEmpty(selectedEstateInfo)){
+        if(urlParams.id && !isEmpty(urlParams.id)){
+            showSelectedEstate(urlParams.id);
+        }
+    }
     const estatepic  = selectedEstateInfo.thumbnail1 ? `${config.localapi}/uploads/${selectedEstateInfo.thumbnail1}` : "/pics/product.jpg";
     const  slides=[ {src: estatepic,alt: "image 1"}];
 
