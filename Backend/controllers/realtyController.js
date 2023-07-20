@@ -376,7 +376,8 @@ exports.uploadImageRealty = (req, res) => {
     //     storage: storage,
     //  fileFilter: fileFilter,
     // }).single("thumbnail1");
-    //console.log(req);
+    // console.log(req.files);
+
     const randomid = `${shortId.generate()}`;
 
     var storage = multer.diskStorage({
@@ -401,10 +402,13 @@ exports.uploadImageRealty = (req, res) => {
 
     var upload = multer({ storage: storage }).single('thumbnail1');
 
+    // var upload = multer({ storage: storage }).array("thumbnail1", 3);
+    //console.log(upload);
+
     upload(req, res, async (err) => {
 
         if (err) {
-            //  console.log(err);
+            console.log(err);
 
             if (err.code === "LIMIT_FILE_SIZE") {
                 return res
@@ -416,17 +420,25 @@ exports.uploadImageRealty = (req, res) => {
 
             if (req.file) {
 
-                const fileName = randomid + `_` + `${req.file.originalname}`;
-                console.log(fileName);
-                /** */
+                fileName = randomid + `_` + `${req.file.originalname}`;
                 const rid = req.body.realtyid;
-                //console.log(rid);
-                const realty = await Realty.findOne({ _id: rid });
-                // console.log(realty);
+                const fid = req.body.fid; console.log(fid);
 
-                realty.thumbnail1 = fileName;
-                //realty.thumbnail2 = fileName;
-                // realty.thumbnail3 = fileName;
+                const realty = await Realty.findOne({ _id: rid });
+                switch (fid) {
+                    case "1":
+                        realty.thumbnail1 = fileName;
+                        break;
+                    case "2":
+                        realty.thumbnail2 = fileName;
+                        break;
+                    case "3":
+                        realty.thumbnail3 = fileName;
+                        break;
+                }
+                //  realty.thumbnail1 = fileName;
+                //realty.thumbnail2 = fileName2;
+                //  realty.thumbnail3 = fileName3;
 
                 await realty.save();
 
@@ -439,8 +451,8 @@ exports.uploadImageRealty = (req, res) => {
                     .catch((err) => console.log(err));
 */
 
-
                 //res.json("success");
+                // res.send(`${fid}`);
 
                 res.status(200).send(
                     `http://localhost:3000/uploads/${fileName}`
@@ -450,6 +462,8 @@ exports.uploadImageRealty = (req, res) => {
             }
         }
     });
+
+
 };
 /************************ */
 exports.uploadImageRealty0 = (req, res, next) => {

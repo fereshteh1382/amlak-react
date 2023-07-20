@@ -1,7 +1,8 @@
 document.getElementById("imageUpload").onclick = function () {
+    //function upload() {
     let xhttp = new XMLHttpRequest(); // create new AJAX request
     const selectedImage = document.getElementById("selectedImage");
-    // console.log(selectedImage.files[0]);
+    console.log(selectedImage.files[0]);
     const imageStatus = document.getElementById("imageStatus");
     const progressDiv = document.getElementById("progressDiv");
     const progressBar = document.getElementById("progressBar");

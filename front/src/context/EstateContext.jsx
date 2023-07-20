@@ -128,24 +128,31 @@ const EstateContext = ({ children }) => {
             estate.elevator = isNull(estate.elevator) ? 'no' : estate.elevator;
             estate.warehouse = isNull(estate.warehouse) ? 'no' : estate.warehouse;
             if (!isEmpty(estate._id)) {
-                
-                 if (mainFile.fileValue !== "") {
+
+                if (mainFile.fileValue !== "") {
                     let formdata = new FormData();
                     formdata.append("realtyid", estate._id);
+                    formdata.append("fid", 1);
                     formdata.append("thumbnail1", mainFile.fileValue);
-                    const res2 = await RegisterImage(formdata);
+                    const res1 = await RegisterImage(formdata);
+                    console.log(formdata);
                 }
                 if (image2File.fileValue !== "") {
                     let formdata = new FormData();
                     formdata.append("realtyid", estate._id);
-                    formdata.append("thumbnail2", image2File.fileValue);
+                    formdata.append("fid", 2);
+                    formdata.append("thumbnail1", image2File.fileValue);
                     const res2 = await RegisterImage(formdata);
+                    console.log(formdata);
                 }
                 if (image3File.fileValue !== "") {
                     let formdata = new FormData();
                     formdata.append("realtyid", estate._id);
-                    formdata.append("thumbnail3", image3File.fileValue);
+                    formdata.append("fid", 3);
+                    formdata.append("thumbnail1", image3File.fileValue);
                     const res3 = await RegisterImage(formdata);
+                    console.log(formdata);
+
                 }
 
                 const { status } = await EditEstateApi({ ...estate, user: userInfo.userId });
