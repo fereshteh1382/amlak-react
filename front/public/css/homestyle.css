@@ -2588,3 +2588,11 @@ body.menu-show {
 .hero-wrap .slider-text .bread {
     font-family: Vazir;
 }
+
+.product .img-fluid {
+    max-height: 170px;
+  }
+
+  .card-img{
+    height: inherit!important;
+}

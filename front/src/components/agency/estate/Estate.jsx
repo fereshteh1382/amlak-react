@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 import { EstateStateContext } from "../../../context/EstateStateContext";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import { existAdmin } from "../../../utils/TokenManagement";
+import config from "../../../services/config.json";
 
 const Estate = ({ EstateInfo }) => {
     const esContext = useContext(EstateStateContext);
     const { SetEsatetByID, changeEstateStatus } = esContext;
-
+    const estatepic  = EstateInfo.thumbnail1 ? `${config.localapi}/uploads/${EstateInfo.thumbnail1}` : "/pics/product.jpg";
 
     return (
             <div className="col-md-5 card m-2 card-landscape" style={{maxWidth: "1000px"}}>
                 <div className="row no-gutters">
                     <div className="col-sm-5">
                         <div className=" card-image-container m-auto">
-                            <img className="card-img py-2" src="/pics/product.jpg" alt={EstateInfo.title} />
+                            <img className="card-img py-2" src={estatepic}  alt={EstateInfo.title} />
                         </div>
                     </div>
                     <div className="col-sm-7 text-center">

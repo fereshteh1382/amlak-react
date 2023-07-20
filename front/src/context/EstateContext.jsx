@@ -76,7 +76,6 @@ const EstateContext = ({ children }) => {
     /************************************************* */
     const handleMainfileChange = (e) => {
         const fileInfo = e.target.files[0];
-        console.log(fileInfo.type);
         (fileInfo.type === 'image/jpeg' || fileInfo.type === 'image/jpeg' || fileInfo.type === "image/png") ?
             setMainFile({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo, fileError: '' })
             : setMainFile({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)" })
@@ -139,13 +138,13 @@ const EstateContext = ({ children }) => {
                 if (image2File.fileValue !== "") {
                     let formdata = new FormData();
                     formdata.append("realtyid", estate._id);
-                    formdata.append("thumbnail1", image2File.fileValue);
+                    formdata.append("thumbnail2", image2File.fileValue);
                     const res2 = await RegisterImage(formdata);
                 }
                 if (image3File.fileValue !== "") {
                     let formdata = new FormData();
                     formdata.append("realtyid", estate._id);
-                    formdata.append("thumbnail1", image3File.fileValue);
+                    formdata.append("thumbnail3", image3File.fileValue);
                     const res3 = await RegisterImage(formdata);
                 }
 

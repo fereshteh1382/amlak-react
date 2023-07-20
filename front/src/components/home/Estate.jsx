@@ -1,13 +1,17 @@
 import { useContext } from "react";
 import { HomeStateContext } from "../../context/HomeStateContext";
+import config from "../../services/config.json";
 
 const Estate = ({propEstate}) =>{
     const hssContext = useContext(HomeStateContext);
     const { showSelectedEstate  } = hssContext;
+    const estatepic  = propEstate.thumbnail1 ? `${config.localapi}/uploads/${propEstate.thumbnail1}` : "/pics/product.jpg";
+
+
     return(
         <div className="col-md-6 col-lg-3 " style={{cursor:"pointer"}} onClick={()=>{showSelectedEstate(propEstate._id)}}>
             <div className="product text-center">
-               <img className="img-fluid" src="/pics/product.jpg" alt={propEstate.title} />
+               <img className="img-fluid" src={estatepic} alt={propEstate.title} />
                     <div className="overlay"></div>
                 <div className="text py-3 pb-2 px-3">
                     <h3><a href="#">{propEstate.title}</a></h3>
