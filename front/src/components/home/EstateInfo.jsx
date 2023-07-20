@@ -1,15 +1,19 @@
 import { useContext } from "react";
 import { HomeStateContext } from "../../context/HomeStateContext";
+import config from "../../services/config.json";
 
 const EstateInfo = () =>{
     const hssContext = useContext(HomeStateContext);
     const { selectedEstateInfo  } = hssContext;
+    const estatepic  = selectedEstateInfo.thumbnail1 ? `${config.localapi}/uploads/${selectedEstateInfo.thumbnail1}` : "/pics/product.jpg";
+
+
     return(
         <section className="estate-detail-section">
     	<div className="container">
     		<div className="row">
     			<div className="col-lg-6 mb-5 ftco-animate text-center">
-                    <img className="img-fluid" src="/pics/product.jpg" alt="title" />
+                    <img className="img-fluid" src={estatepic} alt="title" style="max-height:300px" />
     			</div>
     			<div className="col-lg-6 product-details pl-md-5 ftco-animate" style={{maxWidth:"500px"}}>
     				<h1 className="estate-detail-header">{selectedEstateInfo.title}</h1>
