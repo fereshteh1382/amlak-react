@@ -7,8 +7,6 @@ import { AddEstateApi, EditEstateApi, getAllEstateApi, SetPublicEstateApi, SetPr
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { EstateStateContext } from "./EstateStateContext";
-//var axios = require('axios');
-import axios from 'axios';
 
 const EstateContext = ({ children }) => {
     const navigate = useNavigate();
@@ -131,32 +129,26 @@ const EstateContext = ({ children }) => {
             estate.elevator = isNull(estate.elevator) ? 'no' : estate.elevator;
             estate.warehouse = isNull(estate.warehouse) ? 'no' : estate.warehouse;
             if (!isEmpty(estate._id)) {
-                let formdata = new FormData();
-                formdata.append("realtyid", estate._id);
-                let hasFile = false;
-                //  if (mainFile.fileValue !== "") {
-                console.log(mainFile.fileValue);
-                formdata.append("thumbnail1", mainFile.fileValue);
-                hasFile = true;
-                // }
+                
+                 if (mainFile.fileValue !== "") {
+                    let formdata = new FormData();
+                    formdata.append("realtyid", estate._id);
+                    formdata.append("thumbnail1", mainFile.fileValue);
+                    const res2 = await RegisterImage(formdata);
+                }
                 if (image2File.fileValue !== "") {
-                    formdata.append("thumbnail2", image2File.fileValue);
-                    hasFile = true;
+                    let formdata = new FormData();
+                    formdata.append("realtyid", estate._id);
+                    formdata.append("thumbnail1", image2File.fileValue);
+                    const res2 = await RegisterImage(formdata);
                 }
                 if (image3File.fileValue !== "") {
-                    formdata.append("thumbnail3", image3File.fileValue);
-                    hasFile = true;
+                    let formdata = new FormData();
+                    formdata.append("realtyid", estate._id);
+                    formdata.append("thumbnail1", image3File.fileValue);
+                    const res3 = await RegisterImage(formdata);
                 }
 
-                if (hasFile) {
-                    console.log(formdata);
-                    //const eee = await RegisterImage(formdata);
-                    const eee = await axios.post("http://localhost:4000/realty/image-upload", formdata, {
-                        headers: { "Content-Type": "multipart/form-data" },
-                    });
-                    console.log(eee);
-                    errorMessage(eee);
-                }
                 const { status } = await EditEstateApi({ ...estate, user: userInfo.userId });
                 if (status === 200) {
                     successMessage("اطلاعات ملک با موفقیت ویرایش گردید.");

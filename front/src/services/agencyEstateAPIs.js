@@ -1,6 +1,6 @@
 import http from "./httpService";
 import config from "./config.json";
-
+import axios from "axios";
 
 export const getAllEstateApi = userId => {
     return http.get(`${config.localapi}/realty/all-userrealty/${userId}`);
@@ -35,9 +35,9 @@ export const SetPrivateStateApi = realtyId => {
 };
 
 export const RegisterImage = (imgInfo) => {
-    return http.post(
-        `${config.localapi}/realty/image-upload`, imgInfo
-    );
+    return  http.post(`${config.localapi}/realty/image-upload`, imgInfo, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
 };
 
 
