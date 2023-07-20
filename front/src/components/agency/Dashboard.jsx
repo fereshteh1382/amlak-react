@@ -10,10 +10,10 @@ const AgencyDashboard = () =>{
     const agencyUser = useSelector(state => state.agencyUser);
     const { register: registers, handleSubmit: handleSubmits, formState:{errors: errorss},  } = useForm();
     const condition = { fullname:{ required: true, min:5 }, }
-
+    const userInfo = getUserForAxios();
     const handleEditProfile =  async(formdata) => {
         try {
-            const userInfo = getUserForAxios();
+            
             const sss = await EditProfileApi({...formdata, userId:userInfo.userId} );
             // const { status, data } = await loginUserApi(formdata);
 
@@ -33,15 +33,15 @@ const AgencyDashboard = () =>{
                         
                         <li><span className="col-md-2"> نام و نام خانوادگی :</span>
                             <Form.Control type="text" className="col-md-5 d-inline"
-                                        {...registers('fullname',{...condition.fullname, value: agencyUser.Name})} />
+                                        {...registers('fullname',{...condition.fullname, value: userInfo.Name})} />
                                     {errorss.fullname && checkError(errorss.fullname.type, "نام و نام خانوادگی", condition.fullname)}
                         </li>
                         <li><span className="col-md-2"> نام بنگاه:</span>
                             <Form.Control type="text" className="col-md-5 d-inline"
-                                        {...registers('fullname',{...condition.fullname, value: agencyUser.Name})} />
+                                        {...registers('fullname',{...condition.fullname, value: userInfo.Name})} />
                                     {errorss.fullname && checkError(errorss.fullname.type, "نام و نام خانوادگی", condition.fullname)}
                         </li>
-                        <li><span className="col-md-2"> شماره تماس :</span> {agencyUser.mobile} </li>
+                        <li><span className="col-md-2"> شماره تماس :</span> {userInfo.mobile} </li>
                         <li><span className="col-md-2">  پیام کوتاه باقیمانده :</span> {agencyUser.remainingSms} </li>
                             <Row>
                                 <Button variant="warning" className="mx-auto" type="submit" >ویرایش پروفایل</Button>
