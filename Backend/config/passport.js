@@ -19,17 +19,6 @@ passport.use(
                     message: "شما مجوز دسترسی به این بخش را ندارید",
                 });
             }
-            /*  if (!user) {
-                  return done(null, false, {
-                      message: "کاربری با این موبایل ثبت نشده",
-                  });
-              }*/
-            /* const statususer = await User.findOne({ status });
-            if (statususer !== 'admin') {
-                return done(null, false, {
-                    message: "شما مجوز دسترسی به ادمین را ندارید",
-                });
-            } */
 
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {

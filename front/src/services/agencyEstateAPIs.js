@@ -36,8 +36,7 @@ export const SetPrivateStateApi = realtyId => {
 
 export const RegisterImage = (imgInfo) => {
     return http.post(
-        `${config.localapi}/realty/image-upload`,
-        imgInfo
+        `${config.localapi}/realty/image-upload`, imgInfo
     );
 };
 

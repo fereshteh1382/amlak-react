@@ -5,5 +5,6 @@ exports.setHeaders = (req, res, next) => {
         'Access-Control-Allow-Headers',
         'Content-Type, Authorization'
     );
+
     next();
 };

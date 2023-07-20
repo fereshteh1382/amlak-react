@@ -1,7 +1,7 @@
 const path = require("path");
 
 const debug = require("debug")("amlak-react");
-const fileUpload = require("express-fileupload");
+// fileUpload = require("express-fileupload");
 const express = require("express");
 const mongoose = require("mongoose");
 const expressLayout = require("express-ejs-layouts");
@@ -15,7 +15,6 @@ const MongoStore = require("connect-mongo")(session);
 const connectDB = require("./config/db");
 const winston = require("./config/winston");
 const { setHeaders } = require("./middlewares/headers");
-
 
 /*module.exports = (request, response) => {
     let who = 'anonymous';
@@ -60,11 +59,12 @@ app.set("layout", "./layouts/mainLayout");
 app.set("views", "views");
 
 //* BodyPaser
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(setHeaders);
 //* File Upload Middleware
-app.use(fileUpload());
+//app.use(fileUpload());
 
 //* Session
 app.use(

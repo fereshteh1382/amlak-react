@@ -263,11 +263,11 @@ exports.handleLogin = async (req, res, next) => {
         //return http.get(`${config.localapi}/users/allusers`);
         // }
 
-        if (user.status === "noactive") {
-            const error = new Error("This user not verify by admin.");
-            error.statusCode = 401;
-            throw error;
-        }
+        /* if (user.status === "noactive") {
+             const error = new Error("This user not verify by admin.");
+             error.statusCode = 401;
+             throw error;
+         }*/
 
         const token = await jwt.sign(
             {

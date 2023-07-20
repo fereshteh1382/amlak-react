@@ -38,13 +38,13 @@ document.getElementById("imageUpload").onclick = function () {
     //alert(selectedImage.files.length);
     if (selectedImage.files.length > 0) {
         progressDiv.style = "display: block";
-        // console.log(selectedImage.files[0]);
+        //console.log(selectedImage.files[0]);
         formData.append("image", selectedImage.files[0]);
         // formData.append("image", "sample");
 
         console.log(formData);
         result = xhttp.send(formData);
-        console.log(result);
+        // console.log(result);
     } else {
         //  imageStatus.innerHTML = "برای آپلود باید عکسی انتخاب کنید";
     }

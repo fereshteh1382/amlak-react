@@ -14,16 +14,53 @@ const { storage, fileFilter } = require("../utils/multer");
 exports.handleAddRealty = async (req, res, next) => {
 
     try {
-
+        /** */
+        /*  const thumbnail1 = req.files ? req.files.thumbnail1 : {};
+          const thumbnail2 = req.files ? req.files.thumbnail2 : {};
+          const thumbnail3 = req.files ? req.files.thumbnail3 : {};
+         
+          const fileName1 = `${shortId.generate()}_${thumbnail1.name}`;
+          const uploadPath1 = `${appRoot}/public/uploads/thumbnails/${fileName1}`;
+          const fileName2 = `${shortId.generate()}_${thumbnail2.name}`;
+          const uploadPath2 = `${appRoot}/public/uploads/thumbnails/${fileName2}`;
+          const fileName3 = `${shortId.generate()}_${thumbnail3.name}`;
+          const uploadPath3 = `${appRoot}/public/uploads/thumbnails/${fileName3}`;
+           await sharp(thumbnail1.data)
+               .jpeg({ quality: 60 })
+               .toFile(uploadPath1)
+               .catch((err) => console.log(err));
+           await sharp(thumbnail2.data)
+               .jpeg({ quality: 60 })
+               .toFile(uploadPath2)
+               .catch((err) => console.log(err));
+           await sharp(thumbnail3.data)
+               .jpeg({ quality: 60 })
+               .toFile(uploadPath3)
+               .catch((err) => console.log(err));*/
+        /*** */
+        // req.body = { ...req.body, thumbnail1, thumbnail2, thumbnail3 };
+        //console.log(req.body);
         const { category, city, range, title, meterage,
             images, price, rooms, yearconstruction, floor,
             elevator, parking, warehouse, address, desc, user, customer, status } = req.body;
-        let realty; let messagetxt = "";
+        let realty;
+        let messagetxt = "";
 
+        /* await Realty.create({
+             ...req.body,
+ 
+             thumbnail1: fileName1,
+             thumbnail2: fileName2,
+             thumbnail3: fileName3,
+         });*/
         realty = new Realty({
             category, city, range, title, meterage, images,
             price, rooms, yearconstruction, floor, elevator,
-            parking, warehouse, address, desc, user, customer, status
+            parking, warehouse, address, desc, user, customer, status,
+
+            /*thumbnail1: fileName1,
+            thumbnail2: fileName2,
+            thumbnail3: fileName3,*/
         });
         await realty.save();
 
@@ -267,51 +304,55 @@ exports.getAddFilet = (req, res) => {
     });
 };
 /************************* */
-exports.uploadImageRealty = async (req, res) => {
+exports.uploadImageRealty00 = async (req, res) => {
     // const errorArr = [];
-    const realtyid = req.body.realtyid;
-    const thumbnail1 = req.files ? req.files.thumbnail1 : {};
-    const thumbnail2 = req.files ? req.files.thumbnail2 : {};
-    const thumbnail3 = req.files ? req.files.thumbnail3 : {};
+    //console.log(req.files);
+    // console.log(req.files.thumbnail1.name);
 
+    const realtyid = "64b827f4d0019a3ba8eba0e8"; //req.body.realtyid;
+    const thumbnail1 = req.file ? req.file.thumbnail1 : {};
+    /* const thumbnail2 = req.files ? req.files.thumbnail2 : {};
+     const thumbnail3 = req.files ? req.files.thumbnail3 : {};*/
+    // console.log(thumbnail1.name);
     const fileName1 = `${shortId.generate()}_${thumbnail1.name}`;
     const uploadPath1 = `${appRoot}/public/uploads/thumbnails/${fileName1}`;
-    const fileName2 = `${shortId.generate()}_${thumbnail2.name}`;
-    const uploadPath2 = `${appRoot}/public/uploads/thumbnails/${fileName2}`;
-    const fileName3 = `${shortId.generate()}_${thumbnail3.name}`;
-    const uploadPath3 = `${appRoot}/public/uploads/thumbnails/${fileName3}`;
+    /* const fileName2 = `${shortId.generate()}_${thumbnail2.name}`;
+     const uploadPath2 = `${appRoot}/public/uploads/thumbnails/${fileName2}`;
+     const fileName3 = `${shortId.generate()}_${thumbnail3.name}`;
+     const uploadPath3 = `${appRoot}/public/uploads/thumbnails/${fileName3}`;
+ */
 
-    // console.log(realtyid);
 
     try {
-        req.body = { realtyid, thumbnail1, thumbnail2, thumbnail3 };
-
-        // console.log(req.body);
-
-        //await Blog.postValidation(req.body);
-
+        /*   req.body = { realtyid, thumbnail1, thumbnail2, thumbnail3 };
+   
+           // console.log(req.body);
+   
+           //await Blog.postValidation(req.body);
+*/
         await sharp(thumbnail1.data)
             .jpeg({ quality: 60 })
             .toFile(uploadPath1)
             .catch((err) => console.log(err));
-        await sharp(thumbnail2.data)
-            .jpeg({ quality: 60 })
-            .toFile(uploadPath2)
-            .catch((err) => console.log(err));
-        await sharp(thumbnail3.data)
-            .jpeg({ quality: 60 })
-            .toFile(uploadPath3)
-            .catch((err) => console.log(err));
-
+        /* await sharp(thumbnail2.data)
+             .jpeg({ quality: 60 })
+             .toFile(uploadPath2)
+             .catch((err) => console.log(err));
+         await sharp(thumbnail3.data)
+             .jpeg({ quality: 60 })
+             .toFile(uploadPath3)
+             .catch((err) => console.log(err));
+ */
 
         //const { realtyid, thumbnail1, thumbnail2, thumbnail3 } = req.body;
+
         const realty = await Realty.findOne({ _id: realtyid });
-        console.log(realty);
+        //console.log(realty);
         //if (realty) { res.redirect("/dashboard"); }
 
         realty.thumbnail1 = fileName1;
-        realty.thumbnail2 = fileName2;
-        realty.thumbnail3 = fileName3;
+        // realty.thumbnail2 = fileName2;
+        //  realty.thumbnail3 = fileName3;
 
         await realty.save();
 
@@ -327,24 +368,44 @@ exports.uploadImageRealty = async (req, res) => {
     }
 };
 /**************************** */
-exports.uploadImageRealty00 = (req, res) => {
+exports.uploadImageRealty = (req, res) => {
 
-    // const upload = multer({
+    //const upload = multer({
     //   limits: { fileSize: 4000000 },
-    //dest: "uploads/",
-    //  storage: storage,
+    // dest: "./public/uploads/",
+    //     storage: storage,
     //  fileFilter: fileFilter,
-    // }).single("image");
+    // }).single("thumbnail1");
+    //console.log(req);
+    const randomid = `${shortId.generate()}`;
 
-    //req.file
-    //console.log(req.file);
+    var storage = multer.diskStorage({
 
-    //res.send("dgfgdf");
-    var upload = multer({ storage: storage }).single('image');
+        destination: function (req, file, callback) {
+            callback(null, './public/uploads/');
+        },
+        filename: function (req, file, callback) {
+            // var temp_file_arr = file.originalname.split(".");
 
+            //  var temp_file_name = temp_file_arr[0];
+
+            // var temp_file_extension = temp_file_arr[1];
+            var filename_ = randomid + `_` + `${file.originalname}`;
+            callback(null, filename_);
+
+            //callback(null, Date.now());
+
+        }
+
+    });
+
+    var upload = multer({ storage: storage }).single('thumbnail1');
 
     upload(req, res, async (err) => {
+
         if (err) {
+            //  console.log(err);
+
             if (err.code === "LIMIT_FILE_SIZE") {
                 return res
                     .status(400)
@@ -352,24 +413,38 @@ exports.uploadImageRealty00 = (req, res) => {
             }
             res.status(400).send(err);
         } else {
-            if (req.file) {
-                const fileName = `${shortId.generate()}_${req.file.originalname
-                    }`;
-                /**Add in table */
 
-                /**** */
-                await sharp(req.file.buffer)
+            if (req.file) {
+
+                const fileName = randomid + `_` + `${req.file.originalname}`;
+                console.log(fileName);
+                /** */
+                const rid = req.body.realtyid;
+                //console.log(rid);
+                const realty = await Realty.findOne({ _id: rid });
+                // console.log(realty);
+
+                realty.thumbnail1 = fileName;
+                //realty.thumbnail2 = fileName;
+                // realty.thumbnail3 = fileName;
+
+                await realty.save();
+
+                /** */
+                /*await sharp(req.file.buffer)
                     .jpeg({
                         quality: 60,
                     })
                     .toFile(`./public/uploads/${fileName}`)
                     .catch((err) => console.log(err));
-                //   res.json({ "message": "", "address": "" });
-                res.json("success");
+*/
 
-                /*res.status(200).send(
+
+                //res.json("success");
+
+                res.status(200).send(
                     `http://localhost:3000/uploads/${fileName}`
-                );*/
+                );
             } else {
                 res.json("جهت آپلود باید عکسی انتخاب کنید");
             }
@@ -377,7 +452,7 @@ exports.uploadImageRealty00 = (req, res) => {
     });
 };
 /************************ */
-/*exports.uploadImageRealty = (req, res, next) => {
+exports.uploadImageRealty0 = (req, res, next) => {
 
     var storage = multer.diskStorage({
 
@@ -399,21 +474,24 @@ exports.uploadImageRealty00 = (req, res) => {
     var upload = multer({ storage: storage }).single('image');
 
     upload(req, res, function (error) {
+        console.log(req.files);
 
         if (error) {
             // return response.end('Error Uploading File');
-            //res.send("Error Uploading File");
-            res.json({ 'message': 'File uploaded No successfully' });
+            res.send("Error Uploading File");
+            // res.json({ 'message': 'File uploaded No successfully' });
 
         }
         else {
             // return response.end('File is uploaded successfully');
             //  res.send("uploaded successfully");
-            res.json({ 'message': 'File uploaded successfully' });
+            // res.json({ 'message': file.originalname });
+            console.dir(req.headers['content-type']);
+            //console.log(req.body.thumbnail1);
         }
 
     });
 
 };
-*/
+
 /********************************/

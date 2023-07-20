@@ -7,8 +7,7 @@ import { AddEstateApi, EditEstateApi, getAllEstateApi, SetPublicEstateApi, SetPr
 import { errorMessage, successMessage } from "../utils/message";
 import { getUserForAxios } from "../utils/TokenManagement";
 import { EstateStateContext } from "./EstateStateContext";
-//var axios = require('axios');
-import axios from 'axios';
+
 
 const EstateContext = ({ children }) => {
     const navigate = useNavigate();
@@ -78,22 +77,21 @@ const EstateContext = ({ children }) => {
     /************************************************* */
     const handleMainfileChange = (e) => {
         const fileInfo = e.target.files[0];
-        console.log(fileInfo.type);
-        (fileInfo.type === 'image/jpeg' || fileInfo.type === 'image/jpeg' || fileInfo.type === "image/png") ?
+        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type === "image/png") ?
             setMainFile({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo, fileError: '' })
             : setMainFile({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)" })
     };
 
     const handleImage2fileChange = (e) => {
         const fileInfo = e.target.files[0];
-        (fileInfo.type === 'image/jpg' || fileInfo.type === 'image/jpeg' || fileInfo.type === "image/png") ?
+        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type === "image/png") ?
             setImage2File({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo, fileError: '' })
             : setImage2File({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)" })
     };
 
     const handleImage3fileChange = (e) => {
         const fileInfo = e.target.files[0];
-        (fileInfo.type === 'image/jpg' || fileInfo.type === 'image/jpeg' || fileInfo.type === "image/png") ?
+        (fileInfo.type === 'application/jpg' || fileInfo.type === 'application/jpeg' || fileInfo.type === "image/png") ?
             setImage3File({ ...mainFile, fileName: fileInfo.name, fileValue: fileInfo, fileError: '' })
             : setImage3File({ ...mainFile, fileName: '', fileValue: '', fileError: "the file format is invalid(accepted: png or jpg)" })
     };
@@ -134,11 +132,10 @@ const EstateContext = ({ children }) => {
                 let formdata = new FormData();
                 formdata.append("realtyid", estate._id);
                 let hasFile = false;
-                //  if (mainFile.fileValue !== "") {
-                console.log(mainFile.fileValue);
-                formdata.append("thumbnail1", mainFile.fileValue);
-                hasFile = true;
-                // }
+                if (mainFile.fileValue !== "") {
+                    formdata.append("thumbnail1", mainFile.fileValue);
+                    hasFile = true;
+                }
                 if (image2File.fileValue !== "") {
                     formdata.append("thumbnail2", image2File.fileValue);
                     hasFile = true;
@@ -149,12 +146,7 @@ const EstateContext = ({ children }) => {
                 }
 
                 if (hasFile) {
-                    console.log(formdata);
-                    //const eee = await RegisterImage(formdata);
-                    const eee = await axios.post("http://localhost:4000/realty/image-upload", formdata, {
-                        headers: { "Content-Type": "multipart/form-data" },
-                    });
-                    console.log(eee);
+                    const eee = await RegisterImage(mainFile.fileValue);
                     errorMessage(eee);
                 }
                 const { status } = await EditEstateApi({ ...estate, user: userInfo.userId });
