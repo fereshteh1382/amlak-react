@@ -384,6 +384,7 @@ exports.uploadImageRealty = (req, res) => {
 
         destination: function (req, file, callback) {
             callback(null, './public/uploads/');
+            // callback(null, 'pub/uploads');
         },
         filename: function (req, file, callback) {
             // var temp_file_arr = file.originalname.split(".");
